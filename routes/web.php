@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('elearning.basic_page', [ 'page' => 'elearning.index', 'fullname' => 'test' ]);
 });
