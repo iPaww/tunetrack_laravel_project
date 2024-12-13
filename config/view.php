@@ -33,4 +33,5 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    'cache' => env('APP_ENV') != 'local'
 ];

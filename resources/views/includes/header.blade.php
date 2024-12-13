@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TuneTrack</title>
+    <title>{{ isset($page_title) ? $page_title : 'TuneTrack' }}</title>
     <link rel="stylesheet" href="landing-page.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
           rel="stylesheet" 
@@ -159,28 +159,28 @@
         <!-- Banner Section -->
         <div class="home-banner d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <div class="title-banner me-4"><a href="index.php" class="text-white text-decoration-none">TuneTrack</a></div>
+                <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a></div>
                 <div class="d-flex banner-items flex-wrap">
-                    <div class="set-banner mx-2"><a href="../shop/" style="text-decoration:none; color:white;">Order</a></div>
-                    <div class="set-banner mx-2">Appointment</div>
-                    <div class="set-banner mx-2">Exercise</div>
-                    <div class="set-banner mx-2">Contact</div>
-                    <div class="set-banner mx-2">Profile</div>
+                    <div class="set-banner mx-2"><a href="/shop" style="text-decoration:none; color:white;">Order</a></div>
+                    <div class="set-banner mx-2"><a href="/appointment" style="text-decoration:none; color:white;">Appointment</a></div>
+                    <div class="set-banner mx-2"><a href="/excercise" style="text-decoration:none; color:white;">Exercise</a></div>
+                    <div class="set-banner mx-2"><a href="/contact" style="text-decoration:none; color:white;">Contact</a></div>
+                    <div class="set-banner mx-2"><a href="/profile" style="text-decoration:none; color:white;">Profile</a></div>
                 </div>
             </div>
              <!-- Profile Image & Name -->
              <div class="profile-container">
-                <img src="images/Me.jpg" alt="Profile Image" class="profile-image">
+                <img src="{{ asset('assets/images/default/Me.jpg') }}" alt="Profile Image" class="profile-image">
                 <span class="text-white ms-2 fw-bold">{{ $fullname }}</span>
             </div>
         </div>
 
         <!-- Navbar -->
         <div class="nav-bar d-flex justify-content-evenly align-items-center flex-wrap">
-            <a href="homepage-string.php" class="text-white text-decoration-none px-4">String</a>
-            <a href="homepage-percussion.php" class="text-white text-decoration-none px-4">Percussion</a>
-            <a href="homepage-aerophones.php" class="text-white text-decoration-none px-4">Aerophones</a>
-            <a href="homepage-idiophones.php" class="text-white text-decoration-none px-4">Idiophones</a>
-            <a href="homepage-brass.php" class="text-white text-decoration-none px-4">Brass</a>
-            <a href="homepage-electrophones.php" class="text-white text-decoration-none px-4">Electrophones</a>
+            <a href="/elearning/string" class="text-white text-decoration-none px-4">String</a>
+            <a href="/elearning/percussion" class="text-white text-decoration-none px-4">Percussion</a>
+            <a href="/elearning/aerophones" class="text-white text-decoration-none px-4">Aerophones</a>
+            <a href="/elearning/idiophones" class="text-white text-decoration-none px-4">Idiophones</a>
+            <a href="/elearning/brass" class="text-white text-decoration-none px-4">Brass</a>
+            <a href="/elearning/electrophones" class="text-white text-decoration-none px-4">Electrophones</a>
         </div>

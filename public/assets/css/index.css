@@ -1,0 +1,142 @@
+/* Background image */
+body s {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow: auto;
+}
+
+/* Banner */
+.home-banner {
+    background-color: #FC6A03;
+    color: white;
+    padding: 8px;
+}
+
+.nav-bar {
+    background-color: #000;
+    padding: 5px 5px;
+    color: white;
+}
+
+.title-banner {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.title-banner:hover {
+    background-color: #333;
+}
+
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.title-home {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FC6A03;
+    margin-bottom: 0.5rem;
+}
+
+.title-home-2 {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+}
+
+/* Hover effect for .set-banner */
+.set-banner {
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.set-banner:hover {
+    color: black;
+    transform: translateY(-3px);
+}
+
+/* Underline animation */
+.set-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.3s ease;
+}
+
+.set-banner:hover::after {
+    width: 100%;
+}
+
+
+.text-white {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .home-banner,
+    .nav-bar {
+        text-align: center;
+    }
+
+    .title-home {
+        font-size: 2rem;
+    }
+
+    .title-home-2 {
+        font-size: 1.2rem;
+    }
+}
+
+.toggle-container {
+    display: inline-flex;
+    border: 2px solid black;
+    border-radius: 30px;
+    overflow: hidden;
+    background-color: #555;
+}
+
+/* Profile Image inside header */
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-left: 15px;
+}

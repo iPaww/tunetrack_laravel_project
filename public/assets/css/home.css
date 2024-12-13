@@ -1,0 +1,248 @@
+/*Body*/
+body,
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+/* Banner styling */
+.home-banner {
+    background-color: #FC6A03;
+    color: #ffffff;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.title-banner {
+    font-weight: bold;
+}
+
+.banner-items {
+    margin-left: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.set-banner {
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.set-banner:hover {
+    color: black;
+    transform: translateY(-3px);
+}
+
+/* Optional: Adding an underline effect */
+.set-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.3s ease;
+}
+
+.set-banner:hover::after {
+    width: 100%;
+}
+
+/* Navbar styling */
+.nav-bar {
+    background-color: #000;
+    padding: 5px;
+    flex-wrap: wrap;
+}
+
+.menu-item {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: #333;
+}
+
+.title-banner {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.title-banner:hover {
+    background-color: #333;
+}
+
+/* Sidebar styling */
+.side-bar {
+    background-color: #3b3b3b;
+    padding: 20px;
+    width: 100%;
+    max-width: 220px;
+    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+}
+
+.menu-ctgry {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.instruments-ctgry {
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+.instruments-ctgry:hover {
+    background-color: #555;
+}
+
+/* Content section */
+.container h1 {
+    font-size: 30px;
+}
+
+.objectives-container {
+    background-color: orange;
+    color: black;
+    font-weight: bolder;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.objectives {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.obj-1 {
+    font-size: 24px;
+    padding-left: 20px;
+    margin-bottom: 5px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .side-bar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .container h1 {
+        font-size: 24px;
+    }
+
+    .objectives-container {
+        font-size: 22px;
+    }
+}
+
+.instruments-ctgry.highlight {
+    background-color: #FC6A03;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Responsive image container */
+.responsive-image-container {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+
+    /* Stack sidebar and main content vertically on mobile */
+    .d-flex {
+        flex-direction: column;
+    }
+
+    /* Center the banner and nav elements on mobile */
+    .home-banner,
+    .nav-bar {
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Set toggle buttons to full width on mobile */
+    .toggle-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    /* Adjust font sizes for smaller screens */
+    .container h1 {
+        font-size: 24px;
+    }
+
+    .objectives-container {
+        font-size: 22px;
+    }
+}
+
+.short-background {
+    background-color: #f8f9fa;
+    text-align: left;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image */
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-left: 15px;
+}
+
+/* Text Styling */
+.profile-container span {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
