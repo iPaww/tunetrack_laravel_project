@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `cart_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `product_type` enum('instrument','supply') COLLATE utf8mb4_bin NOT NULL,
+  `product_type` enum('instrument','supply') COLLATE utf8mb3_bin NOT NULL,
   `model_id` int DEFAULT NULL,
   `supply_id` int DEFAULT NULL,
   `quantity` int NOT NULL DEFAULT '1',
@@ -19,7 +19,7 @@ CREATE TABLE `cart` (
   KEY `user_id` (`user_id`),
   KEY `model_id` (`model_id`),
   KEY `supply_id` (`supply_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

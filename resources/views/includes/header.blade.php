@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ isset($page_title) ? $page_title : 'TuneTrack' }}</title>
-    <link rel="stylesheet" href="landing-page.css">
+    <link rel="stylesheet" href="{{ asset("assets/css/home.css") }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
           rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
@@ -165,13 +165,17 @@
                     <div class="set-banner mx-2"><a href="/appointment" style="text-decoration:none; color:white;">Appointment</a></div>
                     <div class="set-banner mx-2"><a href="/excercise" style="text-decoration:none; color:white;">Exercise</a></div>
                     <div class="set-banner mx-2"><a href="/contact" style="text-decoration:none; color:white;">Contact</a></div>
-                    <div class="set-banner mx-2"><a href="/profile" style="text-decoration:none; color:white;">Profile</a></div>
                 </div>
             </div>
              <!-- Profile Image & Name -->
              <div class="profile-container">
-                <img src="{{ asset('assets/images/default/Me.jpg') }}" alt="Profile Image" class="profile-image">
-                <span class="text-white ms-2 fw-bold">{{ $fullname }}</span>
+                <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
+                    <img src="{{ session('id') ? 
+                        asset('assets/images/default/Me.jpg'): // TODO FIXME: This should use image of user
+                        asset('assets/images/default/default_user.png')
+                    }}" alt="Profile Image" class="profile-image">
+                    <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
+                </a>
             </div>
         </div>
 

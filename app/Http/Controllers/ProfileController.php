@@ -2,22 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instruments;
-use App\Models\InstrumentCategory;
-use App\Http\Controller as BaseController;
+use App\Http\Controllers\BasePageController;
 
-class ProfileController extends Controller
+class ProfileController extends BasePageController
 {
-    private $base_file_path = 'profile.';
-    
-    private function view_basic_page( string $page, $params = [], ...$args )
-    {
-        return view( 'basic_page', [ 'page' => $page, 'fullname' => 'Guest', ...$params ], ...$args );
-    }
+    public string $base_file_path = 'profile.';
 
     public function index()
     {
-
         return $this->view_basic_page( $this->base_file_path . 'index');
+    }
+
+    public function learning()
+    {
+        return $this->view_basic_page( $this->base_file_path . 'learning');
+    }
+
+    public function exam()
+    {
+        return $this->view_basic_page( $this->base_file_path . 'exam');
+    }
+
+    public function certificate()
+    {
+        return $this->view_basic_page( $this->base_file_path . 'certificate');
+    }
+
+    public function orders()
+    {
+        return $this->view_basic_page( $this->base_file_path . 'orders');
     }
 }

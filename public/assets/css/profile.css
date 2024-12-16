@@ -1,0 +1,143 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header Banner Styling */
+.home-banner {
+    background-color: #FC6A03;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+}
+
+.title-banner {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.title-banner a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.set-banner {
+    margin-left: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+    transform: translateY(0);
+    padding: 5px;
+    text-align: center;
+}
+
+.set-banner:hover {
+    color: black;
+    transform: translateY(-3px);
+}
+
+/* Sidebar and Main Content Layout */
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-md-row {
+    flex-direction: row;
+}
+
+.side-bar {
+    flex: 0 0 220px;
+    background-color: #3b3b3b;
+    padding: 20px;
+    min-height: 100vh;
+    transition: max-width 0.3s ease;
+}
+
+.instruments-ctgry {
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.instruments-ctgry:hover {
+    background-color: #FC6A03;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+    .home-banner {
+        flex-direction: column;
+    }
+
+    .side-bar {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        min-height: 50vh;
+        position: absolute;
+        left: -220px;
+        transition: left 0.3s ease;
+    }
+
+    .side-bar.open {
+        left: 0;
+    }
+
+    .instruments-ctgry {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .set-banner {
+        font-size: 14px;
+        margin-left: 0;
+        padding: 8px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+    .set-banner {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    .instruments-ctgry {
+        font-size: 12px;
+        padding: 10px;
+    }
+}

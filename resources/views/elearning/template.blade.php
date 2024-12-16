@@ -1,5 +1,4 @@
 @include('includes/header')
-<link rel="stylesheet" href="{{ asset("assets/css/home.css") }}">
 
 <div class="d-flex flex-column flex-lg-row">
     <!-- Sidebar Section -->
@@ -10,3 +9,9 @@
             @endforeach
         </div>
     </div>
+    <div class="container">
+        @include($page)
+    </div>
+</div>
+<!-- end .d-flex .flex-column .flex-lg-row -->
+@include('includes/footer')

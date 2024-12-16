@@ -7,22 +7,12 @@ use App\Models\Instruments;
 use App\Models\InstrumentCategory;
 use App\Models\Orders;
 use App\Models\Supplies;
-use App\Http\Controller as BaseController;
+use App\Http\Controllers\BasePageController;
 
-class ShopController extends Controller
+class ShopController extends BasePageController
 {
-    private string $page_title = "JCS Store";
-    private string $base_file_path = 'shop.';
-    
-    private function view_basic_page( string $page, $params = [], ...$args )
-    {
-        return view( $this->base_file_path . 'template', [ 
-            'page_title' => $this->page_title,
-            'page' => $page,
-            'fullname' => 'Guest',
-            ...$params 
-        ], ...$args );
-    }
+    public string $page_title = "JCS Store";
+    public string $base_file_path = 'shop.';
 
     public function index()
     {

@@ -4,22 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Objectives;
 use App\Models\InstrumentCategory;
-use App\Http\Controller as BaseController;
+use App\Http\Controllers\BasePageController;
 
-class ElearningController extends Controller
+class ElearningController extends BasePageController
 {
-    private $base_file_path = 'elearning.';
+    public string $base_file_path = 'elearning.';
+
     private $string_sub_categories = [ "Cello", "Harp", "Banjo", "Ukulele", "Mandolin", "Viola", "Double Bass", "Lyre", ];
     private $percussion_sub_categories = [ "Snare Drum", "Conga", "Tambourine", "Timpani", "Marimba", "Tabla", "Steel Pan", "Cajon", ];
     private $aerophones_sub_categories = [ "Flute", "Clarinet", "Saxophone", "Oboe", "Harmonica", "Bassoon", "Pan Flute", "Bag Pipes", ];
     private $idiophones_sub_categories = [ "Xylophone", "Triangle", "Glockenspiel", "Kalimba", "Castanets", "Vibraphones", "Cymbals", "Chimes", ];
     private $brass_sub_categories = [ "Trumphet", "Trombone", "Tuba", "Cornet", "Euphonium", "Flugelhorn", "Baritone Horn", "Sousaphone", ];
     private $electrophones_sub_categories = [ "Electric Guitar", "Keyboard", "Electric Bass", "Theremin", "Electric Violin", "Drum Machine", "Electric Organ", "Keytar", ];
-
-    private function view_basic_page( string $page, $params = [ 'category' => 'string', 'sub_categories' => [] ], ...$args )
-    {
-        return view( $this->base_file_path . 'instrument_page', [ 'page' => $page, 'fullname' => 'Guest', ...$params ], ...$args );
-    }
 
     public function string()
     {

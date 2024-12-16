@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instruments;
-use App\Models\InstrumentCategory;
-use App\Http\Controller as BaseController;
+use App\Http\Controllers\BasePageController;
 
-class ContactController extends Controller
+class ContactController extends BasePageController
 {
-    private $base_file_path = 'contact.';
-    
-    private function view_basic_page( string $page, $params = [], ...$args )
-    {
-        return view( 'basic_page', [ 'page' => $page, 'fullname' => 'Guest', ...$params ], ...$args );
-    }
+    public string $base_file_path = 'contact.';
 
     public function index()
     {
-
         return $this->view_basic_page( $this->base_file_path . 'index');
     }
 }
