@@ -9,9 +9,18 @@
 
 ## Starting this project
 <code>
+php artisan serve
+</code>
+
+## Installing schema
+<code>
 php artisan migrate:install
 php artisan migrate
 </code>
+
+## Test user Account
+phaulisaac@gmail.com
+PhaulIsaacAdo029
 
 
 ## About Laravel

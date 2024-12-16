@@ -57,7 +57,7 @@ class LoginController extends BasePageController
                 ]); // Set session variable
 
                 // Redirect based on user role
-                if ( $this->role[$user['role']] <= 1 ) {
+                if ( $user['role'] && $this->role[$user['role']] <= 1 ) {
                     return redirect('/admin'); // Redirect to admin dashboard
                 }
             } else {
