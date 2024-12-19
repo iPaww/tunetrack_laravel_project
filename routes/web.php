@@ -8,8 +8,20 @@ use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+use App\Http\Controllers\AdminControllers\AdminController;
+use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
+use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\InventoryController;
+use App\Http\Controllers\AdminControllers\ItemTrackController;
+use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
+use App\Http\Controllers\AdminControllers\QuizController;
+use App\Http\Controllers\AdminControllers\ReviewsController;
+use App\Http\Controllers\AdminControllers\SalesController;
+use App\Http\Controllers\AdminControllers\UserController;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
 
 
 /*
@@ -79,7 +91,7 @@ Route::controller(ShopController::class)
     ->prefix('shop')
     ->group(function () {
         Route::get('/', 'index')->withoutMiddleware([Authenticate::class]);
-        Route::get('/product/{category}/view/{id}', 'view_product')->withoutMiddleware([Authenticate::class]);
+        Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class]);
         Route::get('/orders', 'orders');
         Route::get('/cart', 'cart');
     });
@@ -90,4 +102,82 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout');
     Route::get('/register', 'register');
     Route::post('/register', 'register_form');
+});
+
+Route::prefix('admin')->group(function() {
+    Route::controller(AdminLoginController::class)
+    ->middleware(AdminAuthenticate::class)
+    ->group(function () {
+        Route::get('/login', 'login')->withoutMiddleware([AdminAuthenticate::class]);
+        Route::post('/login', 'login_form')->withoutMiddleware([AdminAuthenticate::class]);
+        Route::get('/register', 'register')->withoutMiddleware([AdminAuthenticate::class]);
+        Route::get('/logout', 'logout');
+
+        Route::controller(AdminController::class)
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(AdminAppointmentController::class)
+            ->prefix('appointment')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(InstrumentsController::class)
+            ->prefix('instruments')
+            ->group(function () {
+                Route::get('/', 'index');
+                Route::get('instrument/add', 'add');
+                Route::get('category/add', 'category_add');
+                Route::get('type/add', 'type_add');
+                Route::get('supplies/add', 'supplies_add');
+            });
+        
+        Route::controller(InventoryController::class)
+            ->prefix('inventory')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(ItemTrackController::class)
+            ->prefix('item-track')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(AdminProfileController::class)
+            ->prefix('profile')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(QuizController::class)
+            ->prefix('quiz')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(ReviewsController::class)
+            ->prefix('reviews')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        
+        Route::controller(SalesController::class)
+            ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
+            ->prefix('sales')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+        Route::controller(UserController::class)
+            ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
+            ->prefix('users')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+        
+    });
 });

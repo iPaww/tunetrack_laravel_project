@@ -58,7 +58,7 @@
             <div class="row justify-content-center">
                 @foreach ($items as $product)
                     <div class="col-md-4 mb-4">
-                        <a href="/shop/product/{{ htmlspecialchars($product['type_id']) }}/view/{{ htmlspecialchars($product['model_id'])}}" class="text-decoration-none text-dark">
+                        <a href="/shop/product/{{ htmlspecialchars($product['model_id']) }}/view" class="text-decoration-none text-dark">
                             <div class="card">
                                 <img src="{{ asset( "assets/images/inventory/uploads/" . htmlspecialchars($product['image'])) }}" class="img-fluid mt-3" alt="{{ htmlspecialchars($product['name']) }}">
                                 <div class="card-body">

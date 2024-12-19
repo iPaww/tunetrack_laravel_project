@@ -1,0 +1,119 @@
+
+/* Dashboard Overview Section */
+.dashboard-overview {
+    margin-top: 10px;
+}
+
+.dashboard-overview .card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.dashboard-overview .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-overview .card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard-overview h5 {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.dashboard-overview .lead {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.dashboard-overview .row {
+    margin-bottom: 20px;
+}
+
+.dashboard-overview .col-md-4 {
+    margin-bottom: 20px;
+}
+
+/* Inventory Overview Section */
+.inventory-overview {
+    margin-top: 40px;
+}
+
+.inventory-overview .card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.inventory-overview .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.inventory-overview .card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.inventory-overview h5 {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.inventory-overview .lead {
+    font-size: 24px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.inventory-overview .row {
+    margin-bottom: 20px;
+}
+
+.inventory-overview .col-md-4 {
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-overview .row,
+    .inventory-overview .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-overview .col-md-4,
+    .inventory-overview .col-md-4 {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
+
+
+/* Chart for sales*/
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+}

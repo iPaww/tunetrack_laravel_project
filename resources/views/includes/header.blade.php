@@ -170,8 +170,8 @@
              <!-- Profile Image & Name -->
              <div class="profile-container">
                 <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
-                    <img src="{{ session('id') ? 
-                        asset('assets/images/default/Me.jpg'): // TODO FIXME: This should use image of user
+                    <img src="{{ !empty(session('profile_picture')) && file_exists(public_path('assets/images/users/'. session('id') .'/' . session('profile_picture'))) ? 
+                        asset('assets/images/users/'. session('id') .'/' . session('profile_picture')): // TODO FIXME: This should use image of user
                         asset('assets/images/default/default_user.png')
                     }}" alt="Profile Image" class="profile-image">
                     <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>

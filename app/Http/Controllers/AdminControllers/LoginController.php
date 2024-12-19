@@ -1,29 +1,42 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
-use App\Http\Controllers\BasePageController;
+use App\Http\Controllers\AdminControllers\BasePageController;
 
 class LoginController extends BasePageController
 {
     private string $superAdmin = "SuperAdmin@gmail.com";
     private string $superPassord = "Tunetrack_superAdmin";
     private $role = [
-        'admin' => 1,
-        'user' => 2,
+        'super' => 1,
+        'admin' => 2,
+        'user' => 3,
     ];
 
-    public function index()
+    public function basic_authentication_page( string $page, $params = [], ...$args )
     {
-        return $this->view_basic_page( 'login' );
+        $template = 'admin.basic_authentication_page';
+        if( view()->exists($this->base_file_path . 'template') ) 
+            $template = $this->base_file_path . 'template';
+        return view( $template, [ 
+            'page_title' => $this->page_title,
+            'page' => $page,
+            ...$params
+        ], ...$args );
     }
 
-    public function login( Request $request ): RedirectResponse
+    public function login()
+    {
+        return $this->basic_authentication_page( 'login' );
+    }
+
+    public function login_form( Request $request ): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -32,7 +45,7 @@ class LoginController extends BasePageController
     
         // Validate email and password
         if ($validator->fails()) {
-            return redirect('/login')
+            return redirect('/admin/login')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -43,19 +56,19 @@ class LoginController extends BasePageController
         // Check if the email exists in the database
         $user = User::where('email', $email)
             ->first();
-
-        if ( !$user ) {
+        
+        if ( !$user || $this->role[$user['role']] > 2 ) {
             $validator->errors()->add('email', 'Email not found!');
-            return redirect('/login')
+            return redirect('/admin/login')
                 ->withInput()
                 ->withErrors($validator);
         } else if (!password_verify($password, $user['password'])) {
             $validator->errors()->add('password', 'Incorrect password!');
-                return redirect('/login')
+                return redirect('/admin/login')
                     ->withInput()
                     ->withErrors($validator);
         }
-        
+
         // Password is correct, start the session
         session([
             'id' => $user['id'],
@@ -66,7 +79,7 @@ class LoginController extends BasePageController
         
         ]); // Set session variable
 
-        return redirect('/');
+        return redirect('/admin');
     }
 
     public function logout(Request $request): RedirectResponse
@@ -78,7 +91,7 @@ class LoginController extends BasePageController
         header("Pragma: no-cache");
         header("Expires: 0");
         
-        return redirect('/login');
+        return redirect('/admin/login');
     }
 
     public function register()

@@ -54,8 +54,24 @@ class ShopController extends BasePageController
         ]);
     }
 
-    public function view_product( $category, $item_id )
+    public function view_product( $item_id )
     {
-        return $this->view_basic_page( $this->base_file_path . 'view_product');
+        $product = Instruments::where('model_id', $item_id)
+            ->first();
+        // $colors = Instruments::get();
+        $colors = ['red', 'blue', 'green'];
+        
+
+        $productImage = asset(
+            !empty($product['image']) ?
+            'assets/images/inventory/uploads/' . $product['image']:
+            'assets/images/inventory/uploads/default.png'
+        );
+        
+        return $this->view_basic_page( $this->base_file_path . 'view_product', [
+            'product' => $product,
+            'productImage' => $productImage,
+            'colors' => $colors,
+        ]);
     }
 }
