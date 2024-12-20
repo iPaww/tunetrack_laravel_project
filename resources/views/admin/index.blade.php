@@ -40,14 +40,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5>Total Supplies</h5>
                     <p class="lead">{{ $supply_data['total_supplies'] }}</p>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">

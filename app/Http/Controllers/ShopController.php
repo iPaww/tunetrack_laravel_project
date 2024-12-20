@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Instruments;
+use App\Models\Products;
 use App\Models\InstrumentCategory;
 use App\Models\Orders;
 use App\Models\Supplies;
@@ -16,7 +16,7 @@ class ShopController extends BasePageController
 
     public function index()
     {
-        $shop_items = Instruments::orderBy('name')
+        $shop_items = Products::orderBy('name')
             ->take(10)
             ->get();
 
@@ -56,9 +56,9 @@ class ShopController extends BasePageController
 
     public function view_product( $item_id )
     {
-        $product = Instruments::where('model_id', $item_id)
+        $product = Products::where('model_id', $item_id)
             ->first();
-        // $colors = Instruments::get();
+        // $colors = Products::get();
         $colors = ['red', 'blue', 'green'];
         
 
