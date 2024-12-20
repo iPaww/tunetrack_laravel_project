@@ -14,8 +14,8 @@ class LoginController extends BasePageController
     private string $superAdmin = "SuperAdmin@gmail.com";
     private string $superPassord = "Tunetrack_superAdmin";
     private $role = [
-        'super' => 1,
-        'admin' => 2,
+        'admin' => 1,
+        'employee' => 2,
         'user' => 3,
     ];
 
@@ -57,7 +57,7 @@ class LoginController extends BasePageController
         $user = User::where('email', $email)
             ->first();
         
-        if ( !$user || $this->role[$user['role']] > 2 ) {
+        if ( !$user || $user['role'] > $this->role["employee"] ) {
             $validator->errors()->add('email', 'Email not found!');
             return redirect('/admin/login')
                 ->withInput()
