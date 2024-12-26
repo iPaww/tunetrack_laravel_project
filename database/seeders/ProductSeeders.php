@@ -24,6 +24,7 @@ class ProductSeeders extends Seeder
             'product_type_id' => 1,
             'brand_id' => 1,
             'image' => '67557317d4d722.25251400.jpeg',
+            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Trevor James',
@@ -34,6 +35,7 @@ class ProductSeeders extends Seeder
             'product_type_id' => 1,
             'brand_id' => 2,
             'image' => '6755735684e3a3.64016812.webp',
+            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Global',
@@ -44,6 +46,7 @@ class ProductSeeders extends Seeder
             'product_type_id' => 1,
             'brand_id' => 3,
             'image' => '6755737a44a4d4.25204277.jpeg',
+            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Pick',
@@ -54,6 +57,7 @@ class ProductSeeders extends Seeder
             'product_type_id' => 2,
             'brand_id' => 1,
             'image' => '6755737a44a4d4.25204277.jpeg',
+            'serial_number' =>Str::random(25),
         ]);
         // 50 Random Products
         for( $i = 1; $i <= 50; $i++ ) {
@@ -66,6 +70,7 @@ class ProductSeeders extends Seeder
                 'product_type_id' => 1,
                 'brand_id' => rand(1, 6),
                 'image' => '6755737a44a4d4.25204277.jpeg',
+                'serial_number' =>Str::random(25),
             ]);
         }
 
@@ -80,6 +85,7 @@ class ProductSeeders extends Seeder
                 'product_type_id' => 1,
                 'brand_id' => rand(1, 6),
                 'image' => '6755737a44a4d4.25204277.jpeg',
+                'serial_number' =>Str::random(25),
             ]);
         }
     }
