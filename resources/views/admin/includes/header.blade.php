@@ -48,7 +48,7 @@
             <a href="/admin/quiz">Quiz</a>
         </div>
         <div class="menu-item">
-            <a href="/admin/reviews">Reviews</a>
+            <a href="/admin/main-category">Main Category</a>
         </div>
         
         {{-- @if ( session('role') == 1 ) --}}
