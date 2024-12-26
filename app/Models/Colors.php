@@ -11,7 +11,7 @@ class Colors extends BaseModel
      *
      * @var string
      */
-    protected $table = 'supplies';
+    protected $table = 'colors';
 
     /**
      * The primary key associated with the table.

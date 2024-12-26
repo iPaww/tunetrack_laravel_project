@@ -13,17 +13,23 @@ CREATE TABLE `appointment` (
   `user_id` int DEFAULT NULL,
   `sub_category_id` int DEFAULT NULL,
   `status` enum('pending','declined','accepted') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `sub_category_id` (`sub_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `brand`;
+DROP TABLE IF EXISTS `brands`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `brand` (
+CREATE TABLE `brands` (
   `id` int NOT NULL AUTO_INCREMENT,
   `brand_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -33,11 +39,11 @@ DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quantity` int NOT NULL,
-  `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `delete_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_id` int DEFAULT NULL,
   `product_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `delete_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `product_id` (`product_id`)
@@ -48,10 +54,8 @@ DROP TABLE IF EXISTS `category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `product_type_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product_type_id` (`product_type_id`)
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `certification`;
@@ -65,12 +69,12 @@ CREATE TABLE `certification` (
   KEY `course_id` (`course_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `color`;
+DROP TABLE IF EXISTS `colors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `color` (
+CREATE TABLE `colors` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `color_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -82,10 +86,11 @@ CREATE TABLE `courses` (
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `objective` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `trivia` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `mainCategory_id` int DEFAULT NULL,
   `category_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `mainCategory_id` (`mainCategory_id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -111,11 +116,9 @@ CREATE TABLE `inventory` (
   `quantity` int NOT NULL,
   `product_id` int DEFAULT NULL,
   `color_id` int DEFAULT NULL,
-  `brand_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
-  KEY `color_id` (`color_id`),
-  KEY `brand_id` (`brand_id`)
+  KEY `color_id` (`color_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `maincategory`;
@@ -142,11 +145,13 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `payment_method` enum('Cash','Gcash') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `status` int NOT NULL,
   `total` int NOT NULL,
   `user_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
@@ -156,6 +161,7 @@ DROP TABLE IF EXISTS `orders_item`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders_item` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
   `quantity` int NOT NULL,
   `price` int NOT NULL,
   `order_id` int DEFAULT NULL,
@@ -183,7 +189,7 @@ DROP TABLE IF EXISTS `product_type`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_type` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -195,13 +201,19 @@ CREATE TABLE `products` (
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `price` int NOT NULL,
   `description` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `image` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   `product_type_id` int DEFAULT NULL,
   `sub_category_id` int DEFAULT NULL,
+  `brand_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `product_type_id` (`product_type_id`),
   KEY `category_id` (`category_id`),
-  KEY `sub_category_id` (`sub_category_id`)
+  KEY `sub_category_id` (`sub_category_id`),
+  KEY `brand_id` (`brand_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `quiz`;
@@ -216,6 +228,9 @@ CREATE TABLE `quiz` (
   `d_answer` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `correct_answer` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `course_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `course_id` (`course_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
@@ -225,7 +240,7 @@ DROP TABLE IF EXISTS `sub_category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sub_category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `sub_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `category_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
@@ -242,6 +257,9 @@ CREATE TABLE `topics` (
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `course_id` int DEFAULT NULL,
   `sub_category_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `sub_category_id` (`sub_category_id`),
   KEY `course_id` (`course_id`)
@@ -260,6 +278,7 @@ CREATE TABLE `users` (
   `role` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;

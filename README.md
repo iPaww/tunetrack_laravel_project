@@ -15,7 +15,8 @@ php artisan serve
 ## Installing schema
 <code>
 php artisan migrate:install
-php artisan migrate
+php artisan migrate --seed
+php artisan migrate:fresh --seed
 </code>
 
 ## Test user Account
