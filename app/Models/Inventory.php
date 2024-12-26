@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 
-class Cart extends BaseModel
+class Inventory extends BaseModel
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'cart';
+    protected $table = 'inventory';
 
     /**
      * The primary key associated with the table.
@@ -26,16 +26,4 @@ class Cart extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'quantity',
-        'product_id',
-        'user_id',
-        'inventory_id',
-    ];
 }

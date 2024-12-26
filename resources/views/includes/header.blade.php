@@ -151,6 +151,8 @@
             margin-left: 15px;
        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -161,10 +163,10 @@
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a></div>
                 <div class="d-flex banner-items flex-wrap">
+                    <div class="set-banner mx-2"><a href="/elearnning" style="text-decoration:none; color:white;">E-Learning</a></div>
                     <div class="set-banner mx-2"><a href="/shop" style="text-decoration:none; color:white;">Order</a></div>
                     <div class="set-banner mx-2"><a href="/appointment" style="text-decoration:none; color:white;">Appointment</a></div>
-                    <div class="set-banner mx-2"><a href="/excercise" style="text-decoration:none; color:white;">Exercise</a></div>
-                    <div class="set-banner mx-2"><a href="/contact" style="text-decoration:none; color:white;">Contact</a></div>
+                    <div class="set-banner mx-2"><a href="/contact" style="text-decoration:none; color:white;">About Us</a></div>
                 </div>
             </div>
              <!-- Profile Image & Name -->
@@ -177,14 +179,4 @@
                     <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
                 </a>
             </div>
-        </div>
-
-        <!-- Navbar -->
-        <div class="nav-bar d-flex justify-content-evenly align-items-center flex-wrap">
-            <a href="/elearning/string" class="text-white text-decoration-none px-4">String</a>
-            <a href="/elearning/percussion" class="text-white text-decoration-none px-4">Percussion</a>
-            <a href="/elearning/aerophones" class="text-white text-decoration-none px-4">Aerophones</a>
-            <a href="/elearning/idiophones" class="text-white text-decoration-none px-4">Idiophones</a>
-            <a href="/elearning/brass" class="text-white text-decoration-none px-4">Brass</a>
-            <a href="/elearning/electrophones" class="text-white text-decoration-none px-4">Electrophones</a>
         </div>

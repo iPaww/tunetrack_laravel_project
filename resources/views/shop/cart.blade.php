@@ -214,46 +214,27 @@
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <td class="product-info">
-                            <?php if ($item['product_name']): ?>
-                                <img src="../inventory/uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>" width="60" class="img-thumbnail cart-image">
-                                <span><?php echo $item['product_name']; ?></span>
-                            <?php elseif ($item['supply_name']): ?>
-                                <img src="../inventory/uploads/<?php echo $item['supply_image']; ?>" alt="<?php echo $item['supply_name']; ?>" width="60" class="img-thumbnail cart-image">
-                                <span><?php echo $item['supply_name']; ?></span>
-                            <?php endif; ?>
+                            <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" width="60" class="img-thumbnail cart-image">
+                            <span>{{ $item['product_name'] }}</span>
                         </td>
                         <td class="price-column">
-                            <?php 
-                            if ($item['product_name']) {
-                                echo '$' . number_format($item['product_price'], 2);
-                            } elseif ($item['supply_name']) {
-                                echo '$' . number_format($item['supply_price'], 2);
-                            }
-                            ?>
+                            ${{ number_format($item['price'], 2) }}
                         </td>
                         <td class="quantity-column">
-                            <?php if ($item['supply_name']): ?>
-                                <form action="update_cart.php" method="POST" class="update-form">
-                                    <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1" required class="form-control quantity-input">
-                                    <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
+                            <form action="update_cart.php" method="POST" class="update-form">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="quantity-minus-btn btn btn-outline-secondary">-</button>
+                                    <input type="number" class="quantity-inp form-control" min="0" max="999" value="{{ $item->quantity }}"/>
+                                    <button type="button" class="quantity-plus-btn btn btn-outline-secondary">+</button>
                                     <button type="submit" class="btn btn-primary update-btn">Update</button>
-                                </form>
-                            <?php else: ?>
-                                <span>Not Applicable <br>(Because of uniqie Id)</span>
-                            <?php endif; ?>
+                                </div>
+                            </form>
                         </td>
                         <td class="total-column">
-                            <?php 
-                            if ($item['product_name']) {
-                                echo '$' . number_format($item['product_price'] * $item['quantity'], 2);
-                            } elseif ($item['supply_name']) {
-                                echo '$' . number_format($item['supply_price'] * $item['quantity'], 2);
-                            }
-                            ?>
+                            ${{ number_format($item['price'] * $item['quantity'], 2) }}
                         </td>
                         <td class="actions-column">
-                            <form action="remove_from_cart.php" method="POST">
-                                <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
+                            <form action="/shop/cart/remove/{{ $item->cart_id }}" method="POST">
                                 <button type="submit" class="btn btn-danger remove-btn">Remove</button>
                             </form>
                         </td>
@@ -263,7 +244,7 @@
             </table>
 
             <div class="cart-footer">
-                <h3 class="total-price">Total Price: $<?php echo number_format($total_price, 2); ?></h3>
+                <h3 class="total-price">Total Price: ${{ number_format($total_price, 2) }}</h3>
                 <form action="checkout.php" method="POST">
                     <button type="submit" class="btn btn-success checkout-btn">Proceed to Checkout</button>
                 </form>
@@ -275,3 +256,16 @@
         </div>
     <?php endif; ?>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // $('.quantity-minus-btn').click(() => {
+    //     let current_value = parseInt( $('.quantity-inp').val() ) || 0
+    //     $('.quantity-inp').val( current_value - 1 ).trigger('input')
+    // })
+    // $('.quantity-plus-btn').click(() => {
+    //     let current_value = parseInt( $('.quantity-inp').val() ) || 0
+    //     $('.quantity-inp').val( current_value + 1).trigger('input')
+    // })
+})
+</script>

@@ -35,5 +35,10 @@ class InventorySeeders extends Seeder
             'quantity' => 15,
             'color_id' => 4,
         ]);
+        DB::table('inventory')->insert([
+            'product_id' => 3,
+            'quantity' => 15,
+            'color_id' => 5,
+        ]);
     }
 }

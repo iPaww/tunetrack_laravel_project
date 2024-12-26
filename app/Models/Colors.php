@@ -18,7 +18,7 @@ class Colors extends BaseModel
      *
      * @var string
      */
-    protected $primaryKey = 'supply_id';
+    protected $primaryKey = 'id';
 
     /**
      * Indicates if the model's ID is auto-incrementing.

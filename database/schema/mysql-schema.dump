@@ -41,12 +41,14 @@ CREATE TABLE `cart` (
   `quantity` int NOT NULL,
   `product_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
+  `inventory_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `delete_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `product_id` (`product_id`)
+  KEY `product_id` (`product_id`),
+  KEY `inventory_id` (`inventory_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `category`;

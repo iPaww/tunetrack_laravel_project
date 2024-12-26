@@ -94,6 +94,9 @@ Route::controller(ShopController::class)
         Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class]);
         Route::get('/orders', 'orders');
         Route::get('/cart', 'cart');
+        Route::post('/cart/add/{id}', 'cart_add');
+        Route::post('/cart/edit/{id}', 'cart_edit');
+        Route::post('/cart/remove/{id}', 'cart_remove');
     });
 
 Route::controller(LoginController::class)->group(function () {

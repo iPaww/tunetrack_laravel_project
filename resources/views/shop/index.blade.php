@@ -30,51 +30,54 @@
 
 <div id="container" class="container d-flex flex-column align-items-center py-5">
     <div class="d-flex w-100 justify-content-evenly align-items-center">
-        <span id="title-container">
-            <a href="index.php">
-                <img class="img-fluid" id="logo" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
-            </a>
-            <h1>JCS SHOP</h1>
-        </span>
-        
-        <div id="search-container">
-            <span id="search-icon">
-                <i class="fas fa-search"></i>
+        <div class="text-nowrap me-3">
+            <span id="title-container">
+                <a href="/" style="width: 5rem;">
+                    <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
+                </a>
+                <h1 class="ms-3">JCS SHOP</h1>
             </span>
-            <input type="text" id="search-input" placeholder="Search instruments...">
         </div>
-
-        
+        <div id="search-container" class="input-group">
+            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            <input class="form-control" type="text" id="search-input" placeholder="Search instruments...">
+        </div>
     </div>
 
     <!-- navbar -->
-    <nav id="menu" class="mt-3 text-center">
-        <a href="/shop/orders" class="text-dark fw-bold text-decoration-none mx-3">Orders</a>
-        <a href="/shop/cart" class="text-dark fw-bold text-decoration-none mx-3">Cart</a>
+    <nav id="menu" class="mt-3 mb-5 text-center">
+        <a href="/shop/orders" class="btn btn-outline-dark border border-0 fw-bold mx-3">Orders</a>
+        <a href="/shop/cart" class="btn btn-outline-dark border border-0 fw-bold mx-3">Cart</a>
     </nav>
 
     <main class="container">
         @if ( count( $items ) > 0 )
             <div class="row justify-content-center">
                 @foreach ($items as $product)
-                    <div class="col-md-4 mb-4">
-                        <a href="/shop/product/{{ htmlspecialchars($product['model_id']) }}/view" class="text-decoration-none text-dark">
+                    <div class="col-md-4 col-sm-12 mb-1">
+                        <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view" class="text-decoration-none text-dark">
                             <div class="card">
-                                <img src="{{ asset( "assets/images/inventory/uploads/" . htmlspecialchars($product['image'])) }}" class="img-fluid mt-3" alt="{{ htmlspecialchars($product['name']) }}">
+                                <img src="{{ asset( "assets/images/inventory/uploads/" . htmlspecialchars($product->image)) }}"
+                                    class="card-img-top"
+                                    alt="{{ htmlspecialchars($product->name) }}"
+                                />
                                 <div class="card-body">
-                                    <p class="card-text text-center fw-bold fs-4">{{ htmlspecialchars($product['name']) }}</p>
-                                    <p class="card-text text-center color-orange">$ {{number_format($product['price'], 2) }}</p>
+                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}</h5>
+                                    <p class="card-text text-center color-orange">$ {{number_format($product->price, 2) }}</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 @endforeach
             </div>
+            <div class="position-relative" style="min-height: 10vh">
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    {{ $items->links() }}
+                <div>
+            </div>
         @else
             <p>No products found.</p>
         @endif
-        
     </main>
     <!--end of shop container-->
-
 </div>
