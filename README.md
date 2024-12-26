@@ -20,9 +20,23 @@ php artisan migrate:fresh --seed
 </code>
 
 ## Test user Account
-phaulisaac@gmail.com
-PhaulIsaacAdo029
-
+<div>
+    <div>
+        <h1>Emails</h1>
+        <ul>
+            <li>admin@example.com</li>
+            <li>employee@example.com</li>
+            <li>user1@example.com</li>
+            <li>user2@example.com</li>
+            <li>user3@example.com</li>
+            <li>user4@example.com</li>
+        </ul>
+    </div>
+    <div>
+        <h1>Pasword</h1>
+        <div>ASDASDqweqwe123!</div>
+    </div>
+</div>
 
 ## About Laravel
 

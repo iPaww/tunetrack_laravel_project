@@ -55,5 +55,32 @@ class ProductSeeders extends Seeder
             'brand_id' => 1,
             'image' => '6755737a44a4d4.25204277.jpeg',
         ]);
+        // 50 Random Products
+        for( $i = 1; $i <= 50; $i++ ) {
+            DB::table('products')->insert([
+                'name' => 'Instrument Sample ' . $i,
+                'price' => rand(100, 50000),
+                'description' => 'Pick for guitars',
+                'category_id' => rand(1, 6),
+                'sub_category_id' => rand(1, 5),
+                'product_type_id' => 1,
+                'brand_id' => rand(1, 6),
+                'image' => '6755737a44a4d4.25204277.jpeg',
+            ]);
+        }
+
+        // 50 Random Supplies
+        for( $i = 1; $i <= 50; $i++ ) {
+            DB::table('products')->insert([
+                'name' => 'Supply Sample ' . $i,
+                'price' => rand(100, 50000),
+                'description' => 'Pick for guitars',
+                'category_id' => rand(1, 6),
+                'sub_category_id' => rand(1, 5),
+                'product_type_id' => 1,
+                'brand_id' => rand(1, 6),
+                'image' => '6755737a44a4d4.25204277.jpeg',
+            ]);
+        }
     }
 }
