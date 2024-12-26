@@ -16,7 +16,7 @@ use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
 use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\AdminControllers\QuizController;
-use App\Http\Controllers\AdminControllers\ReviewsController;
+use App\Http\Controllers\AdminControllers\MainCategoryController;
 use App\Http\Controllers\AdminControllers\SalesController;
 use App\Http\Controllers\AdminControllers\UserController;
 
@@ -158,8 +158,18 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index');
             });
         
-        Route::controller(ReviewsController::class)
-            ->prefix('reviews')
+        Route::controller(MainCategoryController::class)
+            ->prefix('main-category')
+            ->group(function () {
+                Route::get('/', 'index');
+                Route::get('/add', 'addMain');
+                Route::post('/add', 'add');
+                Route::get('/edit/{id}', 'editMain');
+                Route::post('/edit/{id}', 'edit');
+            });
+
+        Route::controller(MainCategoryController::class)
+            ->prefix('sub-category')
             ->group(function () {
                 Route::get('/', 'index');
             });
