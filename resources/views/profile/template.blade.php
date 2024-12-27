@@ -8,7 +8,7 @@
             <a class="text-reset text-decoration-none" href="/profile/learning"><div class="instruments-ctgry">My Learning</div></a>
             <a class="text-reset text-decoration-none" href="/profile/exam"><div class="instruments-ctgry">Exam</div></a>
             <a class="text-reset text-decoration-none" href="/profile/certificate"><div class="instruments-ctgry">Certificate</div></a>
-            <a class="text-reset text-decoration-none" href="/profile/orders"><div class="instruments-ctgry">Track My Order</div></a>
+            <a class="text-reset text-decoration-none" href="/shop/orders"><div class="instruments-ctgry">Track My Order</div></a>
             <a class="text-reset text-decoration-none" href="/logout"><div class="instruments-ctgry">Logout</div></a>
         </nav>
     </aside>

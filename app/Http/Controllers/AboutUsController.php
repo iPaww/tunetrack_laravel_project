@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BasePageController;
 
-class ContactController extends BasePageController
+class AboutUsController extends BasePageController
 {
-    public string $base_file_path = 'contact.';
+    public string $base_file_path = 'about.';
 
     public function index()
     {

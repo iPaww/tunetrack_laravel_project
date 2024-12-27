@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\LoginController;
@@ -45,8 +45,8 @@ Route::controller(AppointmentController::class)
         Route::get('/appointment', 'index');
     });
 
-Route::controller(ContactController::class)->group(function () {
-    Route::get('/contact', 'index');
+Route::controller(AboutUsController::class)->group(function () {
+    Route::get('/about-us', 'index');
 });
 
 Route::controller(ElearningController::class)
@@ -94,6 +94,7 @@ Route::controller(ShopController::class)
         Route::get('/', 'index')->withoutMiddleware([Authenticate::class]);
         Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class]);
         Route::get('/orders', 'orders');
+        Route::get('/order/{id}/view', 'order_view');
         Route::get('/cart', 'cart');
         Route::post('/cart/add/{id}', 'cart_add');
         Route::post('/cart/edit/{id}', 'cart_edit');

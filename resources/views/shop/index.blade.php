@@ -56,7 +56,7 @@
                 @foreach ($items as $product)
                     <div class="col-md-4 col-sm-12 mb-1">
                         <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view" class="text-decoration-none text-dark">
-                            <div class="card">
+                            <div class="card bg-light">
                                 <img src="{{ asset( "assets/images/inventory/uploads/" . htmlspecialchars($product->image)) }}"
                                     class="card-img-top"
                                     alt="{{ htmlspecialchars($product->name) }}"

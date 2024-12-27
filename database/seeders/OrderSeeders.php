@@ -15,19 +15,17 @@ class OrderSeeders extends Seeder
      */
     public function run()
     {
-        $order_Id1 = $this->insert_order();
-        $order_Id2 = $this->insert_order();
-        
-        $this->insert_item_order( $order_Id1, [ 3 ] );
-        $this->insert_item_order( $order_Id2, [ 3 ] );
+        for( $x = 1; $x <= rand(20, 50); $x++ ) {
+            $this->insert_item_order( $this->insert_order(), [ 3 ] );
+        }
     }
 
     private function insert_order()
     {
         return DB::table('orders')->insertGetId([
             'payment_method' => 'Cash',
-            'status' => 1,
-            'total' => 800,
+            'status' => rand(1, 4),
+            'total' => rand(200, 50000),
             'user_id' => 3,
         ]);
     }
@@ -37,8 +35,9 @@ class OrderSeeders extends Seeder
         foreach( $array_of_product_id as $product_id ) {
             return DB::table('orders_item')->insert([
                 'product_id' => $product_id,
-                'price' => 800,
-                'quantity' => 1,
+                'inventory_id' => 1,
+                'price' => rand(200, 50000),
+                'quantity' => rand(1, 15),
                 'order_id' => $order_id,
             ]);
         }

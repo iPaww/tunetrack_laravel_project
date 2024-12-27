@@ -1,271 +1,179 @@
 <style>
-/* General Cart Styles */
-.cart-container {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.price-text {
+    color: #FC6A03;
 }
 
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.cart-table th,
-.cart-table td {
-    padding: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-family: 'Arial', sans-serif;
-}
-
-.cart-table th {
-    background-color: #f1f1f1;
-    font-weight: 600;
-    color: #555;
-}
-
-.cart-table td {
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.product-info {
-    display: flex;
-    align-items: center;
-}
-
-.cart-image {
-    margin-right: 10px;
-    border-radius: 10px;
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-}
-
-.price-column,
-.total-column,
-.actions-column {
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-.quantity-column {
-    text-align: center;
-}
-
-.update-btn {
-    padding: 6px 12px;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.select-payment {
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.update-btn:hover {
-    background-color: #0056b3;
+.select-payment:hover {
+    background-color: #bfbfbf;
 }
 
-.remove-btn {
-    background-color: #dc3545;
-    color: white;
-    padding: 6px 12px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.select-payment:active {
+    background-color: #5e5e5e;
 }
 
-.remove-btn:hover {
-    background-color: #c82333;
+.btn-checkout {
+    background-color: #FC6A03;
+    border-color: #FC6A03;
 }
 
-/* Cart Footer */
-.cart-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #ddd;
+.btn-checkout:hover {
+    background-color: #bd4f02;
+    border-color: #bd4f02;
 }
 
-.total-price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.checkout-btn {
-    padding: 12px 25px;
-    font-size: 1.2rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.checkout-btn:hover {
-    background-color: #218838;
-}
-
-.back-to-shop {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.btn-secondary {
-    font-size: 1rem;
-    padding: 10px 20px;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
-/* Update Form */
-.update-form {
-    display: inline-block;
-    width: 100%;
-}
-
-.quantity-input {
-    width: 60px;
-    padding: 5px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Alert Styling */
-.alert-warning {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    color: #856404;
-    background-color: #fff3cd;
-    padding: 15px;
-    border-radius: 5px;
-    border: 1px solid #ffeeba;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .cart-table th, .cart-table td {
-        padding: 10px;
-    }
-
-    .cart-footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .checkout-btn {
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .back-to-shop a {
-        width: 100%;
-        display: inline-block;
-        margin-top: 15px;
-    }
+.btn-checkout:active {
+    background-color: #853700 !important;
+    border-color: #853700 !important;
 }
 </style>
 
 <div class="container align-items-center min-vh-100 py-5">
-    <h1 class="display-4">Your Shopping Cart</h1>
-    
-    <?php if (count($items) == 0): ?>
-    <div class="alert alert-warning" role="alert">
-        Your cart is empty.
+    <div class="mb-3">
+        <a href="/shop" class="btn btn-outline-dark border border-0 fw-bold">&laquo; Back to shop</a>
     </div>
-    <?php else: ?>
-        <div class="cart-container">
-            <table class="table cart-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($items as $item): ?>
-                    <tr>
-                        <td class="product-info">
-                            <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" width="60" class="img-thumbnail cart-image">
-                            <span>{{ $item['product_name'] }}</span>
-                        </td>
-                        <td class="price-column">
-                            ${{ number_format($item['price'], 2) }}
-                        </td>
-                        <td class="quantity-column">
-                            <form action="update_cart.php" method="POST" class="update-form">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="quantity-minus-btn btn btn-outline-secondary">-</button>
-                                    <input type="number" class="quantity-inp form-control" min="0" max="999" value="{{ $item->quantity }}"/>
-                                    <button type="button" class="quantity-plus-btn btn btn-outline-secondary">+</button>
-                                    <button type="submit" class="btn btn-primary update-btn">Update</button>
+    <h1 class="display-4 mb-4">Your Shopping Cart</h1>
+    <div>
+        @if ($errors->any())
+        <ul class="list-group my-2">
+            @foreach ($errors->all() as $error)
+                <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+            @endforeach
+        </ul>
+        @endif
+        @if (session()->get('data'))
+        <ul class="list-group my-2">
+            @foreach (session()->get('data') as $data)
+                <li class="list-group-item list-group-item-success">{{ $data }}</li>
+            @endforeach
+        </ul>
+        @endif
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @if (count($items) == 0)
+            <div class="alert alert-warning" role="alert">
+                Your cart is empty.
+            </div>
+            @else
+            <div class="row">
+                @foreach ($items as $item)
+                <div class="col-12 row mb-1 py-3">
+                    <div class="col-3 position-relative">
+                        <a href="/shop/product/{{ $item->product_id }}/view" class="text-decoration-none position-absolute top-50 start-50 translate-middle w-100">
+                            <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" class="img-fluid border rounded">
+                        </a>
+                    </div>
+                    <div class="col-9 row">
+                        <div class="col-5 row">
+                            <div class="col-12"><a href="/shop/product/{{ $item->product_id }}/view" class="fw-bold fs-5 text-decoration-none">{{ $item->name }}</a></div>
+                            <div class="col-12">Color: {{ $item->color_name }}</div>
+                        </div>
+                        <div class="col-7 pt-4 position-relative">
+                            <form action="/shop/cart/edit/{{ $item->id }}" method="POST">
+                                @csrf <!-- {{ csrf_field() }} -->
+                                <div class="d-flex">
+                                    <span class="my-auto me-1">Qty:</span>
+                                    <div class="input-group flex-nowrap">
+                                        <button type="button" class="quantity-minus-btn btn btn-sm btn-outline-secondary">-</button>
+                                        <input type="number" class="quantity-inp form-control" name="quantity" min="1" max="999" value="{{ $item->quantity }}" data-original-value="{{ $item->quantity }}" style="min-width: 2em;"/>
+                                        <button type="button" class="quantity-plus-btn btn btn-sm btn-outline-secondary">+</button>
+                                        <button type="submit" class="btn btn-sm btn-primary update-btn" disabled>Update</button>
+                                    </div>
                                 </div>
                             </form>
-                        </td>
-                        <td class="total-column">
-                            ${{ number_format($item['price'] * $item['quantity'], 2) }}
-                        </td>
-                        <td class="actions-column">
+                            <div class="my-auto me-1 price-text text-end w-100 mt-2">${{ number_format($item['price'] * $item['quantity'], 2) }}</div>
                             <form action="/shop/cart/remove/{{ $item->cart_id }}" method="POST">
-                                <button type="submit" class="btn btn-danger remove-btn">Remove</button>
+                                @csrf <!-- {{ csrf_field() }} -->
+                                <button class="btn btn-sm btn-outline-danger border-0 rounded-circle position-absolute top-0 end-0 me-2" style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .3rem;">X</button>
                             </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-
-            <div class="cart-footer">
-                <h3 class="total-price">Total Price: ${{ number_format($total_price, 2) }}</h3>
-                <form action="checkout.php" method="POST">
-                    <button type="submit" class="btn btn-success checkout-btn">Proceed to Checkout</button>
-                </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
-
-            <div class="back-to-shop">
-                <a href="/shop" class="btn btn-secondary">Back to Shopping</a>
+            @endif
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="fw-bold">Select Payment Method</h1>
+                </div>
+                <div class="col-12 mb-1">
+                    <div class="card select-payment">
+                        <div class="card-body position-relative">
+                            <div class="card-title">Cash</div>
+                            <small class="text-muted">Pay when you recieve</small>
+                            <input type="radio" name="payment_method_slc" class="form-check-input position-absolute end-0 top-50 translate-middle" checked>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="card bg-dark-subtle">
+                        <div class="card-body position-relative">
+                            <div class="card-title">GCash (not available)</div>
+                            <small class="text-muted">Pay now and get the item in shop</small>
+                            <input type="radio" name="payment_method_slc" class="form-check-input position-absolute end-0 top-50 translate-middle" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h1 class="fw-bold">Order Summary</h1>
+                    <div class="row">
+                        <div class="col-6">Sub total</div>
+                        <div class="col-6 text-end">$ {{ number_format($total_price, 2) }}</div>
+                        <div class="col-6">Discount</div>
+                        <div class="col-6 text-end">$ 0</div>
+                        <div class="col-6"><h4 class="fw-bold">Total</h4></div>
+                        <div class="col-6 text-end">$ {{ number_format($total_price, 2) }}</div>
+                        <div class="col-12 text-center mt-4">
+                            <form action="/shop/checkout" method="POST">
+                                @csrf <!-- {{ csrf_field() }} -->
+                                <input type="hidden" value="cash"/>
+                                <button type="button" class="btn btn-xl btn-primary btn-checkout w-75">PLACE ORDER NOW</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    <?php endif; ?>
+    </div>
 </div>
 
 <script type="text/javascript">
 $(document).ready(function() {
-    // $('.quantity-minus-btn').click(() => {
-    //     let current_value = parseInt( $('.quantity-inp').val() ) || 0
-    //     $('.quantity-inp').val( current_value - 1 ).trigger('input')
-    // })
-    // $('.quantity-plus-btn').click(() => {
-    //     let current_value = parseInt( $('.quantity-inp').val() ) || 0
-    //     $('.quantity-inp').val( current_value + 1).trigger('input')
-    // })
+    let max_quantity = 999
+    $('.quantity-inp').on('input', function() {
+        const input = $(this)
+        const update_btn = input.parent().find('.update-btn')
+        const value = parseInt( input.val() )
+        const orignal_value = parseInt( input.data('original-value') )
+        if( value > max_quantity )
+            input.val(max_quantity)
+        else if( value < 1 )
+            input.val(1)
+        if( orignal_value != value ) {
+            input.addClass('bg-warning-subtle')
+            update_btn.prop('disabled', false)
+        } else {
+            input.removeClass('bg-warning-subtle')
+            update_btn.prop('disabled', true)
+        }
+    })
+    $('.quantity-minus-btn').click((e) => {
+        const current_btn = $(e.target)
+        const input_target = current_btn.parent().find('.quantity-inp')
+        const current_value = parseInt( input_target.val() ) || 0
+        input_target.val( current_value - 1).trigger('input')
+    })
+    $('.quantity-plus-btn').click((e) => {
+        const current_btn = $(e.target)
+        const input_target = current_btn.parent().find('.quantity-inp')
+        const current_value = parseInt( input_target.val() ) || 0
+        input_target.val( current_value + 1 ).trigger('input')
+    })
 })
 </script>

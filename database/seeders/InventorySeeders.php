@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Products;
 
 class InventorySeeders extends Seeder
 {
@@ -15,30 +17,16 @@ class InventorySeeders extends Seeder
      */
     public function run()
     {
-        DB::table('inventory')->insert([
-            'product_id' => 1,
-            'quantity' => 15,
-            'color_id' => 4,
-        ]);
-        DB::table('inventory')->insert([
-            'product_id' => 1,
-            'quantity' => 15,
-            'color_id' => 12,
-        ]);
-        DB::table('inventory')->insert([
-            'product_id' => 2,
-            'quantity' => 15,
-            'color_id' => 4,
-        ]);
-        DB::table('inventory')->insert([
-            'product_id' => 3,
-            'quantity' => 15,
-            'color_id' => 4,
-        ]);
-        DB::table('inventory')->insert([
-            'product_id' => 3,
-            'quantity' => 15,
-            'color_id' => 5,
-        ]);
+        Products::chunk(50, function (Collection $products) {
+            foreach ($products as $product) {
+                for($x = 1; $x <= rand(2, 5); $x++) {
+                    DB::table('inventory')->insert([
+                        'product_id' => $product->id,
+                        'quantity' => rand(1, 15),
+                        'color_id' => rand(1, 38),
+                    ]);
+                }
+            }
+        });
     }
 }

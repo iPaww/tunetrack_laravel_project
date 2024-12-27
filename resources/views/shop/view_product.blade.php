@@ -1,36 +1,19 @@
-<style>
-img {
-    width: 50%;  /* Ensures the image takes up the available width */
-    max-width: 500px;  /* Limit the maximum size */
-    height: auto;  /* Maintain aspect ratio */
-}
-.card {
-    height: 350px; /* Set a fixed height for cards */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-}
-.card img {
-    max-height: 250px;  /* Adjust this to the desired height */
-    object-fit: contain;  /* Ensures the image fits without being stretched */
-}
-</style>
+
 
 <div class="container mt-5">
     <div class="row align-items-center mb-5">
-        <div class="col-mg-12">
+        <div class="col-mg-12 mb-3">
             <a href="/shop" class="btn btn-outline-dark border border-0 fw-bold">&laquo; Back to shop</a>
         </div>
         <!-- Product Image -->
         <div class="col-md-6 text-center">
-            <img src="{{ $productImage }}" alt="{{ $product->name }}" class="img-fluid">
+            <img src="{{ $productImage }}" alt="{{ $product->name }}" class="img-fluid border rounded" style="min-width: 100%">
         </div>
         <!-- Product Details -->
         <div class="col-md-6">
             <h3 class="fw-bold">{{ $product->name }}</h3>
             <div class="w-50">
-                <label class="form-label">Brand: {{ $product->brand_id }}</label>
+                <label class="form-label">Brand: {{ $product->brand_name }}</label>
             </div>
             <div class="mb-3">
                 <label class="form-label">Choose a color:</label>
@@ -51,96 +34,178 @@ img {
             </div>
             <div class="d-flex">
                 <!-- Form to add product to the cart -->
-                <form method="POST" action="/shop/cart/add/{{ $product->id }}" style="display: inline;">
+                <form method="POST" action="/shop/cart/add/{{ $product->id }}" style="display: inline; width: fit-content;">
                     <!-- Hidden fields to pass product data -->
                     @csrf <!-- {{ csrf_field() }} -->
-                    <input type="hidden" name="cc">
-                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="inventory" required>
+                    <input type="hidden" name="quantity" value="1" required>
 
                     <!-- Button to add to cart -->
-                    <button class="add-to-cart-btn btn btn-danger" type="submit">Add to Cart</button>
+                    <button class="add-to-cart-btn btn btn-danger me-1" type="submit">Add to Cart</button>
                 </form>
 
                 <!-- Other buttons (like Buy Now) can be here as well -->
-                <form method="GET" action="checkout.php" style="display: inline;">
+                <form method="POST" action="/shop/checkout/{{ $product->id }}" style="display: inline; width: fit-content;">
                     <!-- Hidden fields to pass product data -->
-                    <input type="hidden" name="cc">
-                    <input type="hidden" name="quantity" value="1">
+                    @csrf <!-- {{ csrf_field() }} -->
+                    <input type="hidden" name="inventory" required>
+                    <input type="hidden" name="quantity" value="1" required>
                     <button class="but-now-btn btn btn-warning me-2" type="submit">Buy Now</button>
                 </form>
             </div>
+            @if ($errors->any())
+            <ul class="list-group my-2">
+                @foreach ($errors->all() as $error)
+                    <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+                @endforeach
+            </ul>
+            @endif
+            
+            @if (session()->get('data'))
+            <ul class="list-group my-2">
+                @foreach (session()->get('data') as $data)
+                    <li class="list-group-item list-group-item-success">{{ $data }}</li>
+                @endforeach
+            </ul>
+            @endif
         </div>
     </div>
     <div class="container-description mt-5">
-        <p>{{ $product->description }}</p>
+        <p>{!! $product->description !!}</p>
     </div>
 
 
     <div class="container mt-5">
         <!-- Ratings Section -->
-        <div class="row">
-            <div class="col-12">
-                <h4 class="fw-bold">Ratings</h4>
-                <div class="d-flex align-items-center mb-3">
-                    <h1 class="display-4 fw-bold text-warning mb-0">4.8</h1>
-                    <span class="fs-4 ms-2 text-muted">/5</span>
-                </div>
-
-                <div class="mt-2">
-                    <div class="d-flex align-items-center">
-                        <span class="text-warning">★★★★★</span>
-                        <div class="progress w-50 mx-2" style="height: 10px;">
-                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
+        <h4 class="fw-bold">Ratings</h4>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-12">
+                        <div class="d-flex align-items-center mb-3 text-nowrap" style="font-size: 5em;">
+                            <span class="fw-bold text-warning mb-0">4.8<span class="ms-2 text-muted">/5</span></span>
+                            
                         </div>
                     </div>
-                    <span class="text-muted">110</span>
-                </div>
-                <div class="mt-2">
-                    <div class="d-flex align-items-center">
-                        <span class="text-warning">★★★★☆</span>
-                        <div class="progress w-50 mx-2" style="height: 10px;">
-                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
+                    <div class="col-md-10 col-sm-12">
+                        <div class="row mb-md-0 mb-2">
+                            <div class="col-md-2 col-6 order-md-1 order-1">
+                                <span class="float-md-end text-warning">★★★★★</span>
+                            </div>
+                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                <div class="position-relative h-100">
+                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                        <div class="progress w-100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-6 order-md-3 order-2">
+                                <span class="text-nowrap text-muted float-md-start float-end w-25">110</span>
+                            </div>
                         </div>
-                        <span class="text-muted">8</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <span class="text-warning">★★★☆☆</span>
-                        <div class="progress w-50 mx-2" style="height: 10px;">
-                            <div class="progress-bar bg-warning" style="width: 60%;"></div>
+                        <div class="row mb-md-0 mb-2">
+                            <div class="col-md-2 col-6 order-md-1 order-1">
+                                <span class="float-md-end text-warning">★★★★☆</span>
+                            </div>
+                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                <div class="position-relative h-100">
+                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                        <div class="progress w-100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-6 order-md-3 order-2">
+                                <span class="text-nowrap text-muted float-md-start float-end w-25">8</span>
+                            </div>
                         </div>
-                        <span class="text-muted">5</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <span class="text-warning">★★☆☆☆</span>
-                        <div class="progress w-50 mx-2" style="height: 10px;">
-                            <div class="progress-bar bg-warning" style="width: 40%;"></div>
+                        <div class="row mb-md-0 mb-2">
+                            <div class="col-md-2 col-6 order-md-1 order-1">
+                                <span class="float-md-end text-warning">★★★☆☆</span>
+                            </div>
+                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                <div class="position-relative h-100">
+                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                        <div class="progress w-100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: 60%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-6 order-md-3 order-2">
+                                <span class="text-nowrap text-muted float-md-start float-end w-25">5</span>
+                            </div>
                         </div>
-                        <span class="text-muted">1</span>
+                        <div class="row mb-md-0 mb-2">
+                            <div class="col-md-2 col-6 order-md-1 order-1">
+                                <span class="float-md-end text-warning">★★☆☆☆</span>
+                            </div>
+                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                <div class="position-relative h-100">
+                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                        <div class="progress w-100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: 40%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-6 order-md-3 order-2">
+                                <span class="text-nowrap text-muted float-md-start float-end w-25">1</span>
+                            </div>
+                        </div>
+                        <div class="row mb-md-0 mb-2">
+                            <div class="col-md-2 col-6 order-md-1 order-1">
+                                <span class="float-md-end text-warning">★☆☆☆☆</span>
+                            </div>
+                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                <div class="position-relative h-100">
+                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                        <div class="progress w-100" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" style="width: 40%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-6 order-md-3 order-2">
+                                <span class="text-nowrap text-muted float-md-start float-end w-25">1</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Product Reviews -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <h4 class="fw-bold">Product Reviews</h4>
-                <div class="d-flex align-items-start border p-3 mt-2">
-                    <div class="me-3">
-                        <div class="bg-dark rounded-circle" style="width: 60px; height: 60px;"></div>
+        <div class="mt-4">
+            <h4 class="fw-bold">Product Reviews</h4>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-sm py-0 px-0">
+                        <div class="row g-0">
+                            <div class="col-md-1 col-sm-12" style="min-height: 5em">
+                                <div class="position-relative my-1" style="min-height: 100%">
+                                    <img src="{{ asset('/assets/images/default/default_user.png') }}" class="position-absolute top-50 start-50 translate-middle img-fluid border rounded-circle" alt="..." style="max-height: 5rem;">
+                                </div>
+                            </div>
+                            <div class="col-md-11 col-sm-12">
+                                <div class="card-body position-relative">
+                                    <h6 class="card-title text-warning mb-1">★★★★☆</h6>
+                                    <h6 class="card-title fw-bold">Amorganda, Mico</h6>
+                                    <span class="card-text mb-0">It arrived in perfect condition, and I appreciated the included accessories, which made it an even better value. This guitar has quickly become my go-to instrument, and I would highly recommend it to anyone looking for a high-quality, reliable guitar. Whether you're a beginner or a seasoned player, this guitar will exceed your expectations!</span>
+                                    <span class="position-absolute top-0 end-0 me-4 mt-4"><small class="text-body-secondary">{{ date("F j, Y, g:i a", strtotime('')) }}</small></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                <div>
-                <h6 class="fw-bold mb-1">Amorganda, Mico</h6>
-                <div class="text-warning mb-2">★★★★☆</div>
-                    <p class="mb-1">
-                        It arrived in perfect condition, and I appreciated the included accessories, which made it an even better value. This guitar has quickly become my go-to instrument, and I would highly recommend it to anyone looking for a high-quality, reliable guitar. Whether you're a beginner or a seasoned player, this guitar will exceed your expectations!
-                    </p>
-                    <span class="text-muted small">jan-09-20</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<body>
+
+
 <script type="text/javascript">
 $(document).ready(function() {
     let max_quantity = 999

@@ -183,11 +183,6 @@ img {
 /* Responsive design adjustments */
 @media (max-width: 768px) {
 
-    /* Stack sidebar and main content vertically on mobile */
-    .d-flex {
-        flex-direction: column;
-    }
-
     /* Center the banner and nav elements on mobile */
     .home-banner,
     .nav-bar {
