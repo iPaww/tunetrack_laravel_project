@@ -99,19 +99,40 @@ body,
 .menu-ctgry {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
-.instruments-ctgry {
+.category-sidenav {
     color: white;
-    padding: 15px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     font-weight: bold;
-    text-align: center;
     cursor: pointer;
 }
 
-.instruments-ctgry:hover {
+.category-sidenav:hover {
     background-color: #555;
+    filter: brightness(80%);
+}
+
+.courses-div {
+    background-color: #545454;
+}
+
+.course-sidenav {
+    color: white;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.course-sidenav:hover {
+    background-color: #808080;
+    filter: brightness(80%);
 }
 
 /* Content section */

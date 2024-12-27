@@ -11,6 +11,7 @@ use Database\Seeders\InventorySeeders;
 use Database\Seeders\OrderSeeders;
 use Database\Seeders\ProductSeeders;
 use Database\Seeders\ProductTypeSeeders;
+use Database\Seeders\TopicSeeders;
 use Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             InventorySeeders::class,
             OrderSeeders::class,
             CourseSeeders::class,
+            TopicSeeders::class,
         ]);
     }
 }

@@ -163,7 +163,7 @@
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a></div>
                 <div class="d-flex banner-items flex-wrap">
-                    <a href="/elearnning" class="set-banner mx-2" style="text-decoration:none; color:white;">E-Learning</a>
+                    <a href="/elearning" class="set-banner mx-2" style="text-decoration:none; color:white;">E-Learning</a>
                     <a href="/shop" class="set-banner mx-2" style="text-decoration:none; color:white;">Shop</a>
                     <a href="/appointment" class="set-banner mx-2" style="text-decoration:none; color:white;">Appointment</a>
                     <a href="/about-us" class="set-banner mx-2" style="text-decoration:none; color:white;">About Us</a>

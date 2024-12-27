@@ -36,7 +36,7 @@ use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
 */
 
 Route::get('/', function () {
-    return view('basic_page', [ 'page' => 'index', 'fullname' => 'Guest' ]);
+    return view('basic_page', [ 'page' => 'index' ]);
 });
 
 Route::controller(AppointmentController::class)
@@ -53,23 +53,9 @@ Route::controller(ElearningController::class)
     ->prefix('elearning')
     ->group(function () {
         Route::get('/', 'index');
-        Route::get('/string', 'string');
-        Route::get('/string/{instrument}', 'string_instrument');
-
-        Route::get('/percussion', 'percussion');
-        Route::get('/percussion/{instrument}', 'percussion_instrument');
-
-        Route::get('/aerophones', 'aerophones');
-        Route::get('/aerophones/{instrument}', 'aerophones_instrument');
-
-        Route::get('/idiophones', 'idiophones');
-        Route::get('/idiophones/{instrument}', 'idiophones_instrument');
-
-        Route::get('/brass', 'brass');
-        Route::get('/brass/{instrument}', 'brass_instrument');
-
-        Route::get('/electrophones', 'electrophones');
-        Route::get('/electrophones/{instrument}', 'electrophones_instrument');
+        Route::get('/category/{id}', 'category');
+        Route::get('/category/{id}/course/{course_id}', 'course');
+        Route::get('/category/{id}/course/{course_id}/topic/{topic_id}', 'topic');
     });
 
 Route::controller(ExcerciseController::class)->group(function () {

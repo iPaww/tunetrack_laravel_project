@@ -15,7 +15,8 @@ class OrderSeeders extends Seeder
      */
     public function run()
     {
-        for( $x = 1; $x <= rand(20, 50); $x++ ) {
+        $randNumber = rand(20, 50);
+        for( $x = 1; $x <= $randNumber; $x++ ) {
             $this->insert_item_order( $this->insert_order(), [ 3 ] );
         }
     }

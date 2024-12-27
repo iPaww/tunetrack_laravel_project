@@ -19,7 +19,8 @@ class InventorySeeders extends Seeder
     {
         Products::chunk(50, function (Collection $products) {
             foreach ($products as $product) {
-                for($x = 1; $x <= rand(2, 5); $x++) {
+                $randNumber = rand(2, 5);
+                for($x = 1; $x <= $randNumber; $x++) {
                     DB::table('inventory')->insert([
                         'product_id' => $product->id,
                         'quantity' => rand(1, 15),

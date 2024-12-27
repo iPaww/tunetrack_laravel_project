@@ -17,6 +17,7 @@ class CourseSeeders extends Seeder
     {
         // String
         DB::table('courses')->insert([
+            'name' => 'String Introduction',
             'description' => 'String instruments are a group of musical instruments that make sound by vibrating strings, which can be played by plucking,'
                             .' bowing, or striking the strings. They have been used in music for centuries and are known for their rich, expressive tones.',
             'objective' => 'The goal of learning string instruments is to develop skills in playing music, improve coordination,'
@@ -34,6 +35,7 @@ class CourseSeeders extends Seeder
         ]);
         // Percussion
         DB::table('courses')->insert([
+            'name' => 'Percussion Introduction',
             'description' => 'Percussion instruments are musical instruments that produce sound when struck, shaken, or scraped.'
                             .' They include drums, tambourines, and cymbals, and are often used to keep rhythm in music.',
             'objective' => 'The goal of learning percussion instruments is to improve rhythm, coordination,'
@@ -51,6 +53,7 @@ class CourseSeeders extends Seeder
         ]);
         // Aerophones
         DB::table('courses')->insert([
+            'name' => 'Aerophones Introduction',
             'description' => 'Aerophones are musical instruments that make sound by using air, which is usually blown into or across them.'
                             .' Examples include flutes, trumpets, and saxophones, and they are known for their clear and flowing sounds.',
             'objective' => 'The goal of learning aerophone instruments is to develop the ability to control airflow and pitch,'
@@ -68,6 +71,7 @@ class CourseSeeders extends Seeder
         ]);
         // Idiophones
         DB::table('courses')->insert([
+            'name' => 'Idiophones Introduction',
             'description' => 'Idiophones are musical instruments that produce sound by vibrating their own material when struck, shaken, or scraped.'
                             .' Examples include bells, cymbals, and maracas, and they are known for their sharp, clear sounds.',
             'objective' => 'The goal of learning idiophone instruments is to understand how different materials create sound,'
@@ -85,6 +89,7 @@ class CourseSeeders extends Seeder
         ]);
         // Brass
         DB::table('courses')->insert([
+            'name' => 'Brass Introduction',
             'description' => 'Brass instruments are musical instruments made of metal that produce sound when the player blows air through a mouthpiece,'
                             .' causing the lips to vibrate. Examples include trumpets, trombones, and tubas, and they are known for their loud, powerful sounds.',
             'objective' => 'The goal of learning brass instruments is to improve breath control, develop the ability to produce different pitches,'
@@ -102,6 +107,7 @@ class CourseSeeders extends Seeder
         ]);
         // Electrophones
         DB::table('courses')->insert([
+            'name' => 'Electrophones Introduction',
             'description' => 'Electrophones are musical instruments that create sound using electricity, either through electronic circuits or sound synthesizers.'
                             .' Examples include electric guitars, synthesizers, and electric pianos, and they are known for their wide range of sounds and effects.',
             'objective' => 'The goal of learning electrophone instruments is to understand how to create and control sounds using electronic technology,'
