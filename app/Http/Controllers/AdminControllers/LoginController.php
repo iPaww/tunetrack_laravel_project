@@ -91,7 +91,7 @@ class LoginController extends BasePageController
         header("Pragma: no-cache");
         header("Expires: 0");
         
-        return redirect('/admin/login');
+        return redirect('/login');
     }
 
     public function register()

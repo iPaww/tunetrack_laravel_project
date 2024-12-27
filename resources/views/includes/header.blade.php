@@ -163,10 +163,10 @@
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a></div>
                 <div class="d-flex banner-items flex-wrap">
-                    <div class="set-banner mx-2"><a href="/elearnning" style="text-decoration:none; color:white;">E-Learning</a></div>
-                    <div class="set-banner mx-2"><a href="/shop" style="text-decoration:none; color:white;">Order</a></div>
-                    <div class="set-banner mx-2"><a href="/appointment" style="text-decoration:none; color:white;">Appointment</a></div>
-                    <div class="set-banner mx-2"><a href="/contact" style="text-decoration:none; color:white;">About Us</a></div>
+                    <a href="/elearnning" class="set-banner mx-2" style="text-decoration:none; color:white;">E-Learning</a>
+                    <a href="/shop" class="set-banner mx-2" style="text-decoration:none; color:white;">Order</a>
+                    <a href="/appointment" class="set-banner mx-2" style="text-decoration:none; color:white;">Appointment</a>
+                    <a href="/contact" class="set-banner mx-2" style="text-decoration:none; color:white;">About Us</a>
                 </div>
             </div>
              <!-- Profile Image & Name -->

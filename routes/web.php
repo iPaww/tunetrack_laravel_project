@@ -52,6 +52,7 @@ Route::controller(ContactController::class)->group(function () {
 Route::controller(ElearningController::class)
     ->prefix('elearning')
     ->group(function () {
+        Route::get('/', 'index');
         Route::get('/string', 'string');
         Route::get('/string/{instrument}', 'string_instrument');
 
@@ -111,9 +112,9 @@ Route::prefix('admin')->group(function() {
     Route::controller(AdminLoginController::class)
     ->middleware(AdminAuthenticate::class)
     ->group(function () {
-        Route::get('/login', 'login')->withoutMiddleware([AdminAuthenticate::class]);
-        Route::post('/login', 'login_form')->withoutMiddleware([AdminAuthenticate::class]);
-        Route::get('/register', 'register')->withoutMiddleware([AdminAuthenticate::class]);
+        // Route::get('/login', 'login')->withoutMiddleware([AdminAuthenticate::class]);
+        // Route::post('/login', 'login_form')->withoutMiddleware([AdminAuthenticate::class]);
+        // Route::get('/register', 'register')->withoutMiddleware([AdminAuthenticate::class]);
         Route::get('/logout', 'logout');
 
         Route::controller(AdminController::class)

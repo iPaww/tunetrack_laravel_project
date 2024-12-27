@@ -140,7 +140,7 @@ img {
         </div>
     </div>
 </div>
-
+<body>
 <script type="text/javascript">
 $(document).ready(function() {
     let max_quantity = 999

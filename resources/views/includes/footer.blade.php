@@ -1,10 +1,5 @@
 
     
-        </div>
-    </div>
-    <!-- end container-fluid -->
-
-
     <!-- Footer -->
     <footer class="bg-dark text-white mt-4 pt-5 pb-4">
         <div class="container">

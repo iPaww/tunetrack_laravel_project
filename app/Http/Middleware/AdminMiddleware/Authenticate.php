@@ -13,7 +13,7 @@ class Authenticate
         $response = $next($request);
         
         if (empty( session('id') ) || session('role') == 'user' ) {
-            return redirect('admin/login');
+            return redirect('/login');
         }
  
         // Perform action

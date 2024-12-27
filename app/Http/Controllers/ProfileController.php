@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\BasePageController;
+use App\Models\User;
 
 class ProfileController extends BasePageController
 {
@@ -10,7 +11,9 @@ class ProfileController extends BasePageController
 
     public function index()
     {
-        return $this->view_basic_page( $this->base_file_path . 'index');
+        $profile = User::where('id', session('id'))
+            ->first();
+        return $this->view_basic_page( $this->base_file_path . 'index', compact( 'profile' ));
     }
 
     public function learning()

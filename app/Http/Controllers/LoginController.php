@@ -11,16 +11,15 @@ use App\Http\Controllers\BasePageController;
 
 class LoginController extends BasePageController
 {
-    private string $superAdmin = "SuperAdmin@gmail.com";
-    private string $superPassord = "Tunetrack_superAdmin";
     private $role = [
         'admin' => 1,
-        'user' => 2,
+        'employee' => 2,
+        'user' => 3,
     ];
 
     public function index()
     {
-        return $this->view_basic_page( 'login' );
+        return view( 'login' );
     }
 
     public function login( Request $request ): RedirectResponse
@@ -55,16 +54,21 @@ class LoginController extends BasePageController
                     ->withInput()
                     ->withErrors($validator);
         }
-        
+
         // Password is correct, start the session
         session([
             'id' => $user['id'],
             'fullname' => $user['fullname'],
             'email' => $user['email'],
             'role' => $user['role'], // Store user role in session
-            'profile_picture' => $user['profile_picture']
+            'profile_picture' => $user['image']
         
         ]); // Set session variable
+
+        // If employee login
+        if( $user->role <= 2) {
+            return redirect('/admin');
+        }
 
         return redirect('/');
     }
