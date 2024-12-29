@@ -32,6 +32,7 @@ table tbody tr:hover {
                     @foreach ($orders as $row)
                         <tr data-id="{{ $row->id }}"
                             @class([
+                                'bg-white' => $row->status == 1,
                                 'bg-warning-subtle' => $row->status == 2,
                                 'bg-success-subtle' => $row->status == 3,
                                 'bg-danger-subtle' => $row->status == 4,

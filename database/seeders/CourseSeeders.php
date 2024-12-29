@@ -15,6 +15,20 @@ class CourseSeeders extends Seeder
      */
     public function run()
     {
+        // Generate random 50 courses
+        for($x=0; $x <= 50; $x++) {
+            DB::table('courses')->insert([
+                'name' => 'Course ' . Str::random(10),
+                'description' => 'This course provides an in-depth exploration of data science and machine learning, ' . Str::random(50) . 'catering to both beginners and experienced professionals looking to expand their skills. The curriculum covers the fundamentals of data analysis, statistical methods, and machine learning algorithms, with a focus on real-world applications. Students will learn to work with large datasets, using tools like Python, R, and SQL to extract meaningful insights. Topics include data preprocessing, feature engineering, regression analysis, classification models, clustering techniques, and natural language processing. In addition, the course covers machine learning models such as decision trees, random forests, and neural networks, along with techniques for model evaluation, hyperparameter tuning, and deployment. By the end of the course, students will have a solid understanding of data-driven decision-making processes and be able to design and deploy machine learning models in production environments.',
+                'objective' => 'Our primary goal is to provide learners with a dynamic and inclusive environment where they can develop critical thinking, foster creativity, and gain ' . Str::random(50) . 'practical skills that prepare them for real-world challenges. By integrating cutting-edge technology with traditional teaching methods, we aim to cultivate a passion for lifelong learning and empower students to reach their full potential.',
+                'trivia' => "Did you know that Australia once waged a military campaign against emus, large flightless birds, in what is humorously referred to as the \"Great Emu War\"? In 1932, following World War I, Australian farmers in Western Australia faced a unique challenge. Thousands of emus migrated to farmlands during their breeding season, attracted by the freshly cultivated wheat crops. The farmers, many of whom were veterans, struggled to protect their fields from these relentless birds.
+The government decided to take action and deployed soldiers armed with Lewis machine guns to combat the emu invasion. The first campaign, led by Major G.P.W. " . Str::random(50) . "Meredith of the Royal Australian Artillery, began in November 1932. However, the emus proved to be surprisingly resilient and tactical. They scattered into small groups, making it difficult for the soldiers to effectively target them. Despite firing thousands of rounds, the emu population barely dwindled.
+Adding to the humor of the situation, the emus often outran the soldiers' vehicles and seemed to possess an uncanny ability to evade traps. The campaign ended in what many considered a failure, with reports stating that only a few hundred emus were culled. The birds, on the other hand, continued to roam the fields, largely unaffected.
+The Great Emu War remains a fascinating example of humanity’s struggle against nature. It also serves as a reminder of how unpredictable and ingenious wildlife can be, even in the face of human intervention.",
+                'category_id' => rand(1, 6)
+            ]);
+        }
+        
         // String
         DB::table('courses')->insert([
             'name' => 'String Introduction',

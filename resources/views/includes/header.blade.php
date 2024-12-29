@@ -109,11 +109,6 @@
             width: 100%;
         }
 
-
-        .text-white {
-            font-weight: bold;
-        }
-
         @media (max-width: 768px) {
             .home-banner, .nav-bar {
                 text-align: center;

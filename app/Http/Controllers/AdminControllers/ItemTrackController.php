@@ -11,7 +11,7 @@ class ItemTrackController extends BasePageController
 
     public function index()
     {
-        $orders = Orders::select('orders.id', 'orders.order_date', 'orders.payment_method', 'orders.status', 'orders.total_price', 'users.fullname')
+        $orders = Orders::select('orders.id', 'orders.payment_method', 'orders.status', 'orders.total', 'users.fullname', 'orders.created_at')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->get();
 

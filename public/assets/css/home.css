@@ -101,40 +101,6 @@ body,
     flex-direction: column;
 }
 
-.category-sidenav {
-    color: white;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.category-sidenav:hover {
-    background-color: #555;
-    filter: brightness(80%);
-}
-
-.courses-div {
-    background-color: #545454;
-}
-
-.course-sidenav {
-    color: white;
-    padding-left: 0.8em;
-    padding-right: 0.8em;
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-
-.course-sidenav:hover {
-    background-color: #808080;
-    filter: brightness(80%);
-}
-
 /* Content section */
 .container h1 {
     font-size: 30px;
@@ -232,8 +198,7 @@ img {
     text-align: left;
     line-height: 1.6;
     padding: 20px;
-    margin: 0 auto;
-    max-width: 800px;
+    width: 100%;
     font-family: Arial, sans-serif;
     font-size: 16px;
     border-radius: 10px;

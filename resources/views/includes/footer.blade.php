@@ -1,7 +1,7 @@
 
     
     <!-- Footer -->
-    <footer class="bg-dark text-white mt-4 pt-5 pb-4">
+    <footer class="bg-dark text-white pt-5 pb-4">
         <div class="container">
             <div class="row">
                 <!-- Social Media Section -->

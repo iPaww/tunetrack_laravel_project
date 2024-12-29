@@ -51,7 +51,8 @@
             <a href="/admin/main-category">Main Category</a>
         </div>
         
-        {{-- @if ( session('role') == 1 ) --}}
+        @if ( session('role') == 1 )
+        <!-- This should only be available to admin user role -->
         <h3>Super Admin Menu</h3>
         <div class="menu-item">
             <a href="/admin/sales">Reports</a>
@@ -59,7 +60,7 @@
         <div class="menu-item">
             <a href="/admin/users">User Management</a>
         </div>
-        {{-- @endif --}}
+        @endif
 
         <h3>Settings</h3>
         <div class="menu-item">

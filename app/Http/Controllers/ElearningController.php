@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Objectives;
 use App\Models\Courses;
 use App\Models\MainCategory;
 use App\Models\Topics;
@@ -14,24 +13,20 @@ class ElearningController extends BasePageController
 
     public function view_basic_page( string $page, $params = [], ...$args )
     {
-        $categories = MainCategory::orderBy('id')
-            ->get();
-        
+        $categories = [];
         $courses = [];
-        foreach( $categories as $category ) {
-            if( !isset( $courses[$category->id] ) )
-                $courses[$category->id] = [];
-            $courses[$category->id] = Courses::select('id', 'name')
-                ->where('category_id', $category->id)
-                ->orderBy('created_at', 'desc')
+        $topics = [];
+        
+        if( !empty(request()->route('id')) ) {
+            $categories = MainCategory::orderBy('name')
+                ->get();
+            
+            $courses =  Courses::select('id', 'name')
+                ->where('category_id', request()->route('id'))
                 ->orderBy('name')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
-        
-        $topics = Topics::select('id', 'title')
-            ->orderBy('title')
-            ->orderBy('created_at', 'desc')
-            ->get();
         
         $template = 'basic_page';
         if( view()->exists($this->base_file_path . 'template') ) 
@@ -39,11 +34,9 @@ class ElearningController extends BasePageController
         return view( $template, [ 
             'page_title' => $this->page_title,
             'page' => $page,
-            'sidenav' => [
-                'categories' => $categories,
-                'courses' => $courses,
-                'topics' => $topics,
-            ],
+            'categories' => $categories,
+            'courses' => $courses,
+            'topics' => $topics,
             ...$params
         ], ...$args );
     }
@@ -62,39 +55,11 @@ class ElearningController extends BasePageController
     {
         $category = MainCategory::where('id', $category_id )
             ->first();
-        
-        $related_courses = Courses::where('category_id', $category_id )
-            ->orderBy('name', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return $this->view_basic_page($this->base_file_path . 'category', compact('category', 'related_courses'));
-    }
     
-    public function course( $category_id, $course_id )
-    {
-        $course = Courses::where('id', $category_id )
-            ->first();
-        
-        $related_topics = Topics::select('id', 'title')
-            ->where('course_id', $course_id)
-            ->get();
+        if( empty( $category ) ) {
+            return abort(404);
+        }
 
-        return $this->view_basic_page($this->base_file_path . 'course', compact('course', 'related_topics'));
-    }
-
-    public function topic( $category_id, $course_id, $topic_id)
-    {
-        $course = Courses::where('id', $category_id )
-            ->first();
-        
-        $related_topics = Topics::select('id', 'title')
-            ->where('course_id', $course_id)
-            ->get();
-        
-        $topic = Topics::where('id', $topic_id)
-            ->first();
-
-        return $this->view_basic_page( $this->base_file_path . 'topic', compact('course', 'topic', 'related_topics'));
+        return $this->view_basic_page($this->base_file_path . 'category', compact('category'));
     }
 }

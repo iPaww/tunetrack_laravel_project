@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ExcerciseController;
+use App\Http\Controllers\ELearningCourseController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
@@ -54,8 +55,17 @@ Route::controller(ElearningController::class)
     ->group(function () {
         Route::get('/', 'index');
         Route::get('/category/{id}', 'category');
-        Route::get('/category/{id}/course/{course_id}', 'course');
-        Route::get('/category/{id}/course/{course_id}/topic/{topic_id}', 'topic');
+        Route::controller(ELearningCourseController::class)
+            ->prefix('/category/{id}/course/{course_id}')
+            ->group(function () {
+                Route::get('/', 'index');
+                Route::get('/topic/{topic_id}', 'topic');
+                Route::get('/quiz', 'quiz');
+                Route::get('/quiz/{quiz_id}', 'quiz_question')->middleware(Authenticate::class);
+                Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware(Authenticate::class);
+                Route::get('/overall', 'overall')->middleware(Authenticate::class);
+                Route::post('/overall', 'retake')->middleware(Authenticate::class);
+            });
     });
 
 Route::controller(ExcerciseController::class)->group(function () {

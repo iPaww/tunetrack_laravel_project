@@ -1,0 +1,97 @@
+.category-sidenav {
+    color: white;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    font-weight: bold;
+}
+
+.category-sidenav:not(.active):hover {
+    background-color: #555;
+    filter: brightness(80%);
+}
+
+.category-sidenav.active {
+    cursor: default;
+    background-color: #707070;
+}
+
+.courses-div {
+    background-color: #2e2d2d;
+}
+
+.course-sidenav, .topic-sidenav {
+    color: white;
+    padding-left: 3em;
+    padding-right: 0.8em;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8em;
+}
+
+.course-sidenav:not(.active):hover, .topic-sidenav:not(.active):hover {
+    background-color: #808080;
+    filter: brightness(80%);
+}
+
+.course-sidenav.active, .topic-sidenav.active {
+    cursor: default;
+    background-color: #424242;
+}
+
+.topic-sidenav {
+    padding-left: 4em;
+}
+
+.topic-card {
+    background-color: #3b3b3b;
+    color: white;
+}
+
+.topic-list {
+    font-weight: bold;
+}
+
+.topic-list {
+    color: white;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.sub-topic-list {
+    color: white;
+    padding-left: 1.5em;
+    padding-right: 0.8em;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.9em;
+}
+
+.topic-list.active, .sub-topic-list.active {
+    cursor: default;
+    background-color: #707070;
+}
+
+.topic-list:not(.active):hover, .sub-topic-list:not(.active):hover {
+    background-color: #555;
+    filter: brightness(80%);
+}
+
+.btn-elearning {
+    color: white;
+    background-color: #FC6A03;
+    border-color: #FC6A03;
+}
+
+.btn-elearning:hover {
+    background-color: #bd4f02;
+    border-color: #bd4f02;
+}
+
+.btn-elearning:active {
+    background-color: #853700 !important;
+    border-color: #853700 !important;
+}
