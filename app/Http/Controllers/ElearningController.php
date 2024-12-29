@@ -21,7 +21,7 @@ class ElearningController extends BasePageController
             $categories = MainCategory::orderBy('name')
                 ->get();
             
-            $courses =  Courses::select('id', 'name')
+            $courses =  Courses::select('id', 'name', 'description')
                 ->where('category_id', request()->route('id'))
                 ->orderBy('name')
                 ->orderBy('created_at', 'desc')
