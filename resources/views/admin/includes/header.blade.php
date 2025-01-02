@@ -50,6 +50,9 @@
         <div class="menu-item">
             <a href="/admin/main-category">Main Category</a>
         </div>
+        <div class="menu-item">
+            <a href="/admin/sub-category">Sub Category</a>
+        </div>
         
         @if ( session('role') == 1 )
         <!-- This should only be available to admin user role -->

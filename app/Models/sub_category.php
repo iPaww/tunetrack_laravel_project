@@ -3,26 +3,17 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+
 use Illuminate\Database\Eloquent\Model;
 
-class MainCategory extends Model
+class sub_category extends BaseModel
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'category';
+    protected $table = 'sub_category';
     protected $fillable = [
-        'name'
+        'name',
+        'category_id'
     ];
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
     protected $primaryKey = 'id';
-
     /**
      * Indicates if the model's ID is auto-incrementing.
      *

@@ -1,28 +1,28 @@
 <?php
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ExcerciseController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ELearningCourseController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+use App\Http\Controllers\AdminControllers\QuizController;
+use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
-use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
-use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\SalesController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
-use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
-use App\Http\Controllers\AdminControllers\QuizController;
+use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
-use App\Http\Controllers\AdminControllers\SalesController;
-use App\Http\Controllers\AdminControllers\UserController;
-
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
+use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
+use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
 
 
 /*
@@ -167,13 +167,20 @@ Route::prefix('admin')->group(function() {
                 Route::post('/add', 'add');
                 Route::get('/edit/{id}', 'editMain');
                 Route::post('/edit/{id}', 'edit');
+                Route::delete('/{id}','destroy');
             });
 
-        Route::controller(MainCategoryController::class)
+            Route::controller(SubCategoryController::class)
             ->prefix('sub-category')
             ->group(function () {
                 Route::get('/', 'index');
+                Route::get('/add', 'addSub');
+                Route::post('/add', 'add');
+                Route::get('/edit/{id}', 'editSub');
+                Route::post('/edit/{id}', 'edit');
+                Route::delete('/{id}', 'destroy');  // Correct DELETE route
             });
+        
         
         
         Route::controller(SalesController::class)
