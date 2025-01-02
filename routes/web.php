@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminControllers\QuizController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\SalesController;
+<<<<<<< HEAD
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
 use App\Http\Controllers\AdminControllers\InstrumentsController;
@@ -23,6 +24,20 @@ use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
 use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
 use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
+=======
+use App\Http\Controllers\AdminControllers\CourseController;
+use App\Http\Controllers\AdminControllers\TopicsController;
+use App\Http\Controllers\AdminControllers\InventoryController;
+use App\Http\Controllers\AdminControllers\ItemTrackController;
+use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\MainCategoryController;
+use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
+use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+
+use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
+use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
+use App\Http\Controllers\AdminControllers\CourseController as AdminControllersCourseController;
+>>>>>>> 28d8bdb877222e808732dcf67a10d9ec2630c7f7
 
 
 /*
@@ -118,13 +133,13 @@ Route::prefix('admin')->group(function() {
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(AdminAppointmentController::class)
             ->prefix('appointment')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(InstrumentsController::class)
             ->prefix('instruments')
             ->group(function () {
@@ -134,31 +149,31 @@ Route::prefix('admin')->group(function() {
                 Route::get('type/add', 'type_add');
                 Route::get('supplies/add', 'supplies_add');
             });
-        
+
         Route::controller(InventoryController::class)
             ->prefix('inventory')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(ItemTrackController::class)
             ->prefix('item-track')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(AdminProfileController::class)
             ->prefix('profile')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(QuizController::class)
             ->prefix('quiz')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(MainCategoryController::class)
             ->prefix('main-category')
             ->group(function () {
@@ -180,22 +195,38 @@ Route::prefix('admin')->group(function() {
                 Route::post('/edit/{id}', 'edit');
                 Route::delete('/{id}', 'destroy');  // Correct DELETE route
             });
+<<<<<<< HEAD
         
         
         
+=======
+
+        Route::controller(CourseController::class)
+            ->prefix('courses')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+
+        Route::controller(TopicsController::class)
+            ->prefix('topics')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+
+>>>>>>> 28d8bdb877222e808732dcf67a10d9ec2630c7f7
         Route::controller(SalesController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('sales')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(UserController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('users')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
     });
 });
