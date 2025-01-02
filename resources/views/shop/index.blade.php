@@ -3,18 +3,22 @@
         width: 50px;
         height: auto;
     }
+
     #title-container {
         display: flex;
         align-items: center;
     }
+
     #title-container h1 {
         margin-left: 10px;
         font-size: 24px;
     }
+
     img {
         width: 200px;
         height: auto;
     }
+
     .card {
         height: 350px;
         display: flex;
@@ -22,9 +26,32 @@
         justify-content: center;
         align-items: center;
     }
+
     .card img {
         max-height: 200px;
         object-fit: cover;
+    }
+
+    /* Ensure the header is fixed to the top */
+    #container {
+        padding-top: 60px;
+        /* Adjust padding to ensure header doesn't overlap with content */
+    }
+
+    /* Optional: If you want a fixed header */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        z-index: 9999;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #search-container {
+        flex-grow: 1;
+        /* Adjust search container to grow if needed */
     }
 </style>
 
@@ -51,19 +78,20 @@
     </nav>
 
     <main class="container">
-        @if ( count( $items ) > 0 )
+        @if (count($items) > 0)
             <div class="row justify-content-center">
                 @foreach ($items as $product)
                     <div class="col-md-4 col-sm-12 mb-1">
-                        <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view" class="text-decoration-none text-dark">
+                        <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view"
+                            class="text-decoration-none text-dark">
                             <div class="card bg-light">
-                                <img src="{{ asset( "assets/images/inventory/uploads/" . htmlspecialchars($product->image)) }}"
-                                    class="card-img-top"
-                                    alt="{{ htmlspecialchars($product->name) }}"
-                                />
+                                <img src="{{ asset('assets/images/inventory/uploads/' . htmlspecialchars($product->image)) }}"
+                                    class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
                                 <div class="card-body">
-                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}</h5>
-                                    <p class="card-text text-center color-orange">$ {{number_format($product->price, 2) }}</p>
+                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}
+                                    </h5>
+                                    <p class="card-text text-center color-orange">$
+                                        {{ number_format($product->price, 2) }}</p>
                                 </div>
                             </div>
                         </a>
@@ -73,10 +101,10 @@
             <div class="position-relative" style="min-height: 10vh">
                 <div class="position-absolute top-50 start-50 translate-middle">
                     {{ $items->links() }}
-                <div>
-            </div>
-        @else
-            <p>No products found.</p>
+                    <div>
+                    </div>
+                @else
+                    <p>No products found.</p>
         @endif
     </main>
     <!--end of shop container-->

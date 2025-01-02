@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ isset($page_title) ? $page_title : 'TuneTrack' }}</title>
-    <link rel="stylesheet" href="{{ asset("assets/css/home.css") }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         /* Background image */
@@ -18,8 +17,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            min-height: 100vh;  /* Change from height to min-height */
-            overflow: auto;  /* Allow content overflow if needed */
+            min-height: 100vh;
+            overflow: auto;
         }
 
         /* Banner */
@@ -89,7 +88,7 @@
         }
 
         .set-banner:hover {
-            color:black;
+            color: black;
             transform: translateY(-3px);
         }
 
@@ -110,7 +109,9 @@
         }
 
         @media (max-width: 768px) {
-            .home-banner, .nav-bar {
+
+            .home-banner,
+            .nav-bar {
                 text-align: center;
             }
 
@@ -130,6 +131,7 @@
             overflow: hidden;
             background-color: #555;
         }
+
         /* Profile Image inside header */
         .profile-container {
             display: flex;
@@ -144,10 +146,9 @@
             object-fit: cover;
             border: 2px solid #fff;
             margin-left: 15px;
-       }
+        }
     </style>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -156,21 +157,25 @@
         <!-- Banner Section -->
         <div class="home-banner d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a></div>
+                <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a>
+                </div>
                 <div class="d-flex banner-items flex-wrap">
-                    <a href="/elearning" class="set-banner mx-2" style="text-decoration:none; color:white;">E-Learning</a>
+                    <a href="/elearning" class="set-banner mx-2"
+                        style="text-decoration:none; color:white;">E-Learning</a>
                     <a href="/shop" class="set-banner mx-2" style="text-decoration:none; color:white;">Shop</a>
-                    <a href="/appointment" class="set-banner mx-2" style="text-decoration:none; color:white;">Appointment</a>
+                    <a href="/appointment" class="set-banner mx-2"
+                        style="text-decoration:none; color:white;">Appointment</a>
                     <a href="/about-us" class="set-banner mx-2" style="text-decoration:none; color:white;">About Us</a>
                 </div>
             </div>
-             <!-- Profile Image & Name -->
-             <div class="profile-container">
+            <!-- Profile Image & Name -->
+            <div class="profile-container">
                 <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
-                    <img src="{{ !empty(session('profile_picture')) && file_exists(public_path('assets/images/users/'. session('id') .'/' . session('profile_picture'))) ? 
-                        asset('assets/images/users/'. session('id') .'/' . session('profile_picture')): // TODO FIXME: This should use image of user
-                        asset('assets/images/default/default_user.png')
-                    }}" alt="Profile Image" class="profile-image">
+                    <img src="{{ !empty(session('profile_picture')) &&
+                    file_exists(public_path('assets/images/users/' . session('id') . '/' . session('profile_picture')))
+                        ? asset('assets/images/users/' . session('id') . '/' . session('profile_picture')) // TODO FIXME: This should use image of user
+                        : asset('assets/images/default/default_user.png') }}"
+                        alt="Profile Image" class="profile-image">
                     <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
                 </a>
             </div>
