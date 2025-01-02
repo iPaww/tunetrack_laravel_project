@@ -6,10 +6,11 @@
     <div class="card-body d-flex">
         <!-- Left: Profile Picture -->
         <div class="me-4">
-            <img src="{{ !empty($user['profile_picture']) && file_exists(public_path('assets/images/users/' . $user['id'] . '/' . $user['profile_picture'] )) ?
-                asset('assets/images/users/' . $user['id'] . '/' . $user['profile_picture']):
-                asset('assets/images/default/admindp.jpg'); 
-            }}" alt="Profile Picture" class="rounded-circle mb-3" style="width: 300px; height: 300px;">
+            <img src="{{ !empty($user['profile_picture']) &&
+            file_exists(public_path('assets/images/users/' . $user['id'] . '/' . $user['profile_picture']))
+                ? asset('assets/images/users/' . $user['id'] . '/' . $user['profile_picture'])
+                : asset('assets/images/default/admindp.jpg') }}"
+                alt="Profile Picture" class="rounded-circle mb-3" style="width: 300px; height: 300px;">
         </div>
         <!-- Right: Information -->
         <div class="flex-grow-1 ms-5">
@@ -32,15 +33,18 @@
         <form method="POST" enctype="multipart/form-data" action="">
             <div class="mb-3">
                 <label for="fullname" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="fullname" name="fullname" value="{{ htmlspecialchars($user['fullname']) }}" required>
+                <input type="text" class="form-control" id="fullname" name="fullname"
+                    value="{{ htmlspecialchars($user['fullname']) }}" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ htmlspecialchars($user['email']) }}" required>
+                <input type="email" class="form-control" id="email" name="email"
+                    value="{{ htmlspecialchars($user['email']) }}" required>
             </div>
             <div class="mb-3">
                 <label for="phone_number" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ htmlspecialchars($user['phone_number']) }}" required>
+                <input type="text" class="form-control" id="phone_number" name="phone_number"
+                    value="{{ htmlspecialchars($user['phone_number']) }}" required>
             </div>
             <div class="mb-3">
                 <label for="address" class="form-label">Address</label>

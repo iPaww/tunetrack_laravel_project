@@ -1,28 +1,31 @@
 <?php
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ExcerciseController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ELearningCourseController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+use App\Http\Controllers\AdminControllers\QuizController;
+use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
-use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
-use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\SalesController;
+use App\Http\Controllers\AdminControllers\CourseController;
+use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
-use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
-use App\Http\Controllers\AdminControllers\QuizController;
+use App\Http\Controllers\AdminControllers\InstrumentsController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
-use App\Http\Controllers\AdminControllers\SalesController;
-use App\Http\Controllers\AdminControllers\UserController;
-
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
+use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+
+use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
+use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
+use App\Http\Controllers\AdminControllers\CourseController as AdminControllersCourseController;
 
 
 /*
@@ -118,13 +121,13 @@ Route::prefix('admin')->group(function() {
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(AdminAppointmentController::class)
             ->prefix('appointment')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(InstrumentsController::class)
             ->prefix('instruments')
             ->group(function () {
@@ -134,31 +137,31 @@ Route::prefix('admin')->group(function() {
                 Route::get('type/add', 'type_add');
                 Route::get('supplies/add', 'supplies_add');
             });
-        
+
         Route::controller(InventoryController::class)
             ->prefix('inventory')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(ItemTrackController::class)
             ->prefix('item-track')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(AdminProfileController::class)
             ->prefix('profile')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(QuizController::class)
             ->prefix('quiz')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(MainCategoryController::class)
             ->prefix('main-category')
             ->group(function () {
@@ -174,21 +177,32 @@ Route::prefix('admin')->group(function() {
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
-        
+
+        Route::controller(CourseController::class)
+            ->prefix('courses')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+
+        Route::controller(TopicsController::class)
+            ->prefix('topics')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+
         Route::controller(SalesController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('sales')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
         Route::controller(UserController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('users')
             ->group(function () {
                 Route::get('/', 'index');
             });
-        
+
     });
 });

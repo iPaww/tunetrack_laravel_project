@@ -2,7 +2,6 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     padding-top: 60px;
-    /* Adjust this to avoid content overlap with fixed header */
 }
 
 /* Header */
@@ -14,13 +13,10 @@ body {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    /* Keeps the header fixed at the top */
     top: 0;
     left: 0;
     width: 100%;
-    /* Ensures the header spans the full width */
     z-index: 1000;
-    /* Ensures the header stays on top of other elements */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -46,20 +42,16 @@ body {
     background-color: #333;
     color: white;
     height: 100vh;
-    /* Full viewport height */
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 250px;
     overflow-y: auto;
-    /* Enable vertical scrolling */
     transition: all 0.3s ease-in-out;
     z-index: 999;
     scrollbar-width: thin;
-    /* For modern browsers */
     scrollbar-color: #888 #333;
-    /* Custom scrollbar colors */
 }
 
 /* Scrollbar styling for Webkit browsers */
