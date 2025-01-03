@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/admin/courses.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin/topics.css') }}">
 
-
 </head>
 
 <body>
@@ -61,6 +60,9 @@
         </div>
         <div class="menu-item">
             <a href="/admin/main-category"><i class="fas fa-th-large"></i> Main Category</a>
+        </div>
+        <div class="menu-item">
+            <a href="/admin/sub-category"><i class="fas fa-th-large"></i> Sub Category</a>
         </div>
 
         @if (session('role') == 1)
