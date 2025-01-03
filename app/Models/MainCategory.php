@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 
-class MainCategory extends BaseModel
+class MainCategory extends Model
 {
     /**
      * The table associated with the model.

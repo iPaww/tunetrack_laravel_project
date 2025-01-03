@@ -13,33 +13,40 @@ class MainCategoryController extends BasePageController
     public function index()
     {
         $MainCategory = MainCategory::all();
-        return $this->view_basic_page( $this->base_file_path . 'index',compact('MainCategory'));
+        return $this->view_basic_page($this->base_file_path . 'index', compact('MainCategory'));
     }
+
     public function addMain()
     {
-        return $this->view_basic_page( $this->base_file_path . 'add');
-    }
-    public function add( Request $request)
-    {
-        #first is table key field like ['name'] 
-        MainCategory::create( ['name' => $_POST['name']] );
-        return redirect( '/admin/main-category');
-
+        return $this->view_basic_page($this->base_file_path . 'add');
     }
 
-    public function edit($id,  Request $request)
+    public function add(Request $request)
     {
-        MainCategory::where("id" ,$id)
-        ->update(['name' => $_POST['name_txt']]);
-        return redirect( '/admin/main-category');
+        // Use $request->input() to access form data
+        MainCategory::create(['name' => $request->input('name')]);
+        return redirect('/admin/main-category');
+    }
 
-    }    public function editMain( $id ) 
+    public function edit($id, Request $request)
     {
-        
-        return $this->view_basic_page( $this->base_file_path . 'edit', [
+        // Use $request->input() to access form data
+        MainCategory::where("id", $id)
+            ->update(['name' => $request->input('name')]);
+        return redirect('/admin/main-category');
+    }
+
+    public function editMain($id)
+    {
+        return $this->view_basic_page($this->base_file_path . 'edit', [
             "id" => $id
         ]);
     }
 
-    
+    public function destroy($id){
+        $category = MainCategory::findOrFail($id);
+        $category->delete();
+        return redirect(('/admin/main-category'));
+    }
+
 }

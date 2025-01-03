@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'role' => 1,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
             'image' => '674d8eb22f000_Me.jpg',
+            'verified_at' => strtotime(),
         ]);
         DB::table('users')->insert([
             'fullname' => Str::random(10),
@@ -32,6 +33,7 @@ class UserSeeder extends Seeder
             'role' => 2,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
             'image' => '674d8eb22f000_Me.jpg',
+            'verified_at' => strtotime(),
         ]);
         DB::table('users')->insert([
             'fullname' => Str::random(10),
@@ -41,6 +43,7 @@ class UserSeeder extends Seeder
             'role' => 3,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
             'image' => '674d8eb22f000_Me.jpg',
+            'verified_at' => strtotime(),
         ]);
         DB::table('users')->insert([
             'fullname' => Str::random(10),
@@ -50,6 +53,7 @@ class UserSeeder extends Seeder
             'role' => 3,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
             'image' => '674d8eb22f000_Me.jpg',
+            'verified_at' => strtotime(),
         ]);
         DB::table('users')->insert([
             'fullname' => Str::random(10),

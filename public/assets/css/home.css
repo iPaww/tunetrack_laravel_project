@@ -227,3 +227,19 @@ img {
     font-weight: bold;
     color: white;
 }
+
+button.btn-tunetrack {
+    color: white;
+    background-color: #FC6A03;
+    border-color: #FC6A03;
+}
+
+button.btn-tunetrack:hover {
+    background-color: #bd4f02;
+    border-color: #bd4f02;
+}
+
+button.btn-tunetrack:active {
+    background-color: #853700 !important;
+    border-color: #853700 !important;
+}

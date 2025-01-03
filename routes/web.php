@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\Verification;
+use App\Http\Middleware\VerificationForm;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoginController;
@@ -14,18 +17,18 @@ use App\Http\Controllers\AdminControllers\QuizController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\SalesController;
-use App\Http\Controllers\AdminControllers\CourseController;
-use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
 use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
 use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+
 use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\AdminControllers\CourseController as AdminControllersCourseController;
-use App\Http\Controllers\AdminControllers\SubCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +46,7 @@ Route::get('/', function () {
 });
 
 Route::controller(AppointmentController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class, Verification::class])
     ->group(function () {
         Route::get('/appointment', 'index');
     });
@@ -63,10 +66,10 @@ Route::controller(ElearningController::class)
                 Route::get('/', 'index');
                 Route::get('/topic/{topic_id}', 'topic');
                 Route::get('/quiz', 'quiz');
-                Route::get('/quiz/{quiz_id}', 'quiz_question')->middleware(Authenticate::class);
-                Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware(Authenticate::class);
-                Route::get('/overall', 'overall')->middleware(Authenticate::class);
-                Route::post('/overall', 'retake')->middleware(Authenticate::class);
+                Route::get('/quiz/{quiz_id}', 'quiz_question')->middleware([Authenticate::class, Verification::class]);
+                Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware([Authenticate::class, Verification::class]);
+                Route::get('/overall', 'overall')->middleware([Authenticate::class, Verification::class]);
+                Route::post('/overall', 'retake')->middleware([Authenticate::class, Verification::class]);
             });
     });
 
@@ -75,7 +78,7 @@ Route::controller(ExcerciseController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class])
     ->prefix('profile')
     ->group(function () {
         Route::get('/', 'index');
@@ -86,11 +89,12 @@ Route::controller(ProfileController::class)
     });
 
 Route::controller(ShopController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class, Verification::class])
+    ->middleware(Verification::class)
     ->prefix('shop')
     ->group(function () {
-        Route::get('/', 'index')->withoutMiddleware([Authenticate::class]);
-        Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class]);
+        Route::get('/', 'index')->withoutMiddleware([Authenticate::class, Verification::class]);
+        Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class, Verification::class]);
         Route::get('/orders', 'orders');
         Route::get('/order/{id}/view', 'order_view');
         Route::get('/cart', 'cart');
@@ -105,6 +109,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout');
     Route::get('/register', 'register');
     Route::post('/register', 'register_form');
+    Route::get('/verification', 'verification')->middleware(Authenticate::class)->middleware(VerificationForm::class);
+    Route::post('/verification', 'verification_form')->middleware(Authenticate::class)->middleware(VerificationForm::class);
+    Route::get('/verification/re-send', 'verification_resend')->middleware(Authenticate::class)->middleware(VerificationForm::class);
 });
 
 Route::prefix('admin')->group(function() {
@@ -169,39 +176,27 @@ Route::prefix('admin')->group(function() {
                 Route::post('/add', 'add');
                 Route::get('/edit/{id}', 'editMain');
                 Route::post('/edit/{id}', 'edit');
+                Route::delete('/{id}','destroy');
             });
 
-        Route::controller(MainCategoryController::class)
+            Route::controller(SubCategoryController::class)
             ->prefix('sub-category')
             ->group(function () {
                 Route::get('/', 'index');
             });
 
-        Route::controller(SubCategoryController::class)
-        ->prefix('sub-category')
-        ->group(function () {
-            Route::get('/', 'index');
-            Route::get('/add', 'addSub');
-            Route::post('/add', 'add');
-            Route::get('/edit/{id}', 'editSub');
-            Route::post('/edit/{id}', 'edit');
-            Route::delete('/{id}', 'destroy');  // Correct DELETE route
-        });
-
-        Route::prefix('courses')->controller(CourseController::class)->group(function () {
-            Route::get('/', 'index')->name('courses.index'); // View all courses
-            Route::get('/create', 'create')->name('courses.create'); // Show create form
-            Route::post('/', 'store')->name('courses.store'); // Store a new course
-            Route::get('/{course}/edit', 'edit')->name('courses.edit');
-            Route::put('/{course}', 'update')->name('courses.update');
-            Route::delete('/{course}', 'destroy')->name('courses.destroy');
-        });
+        Route::controller(CourseController::class)
+            ->prefix('courses')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
 
         Route::controller(TopicsController::class)
             ->prefix('topics')
             ->group(function () {
                 Route::get('/', 'index');
             });
+
 
         Route::controller(SalesController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
@@ -219,3 +214,12 @@ Route::prefix('admin')->group(function() {
 
     });
 });
+
+Route::prefix('/mailable')
+    ->middleware(AdminAuthenticate::class)
+    ->group(function () {
+        Route::get('/account_verification', function () {
+            $user = App\Models\User::find(3);
+            return new App\Mail\UserVerification($user->id);
+        });
+    });
