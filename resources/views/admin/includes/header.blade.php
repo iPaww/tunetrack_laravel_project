@@ -60,7 +60,7 @@
             <a href="/admin/sub-category">Sub Category</a>
         </div>
         
-        @if ( session('role') == 2 )
+    @if ( session('admin_user.role') >= 2 )
     <!-- This should only be available to admin user role -->
     <h3>Super Admin Menu</h3>
     <div class="menu-item">
@@ -73,8 +73,9 @@
     <div class="menu-item">
         <a href="/admin/main-category"><i class="fas fa-th-large"></i> Main Category</a>
     </div>
+    @endif
 
-    @if (session('role') == 1)
+    @if (session('admin_user.role') == 1)
         <!-- This should only be available to super admin role -->
         <h3>Super Admin Menu</h3>
         <div class="menu-item">
@@ -84,7 +85,6 @@
             <a href="/admin/users"><i class="fas fa-users-cog"></i> User Management</a>
         </div>
     @endif
-@endif
 
         <h3>Settings</h3>
         <div class="menu-item">
