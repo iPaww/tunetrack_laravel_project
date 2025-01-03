@@ -17,15 +17,18 @@ use App\Http\Controllers\AdminControllers\QuizController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\SalesController;
+use App\Http\Controllers\AdminControllers\CourseController;
+use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
 use App\Http\Controllers\AdminControllers\InstrumentsController;
 use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
+use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
 use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
-
+use App\Http\Controllers\AdminControllers\CourseController as AdminControllersCourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -186,8 +189,42 @@ Route::prefix('admin')->group(function() {
                 Route::post('/edit/{id}', 'edit');
                 Route::delete('/{id}', 'destroy');  // Correct DELETE route
             });
-        
-        
+
+        Route::prefix('courses')->controller(CourseController::class)->group(function () {
+                Route::get('/', 'index')->name('courses.index'); // View all courses
+                Route::get('/create', 'create')->name('courses.create'); // Show create form
+                Route::post('/', 'store')->name('courses.store'); // Store a new course
+                Route::get('/{course}/edit', 'edit')->name('courses.edit');
+                Route::put('/{course}', 'update')->name('courses.update');
+                Route::delete('/{course}', 'destroy')->name('courses.destroy');
+            });
+
+        Route::controller(SubCategoryController::class)
+        ->prefix('sub-category')
+        ->group(function () {
+            Route::get('/', 'index');
+            Route::get('/add', 'addSub');
+            Route::post('/add', 'add');
+            Route::get('/edit/{id}', 'editSub');
+            Route::post('/edit/{id}', 'edit');
+            Route::delete('/{id}', 'destroy');  // Correct DELETE route
+        });
+
+        Route::prefix('courses')->controller(CourseController::class)->group(function () {
+            Route::get('/', 'index')->name('courses.index'); // View all courses
+            Route::get('/create', 'create')->name('courses.create'); // Show create form
+            Route::post('/', 'store')->name('courses.store'); // Store a new course
+            Route::get('/{course}/edit', 'edit')->name('courses.edit');
+            Route::put('/{course}', 'update')->name('courses.update');
+            Route::delete('/{course}', 'destroy')->name('courses.destroy');
+        });
+
+        Route::controller(TopicsController::class)
+            ->prefix('topics')
+            ->group(function () {
+                Route::get('/', 'index');
+            });
+
         Route::controller(SalesController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('sales')

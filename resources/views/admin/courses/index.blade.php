@@ -1,60 +1,50 @@
-<div class="course-content">
-    <h1>COURSES</h1>
-    <!-- Main Category Dropdown -->
-    <div class="course-box main-category">
-        <div class="course-dropdown">
-            <button class="course-dropdown-btn">Main Category</button>
-            <div class="course-dropdown-content">
-                <a href="#">Category 1</a>
-                <a href="#">Category 2</a>
-                <a href="#">Category 3</a>
-                @csrf
-            </div>
-        </div>
+<div class="course-content container-fluid p-0">
+    <!-- Title and Button Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <!-- Course Title -->
+        <h1 class="h4 mb-0">Courses</h1>
+        <!-- Add Course Button -->
+        <a href="{{ route('courses.create') }}" class="btn btn-primary btn-sm">Add Course</a>
     </div>
 
-    <!-- Courses Dropdown -->
-    <div class="course-box courses">
-        <div class="course-dropdown">
-            <button class="course-dropdown-btn">Courses</button>
-            <div class="course-dropdown-content">
-                <a href="#">Course 1</a>
-                <a href="#">Course 2</a>
-                <a href="#">Course 3</a>
-            </div>
-        </div>
-    </div>
+    <!-- Table Section -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm m-0">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Objective</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($courses as $course)
+                    <tr>
+                        <td>{{ $course->name }}</td>
+                        <td>{{ $course->description }}</td>
+                        <td>{{ $course->objective }}</td>
+                        <td>{{ $course->category_id }}</td> <!-- Display category -->
+                        <td>
+                            <div class="d-flex justify-content-start gap-2">
+                                <!-- Edit Button -->
+                                <a href="{{ route('courses.edit', $course->id) }}"
+                                    class="btn btn-warning btn-sm w-auto">Edit</a>
 
-    <!-- Descriptions Section -->
-    <div class="course-box-description">
-        <span>Descriptions</span>
-    </div>
-    <!-- Description Textbox -->
-    <textarea class="course-box-textarea" placeholder="Enter description here..."></textarea>
-
-    <!-- Objectives Section -->
-    <div class="course-box-description">
-        <span>Objectives</span>
-    </div>
-    <!-- Objectives Textbox -->
-    <textarea class="course-box-textarea" placeholder="Enter objectives here..."></textarea>
-
-    <!-- Topics Section -->
-    <div class="course-box-description">
-        <span>Topics</span>
-    </div>
-    <!-- Empty Box for Topics (no textbox) -->
-    <div class="course-box"></div>
-
-    <!-- Trivia Section -->
-    <div class="course-box-description">
-        <span>Trivia</span>
-    </div>
-    <!-- Trivia Textbox -->
-    <textarea class="course-box-textarea" placeholder="Enter trivia here..."></textarea>
-
-    <!-- Add Course Button -->
-    <div class="course-add-button">
-        <button type="button">Add Course</button>
+                                <!-- Delete Button -->
+                                <form action="{{ route('courses.destroy', $course->id) }}" method="POST"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm w-auto">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>

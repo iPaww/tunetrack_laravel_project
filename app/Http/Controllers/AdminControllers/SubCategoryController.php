@@ -39,7 +39,7 @@ class SubCategoryController extends BasePageController
             'name' => 'required|string|max:255', // Validate the sub-category name
             'category_id' => 'required|exists:category,id', // Ensure category_id exists in the main_categories table
         ]);
-        
+
         sub_category::create([
             'name' => $request->name, // Sub-category name
             'category_id' => $request->category_id, // Selected main category ID
@@ -49,12 +49,12 @@ class SubCategoryController extends BasePageController
 
     public function edit($id,  Request $request)
     {
-        
+
         sub_category::where("id" ,$id)
         ->update(['name' => $_POST['name_txt']]);
         return redirect( '/admin/sub-category');
 
-    }    public function editSub( $id ) 
+    }    public function editSub( $id )
     {
         $MainCategory = MainCategory::all();
         return $this->view_basic_page( $this->base_file_path . 'edit', [
