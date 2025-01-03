@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate
@@ -11,13 +12,19 @@ class Authenticate
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
+        $conditions_collection = collect([
+            empty( session('id') ),
+            session('role') <= 2,
+        ]);
+        $conditions = $conditions_collection->every(function (bool $condition) {
+            return $condition;
+        });
         
-        if (empty( session('id') ) ) {
-            return redirect('login');
-        }
- 
         // Perform action
- 
+        if ( $conditions ) {
+            return redirect('/login');
+        }
+        
         return $response;
     }
 

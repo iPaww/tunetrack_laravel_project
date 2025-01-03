@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use \DateTime;
+
+use App\Mail\UserVerification;
+
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use App\Http\Controllers\BasePageController;
@@ -55,20 +62,29 @@ class LoginController extends BasePageController
                     ->withErrors($validator);
         }
 
-        // Password is correct, start the session
-        session([
-            'id' => $user['id'],
-            'fullname' => $user['fullname'],
-            'email' => $user['email'],
-            'role' => $user['role'], // Store user role in session
-            'profile_picture' => $user['image']
-        
-        ]); // Set session variable
-
         // If employee login
         if( $user->role <= 2) {
+            // Password is correct, start the session
+            session()->put('admin_user', [
+                'id' => $user['id'],
+                'fullname' => $user['fullname'],
+                'email' => $user['email'],
+                'role' => $user['role'], // Store user role in session
+                'profile_picture' => $user['profile_picture']
+            ]); // Set session variable
             return redirect('/admin');
         }
+
+        // Password is correct, start the session
+        session([
+            'id' => $user->id,
+            'fullname' => $user->fullname,
+            'email' => $user->email,
+            'role' => $user->role, // Store user role in session
+            'profile_picture' => $user->image,
+            'verified' => !empty($user->verified_at),
+        
+        ]); // Set session variable
 
         return redirect('/');
     }
@@ -150,7 +166,13 @@ class LoginController extends BasePageController
             'address' => $address,
             'email' => $email,
             'password' => $hashed_password,
+            'role' => 3,
         ]);
+
+        $verification_email = new UserVerification($inserted_record->id);
+        // Uncomment this line to view email
+        // return (new InvoicePaid($invoice))->render($verification_email);
+        Mail::to($email)->send( $verification_email );
 
         if( !$inserted_record ) {
             return redirect('/register')
@@ -159,5 +181,57 @@ class LoginController extends BasePageController
         }
 
         return redirect('/login');
+    }
+
+    public function verification()
+    {
+        return $this->view_basic_page('verification_form');
+    }
+
+    public function verification_form( Request $request ): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'verification_code' => 'required|array|size:6',
+            'verification_code.*' => 'required|size:1|alpha_num',
+        ], [
+            'verification_code.*.size' => 'Invalid format',
+            'verification_code.*.required' => 'Verification code incomplete, there should be 6 characters in the code.',
+            'verification_code.*.alpha_num' => 'Verification should only contain letters and numbers.',
+        ]);
+
+        // Validate email and password
+        if ($validator->stopOnFirstFailure()->fails()) {
+            return redirect('/verification')
+                ->withErrors($validator);
+        }
+
+        // Check if the email exists in the database
+        $user = User::select('verification')->where('id', session('id'))
+            ->first();
+
+        if ( $user->verification != collect($request->post('verification_code'))->join('') ) {
+            return redirect('/verification')
+                ->withErrors('Invalid verification code');
+        }
+
+        $user = User::where('id', session('id'))
+            ->update([
+                'verification' => null,
+                'verified_at' => new DateTime()
+            ]);
+        
+        session(['verified' => true]);
+
+        return redirect('/');
+    }
+
+    public function verification_resend(): RedirectResponse|string
+    {
+        $verification_email = new UserVerification(session('id'));
+        // Uncomment this line to view email
+        // return (new UserVerification(session('id')))->render($verification_email);
+        Mail::to(session('email'))->send( $verification_email );
+
+        return redirect('/verification');
     }
 }

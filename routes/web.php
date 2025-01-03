@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\Verification;
+use App\Http\Middleware\VerificationForm;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoginController;
@@ -40,7 +43,7 @@ Route::get('/', function () {
 });
 
 Route::controller(AppointmentController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class, Verification::class])
     ->group(function () {
         Route::get('/appointment', 'index');
     });
@@ -60,10 +63,10 @@ Route::controller(ElearningController::class)
                 Route::get('/', 'index');
                 Route::get('/topic/{topic_id}', 'topic');
                 Route::get('/quiz', 'quiz');
-                Route::get('/quiz/{quiz_id}', 'quiz_question')->middleware(Authenticate::class);
-                Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware(Authenticate::class);
-                Route::get('/overall', 'overall')->middleware(Authenticate::class);
-                Route::post('/overall', 'retake')->middleware(Authenticate::class);
+                Route::get('/quiz/{quiz_id}', 'quiz_question')->middleware([Authenticate::class, Verification::class]);
+                Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware([Authenticate::class, Verification::class]);
+                Route::get('/overall', 'overall')->middleware([Authenticate::class, Verification::class]);
+                Route::post('/overall', 'retake')->middleware([Authenticate::class, Verification::class]);
             });
     });
 
@@ -72,7 +75,7 @@ Route::controller(ExcerciseController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class])
     ->prefix('profile')
     ->group(function () {
         Route::get('/', 'index');
@@ -83,11 +86,12 @@ Route::controller(ProfileController::class)
     });
 
 Route::controller(ShopController::class)
-    ->middleware(Authenticate::class)
+    ->middleware([Authenticate::class, Verification::class])
+    ->middleware(Verification::class)
     ->prefix('shop')
     ->group(function () {
-        Route::get('/', 'index')->withoutMiddleware([Authenticate::class]);
-        Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class]);
+        Route::get('/', 'index')->withoutMiddleware([Authenticate::class, Verification::class]);
+        Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class, Verification::class]);
         Route::get('/orders', 'orders');
         Route::get('/order/{id}/view', 'order_view');
         Route::get('/cart', 'cart');
@@ -102,6 +106,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout');
     Route::get('/register', 'register');
     Route::post('/register', 'register_form');
+    Route::get('/verification', 'verification')->middleware(Authenticate::class)->middleware(VerificationForm::class);
+    Route::post('/verification', 'verification_form')->middleware(Authenticate::class)->middleware(VerificationForm::class);
+    Route::get('/verification/re-send', 'verification_resend')->middleware(Authenticate::class)->middleware(VerificationForm::class);
 });
 
 Route::prefix('admin')->group(function() {
@@ -197,3 +204,12 @@ Route::prefix('admin')->group(function() {
 
     });
 });
+
+Route::prefix('/mailable')
+    ->middleware(AdminAuthenticate::class)
+    ->group(function () {
+        Route::get('/account_verification', function () {
+            $user = App\Models\User::find(3);
+            return new App\Mail\UserVerification($user->id);
+        });
+    });

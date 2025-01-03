@@ -1,28 +1,21 @@
 <?php
 
-namespace App\Http\Middleware\AdminMiddleware;
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
-class Authenticate
+use App\Models\User;
+
+class Verification
 {
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $conditions_collection = collect([
-            empty( session('admin_user') ),
-            session('admin_user.role') >= 3,
-        ]);
-        $conditions = $conditions_collection->every(function (bool $condition) {
-            return $condition;
-        });
         
-        // Perform action
-        if ( $conditions ) {
-            return redirect('/login');
+        if ( !session('verified') ) {
+            return redirect('/verification');
         }
  
         return $response;
@@ -36,7 +29,7 @@ class Authenticate
      */
     protected function redirectTo($request)
     {
-        if (empty( session('id') ) || session('role') == 'user' ) {
+        if (empty( session('id') ) ) {
             return redirect('login');
         }
     }

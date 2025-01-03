@@ -70,13 +70,12 @@ class LoginController extends BasePageController
         }
 
         // Password is correct, start the session
-        session([
+        session()->put('admin_user', [
             'id' => $user['id'],
             'fullname' => $user['fullname'],
             'email' => $user['email'],
             'role' => $user['role'], // Store user role in session
             'profile_picture' => $user['profile_picture']
-        
         ]); // Set session variable
 
         return redirect('/admin');
@@ -84,7 +83,7 @@ class LoginController extends BasePageController
 
     public function logout(Request $request): RedirectResponse
     {
-        session()->forget(['id', 'fullname', 'email', 'role', ]);
+        session()->forget(['admin_user']);
         
         // Prevent caching of the page to avoid "back" button issues
         header("Cache-Control: no-cache, no-store, must-revalidate");
