@@ -36,12 +36,6 @@
         <textarea name="trivia" id="trivia" class="form-control" required></textarea>
     </div>
 
-    <!-- Image Upload -->
-    <div class="mb-3">
-        <label for="image" class="form-label">Course Image:</label>
-        <input type="file" name="image" id="image" class="form-control" accept="image/*">
-    </div>
-
     <!-- Buttons Section -->
     <div class="d-flex justify-content-center gap-3">
         <!-- Submit Button -->
