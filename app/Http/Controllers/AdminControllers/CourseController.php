@@ -5,7 +5,6 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Models\courses;
 use App\Models\MainCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CourseController extends BasePageController
 {
@@ -22,7 +21,14 @@ class CourseController extends BasePageController
     public function create()
     {
         $MainCategory = MainCategory::all();
-        return $this->view_basic_page($this->base_file_path . 'create',compact('MainCategory'));
+        return $this->view_basic_page($this->base_file_path . 'create', compact('MainCategory'));
+    }
+
+    // Show the form to edit an existing course
+    public function edit(courses $course)
+    {
+        $MainCategory = MainCategory::all(); // Fetch categories for the form
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('course', 'MainCategory'));
     }
 
     // Store a newly created course
@@ -44,15 +50,10 @@ class CourseController extends BasePageController
         $course->category_id = $request->category_id;
         $course->save();
 
-        return redirect()->route('courses.index')->with('success', 'Course created successfully.');
-    }
+        session()->flash('message', 'Course created successfully!');
+        session()->flash('type', 'success');
 
-
-    // Show the form to edit an existing course
-    public function edit(courses $course)
-    {
-        $MainCategory = MainCategory::all();
-        return $this->view_basic_page($this->base_file_path . 'edit', compact('course', 'MainCategory'));
+        return redirect()->route('courses.index');
     }
 
     // Update the course
@@ -73,7 +74,10 @@ class CourseController extends BasePageController
         $course->category_id = $request->category_id;
         $course->save();
 
-        return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
+        session()->flash('message', 'Course updated successfully!');
+        session()->flash('type', 'info');
+
+        return redirect()->route('courses.index');
     }
 
     // Delete a course
@@ -81,6 +85,9 @@ class CourseController extends BasePageController
     {
         $course->delete();
 
-        return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+        session()->flash('message', 'Course deleted successfully!');
+        session()->flash('type', 'danger');
+
+        return redirect()->route('courses.index');
     }
 }

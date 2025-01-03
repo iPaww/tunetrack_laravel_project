@@ -163,3 +163,8 @@ button:hover {
     max-width: 100px;
     height: auto;
 }
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}

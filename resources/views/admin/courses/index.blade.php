@@ -1,4 +1,12 @@
 <div class="course-content container-fluid p-0">
+    <!-- Flash Message -->
+    @if (session('message'))
+        <div class="alert alert-{{ session('type', 'success') }} alert-dismissible fade show" role="alert">
+            {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <!-- Title and Button Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <!-- Course Title -->
@@ -48,3 +56,15 @@
         </table>
     </div>
 </div>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.classList.add('fade-out');
+            }, 3000); // Adjust time as needed
+        });
+    });
+</script>
