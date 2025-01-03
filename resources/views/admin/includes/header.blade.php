@@ -56,7 +56,7 @@
             <a href="/admin/sub-category"><i class="fas fa-th-large"></i> Sub Category</a>
         </div>
         
-        @if ( session('admin_user.role') >= 2 )
+        @if ( session('admin_user.role') <= 2 )
         <!-- This should only be available to admin user role -->
         <h3>Super Admin Menu</h3>
         <div class="menu-item">
