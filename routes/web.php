@@ -127,13 +127,13 @@ Route::prefix('admin')->group(function() {
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(AdminAppointmentController::class)
             ->prefix('appointment')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(InstrumentsController::class)
             ->prefix('instruments')
             ->group(function () {
@@ -143,31 +143,31 @@ Route::prefix('admin')->group(function() {
                 Route::get('type/add', 'type_add');
                 Route::get('supplies/add', 'supplies_add');
             });
-
+        
         Route::controller(InventoryController::class)
             ->prefix('inventory')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(ItemTrackController::class)
             ->prefix('item-track')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(AdminProfileController::class)
             ->prefix('profile')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(QuizController::class)
             ->prefix('quiz')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(MainCategoryController::class)
             ->prefix('main-category')
             ->group(function () {
@@ -190,7 +190,7 @@ Route::prefix('admin')->group(function() {
                 Route::delete('/{id}', 'destroy');  // Correct DELETE route
             });
 
-        Route::prefix('courses')->controller(CourseController::class)->group(function () {
+            Route::prefix('courses')->controller(CourseController::class)->group(function () {
                 Route::get('/', 'index')->name('courses.index'); // View all courses
                 Route::get('/create', 'create')->name('courses.create'); // Show create form
                 Route::post('/', 'store')->name('courses.store'); // Store a new course
@@ -211,14 +211,14 @@ Route::prefix('admin')->group(function() {
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
         Route::controller(UserController::class)
             ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('users')
             ->group(function () {
                 Route::get('/', 'index');
             });
-
+        
     });
 });
 

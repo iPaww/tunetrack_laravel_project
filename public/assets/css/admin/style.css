@@ -42,19 +42,20 @@ body {
     background-color: #333;
     color: white;
     height: 100vh;
+    margin-top: 50px;
+    margin-bottom: 50px;
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 250px;
-    overflow-y: auto;
+    overflow-y: auto; /* Make sidebar scrollable */
     transition: all 0.3s ease-in-out;
     z-index: 999;
     scrollbar-width: thin;
     scrollbar-color: #888 #333;
 }
 
-/* Scrollbar styling for Webkit browsers */
 .sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -101,7 +102,6 @@ body {
     margin-left: 250px;
     padding: 20px;
     margin-top: 10px;
-    /* Avoids overlap with the fixed header */
     transition: margin-left 0.3s ease-in-out;
 }
 
@@ -112,6 +112,7 @@ body {
         transform: translateX(-250px);
         position: fixed;
         z-index: 9999;
+        height: auto; /* Ensure height is not fixed for smaller screens */
     }
 
     .sidebar.visible {

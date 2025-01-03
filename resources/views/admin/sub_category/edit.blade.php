@@ -1,24 +1,30 @@
-<h1>Edit Sub Category (Instruments)</h1>
-<button class="btn btn-secondary mb-3">
-    <a href="/admin/main-category" style="text-decoration:none; color:white;">Back</a>
-</button>
+<h1 class="mb-4">Edit Sub Category (Instruments)</h1>
 
-<form action="/admin/sub-category/add" method="POST">
+<!-- Back Button -->
+<a href="/admin/main-category" class="btn btn-secondary mb-4">
+    <i class="fas fa-arrow-left"></i> Back
+</a>
+
+<form action="/admin/sub-category/add" method="POST" class="shadow p-4 rounded-lg bg-light">
     @csrf <!-- {{ csrf_field() }} -->
     
     <!-- Sub-Category Name Input -->
-    <label for="name">Sub-Category Name</label>
-    <input type="text" name="name" id="name" required>
+    <div class="mb-3">
+        <label for="name" class="form-label">Sub-Category Name</label>
+        <input type="text" name="name" id="name" class="form-control" placeholder="Enter sub-category name" required>
+    </div>
 
     <!-- Main Category Dropdown (Foreign Key) -->
-    <label for="category_id">Main Category</label>
-    <select name="category_id" id="category_id" required>
-        <option value="">Select Main Category</option>
-        @foreach ($MainCategory as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
-        @endforeach
-    </select>
+    <div class="mb-3">
+        <label for="category_id" class="form-label">Main Category</label>
+        <select name="category_id" id="category_id" class="form-select" required>
+            <option value="">Select Main Category</option>
+            @foreach ($MainCategory as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary mt-3">Add</button>
+    <button type="submit" class="btn btn-primary w-100 py-2">Add Sub-Category</button>
 </form>

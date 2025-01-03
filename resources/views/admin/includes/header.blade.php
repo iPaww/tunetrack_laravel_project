@@ -53,26 +53,21 @@
             <a href="/admin/topics"><i class="fas fa-question-circle"></i> Topics </a>
         </div>
         <div class="menu-item">
-            <a href="/admin/sub-category"><i class="fas fa-th-large"></i> Sub Category</a>
-        </div>
-        
-        @if ( session('admin_user.role') <= 2 )
-        <!-- This should only be available to admin user role -->
-        <h3>Super Admin Menu</h3>
-        <div class="menu-item">
             <a href="/admin/courses"><i class="fas fa-question-circle"></i> Courses </a>
         </div>
         <div class="menu-item">
             <a href="/admin/quiz"><i class="fas fa-question-circle"></i> Quiz</a>
         </div>
-        <div class="menu-item">
-            <a href="/admin/main-category"><i class="fas fa-th-large"></i> Main Category</a>
-        </div>
-        @endif
 
         @if (session('admin_user.role') == 1)
         <!-- This should only be available to super admin role -->
-        <h3>Super Admin Menu</h3>
+        <h3> Admin Menu</h3>
+        <div class="menu-item">
+            <a href="/admin/main-category"><i class="fas fa-th-large"></i> Main Category</a>
+        </div>
+        <div class="menu-item">
+            <a href="/admin/sub-category"><i class="fas fa-th-large"></i> Sub Category</a>
+        </div>
         <div class="menu-item">
             <a href="/admin/sales"><i class="fas fa-chart-pie"></i> Reports</a>
         </div>
