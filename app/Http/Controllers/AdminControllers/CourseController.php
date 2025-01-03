@@ -11,9 +11,21 @@ class CourseController extends BasePageController
     public string $base_file_path = 'courses.';
 
     // Display all courses
-    public function index()
+    public function index(Request $request)
     {
-        $courses = courses::all();
+        $search = $request->input('search');
+
+        if ($search) {
+            // If there's a search query, filter courses based on name or description
+            $courses = courses::where('name', 'like', "%{$search}%")
+                              ->orWhere('description', 'like', "%{$search}%")
+                              ->get();
+        } else {
+            // If no search query, fetch all courses
+            $courses = courses::all();
+        }
+
+        // Pass the $courses data to the view
         return $this->view_basic_page($this->base_file_path . 'index', compact('courses'));
     }
 
@@ -34,6 +46,7 @@ class CourseController extends BasePageController
     // Store a newly created course
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -50,6 +63,7 @@ class CourseController extends BasePageController
         $course->category_id = $request->category_id;
         $course->save();
 
+        // Flash message for success
         session()->flash('message', 'Course created successfully!');
         session()->flash('type', 'success');
 
@@ -74,6 +88,7 @@ class CourseController extends BasePageController
         $course->category_id = $request->category_id;
         $course->save();
 
+        // Flash message for update
         session()->flash('message', 'Course updated successfully!');
         session()->flash('type', 'info');
 
@@ -85,6 +100,7 @@ class CourseController extends BasePageController
     {
         $course->delete();
 
+        // Flash message for deletion
         session()->flash('message', 'Course deleted successfully!');
         session()->flash('type', 'danger');
 
