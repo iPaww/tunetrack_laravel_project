@@ -199,26 +199,6 @@ Route::prefix('admin')->group(function() {
                 Route::delete('/{course}', 'destroy')->name('courses.destroy');
             });
 
-        Route::controller(SubCategoryController::class)
-        ->prefix('sub-category')
-        ->group(function () {
-            Route::get('/', 'index');
-            Route::get('/add', 'addSub');
-            Route::post('/add', 'add');
-            Route::get('/edit/{id}', 'editSub');
-            Route::post('/edit/{id}', 'edit');
-            Route::delete('/{id}', 'destroy');  // Correct DELETE route
-        });
-
-        Route::prefix('courses')->controller(CourseController::class)->group(function () {
-            Route::get('/', 'index')->name('courses.index'); // View all courses
-            Route::get('/create', 'create')->name('courses.create'); // Show create form
-            Route::post('/', 'store')->name('courses.store'); // Store a new course
-            Route::get('/{course}/edit', 'edit')->name('courses.edit');
-            Route::put('/{course}', 'update')->name('courses.update');
-            Route::delete('/{course}', 'destroy')->name('courses.destroy');
-        });
-
         Route::controller(TopicsController::class)
             ->prefix('topics')
             ->group(function () {
