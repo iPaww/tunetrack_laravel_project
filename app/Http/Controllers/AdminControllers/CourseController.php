@@ -34,7 +34,6 @@ class CourseController extends BasePageController
             'objective' => 'required|string',
             'trivia' => 'required|string',
             'category_id' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $course = new courses();
@@ -43,17 +42,11 @@ class CourseController extends BasePageController
         $course->objective = $request->objective;
         $course->trivia = $request->trivia;
         $course->category_id = $request->category_id;
-
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->storeAs('public/images', $imageName);
-            $course->image = $imageName;
-        }
-
         $course->save();
 
         return redirect()->route('courses.index')->with('success', 'Course created successfully.');
     }
+
 
     // Show the form to edit an existing course
     public function edit(courses $course)
@@ -71,7 +64,6 @@ class CourseController extends BasePageController
             'objective' => 'required|string',
             'trivia' => 'required|string',
             'category_id' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $course->name = $request->name;
@@ -79,17 +71,6 @@ class CourseController extends BasePageController
         $course->objective = $request->objective;
         $course->trivia = $request->trivia;
         $course->category_id = $request->category_id;
-
-        if ($request->hasFile('image')) {
-            if ($course->image) {
-                Storage::delete('public/images/'.$course->image);
-            }
-
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->storeAs('public/images', $imageName);
-            $course->image = $imageName;
-        }
-
         $course->save();
 
         return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
@@ -98,11 +79,6 @@ class CourseController extends BasePageController
     // Delete a course
     public function destroy(courses $course)
     {
-        // Delete image if exists
-        if ($course->image) {
-            Storage::delete('public/images/'.$course->image);
-        }
-
         $course->delete();
 
         return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');

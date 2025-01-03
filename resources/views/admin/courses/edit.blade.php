@@ -45,18 +45,6 @@
                 </select>
             </div>
 
-            <!-- Image Upload -->
-            <div class="form-group mb-3">
-                <label for="image" class="form-label">Course Image</label>
-                <input type="file" name="image" id="image" class="form-control">
-                @if ($course->image)
-                    <div class="mt-2">
-                        <img src="{{ asset('storage/images/' . $course->image) }}" alt="Course Image"
-                            style="max-width: 100px; max-height: 100px;">
-                    </div>
-                @endif
-            </div>
-
             <!-- Buttons Section -->
             <div class="d-flex justify-content-center gap-3">
                 <!-- Submit Button -->
