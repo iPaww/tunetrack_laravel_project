@@ -17,7 +17,6 @@ class Topics extends BaseModel
         'description',
         'image',
         'audio',
-        'description',
         'course_id',
         'sub_category_id',
     ];
@@ -34,4 +33,14 @@ class Topics extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    /**
+     * Define the relationship between Topics and SubCategory.
+     *
+     * This assumes sub_category_id is a foreign key to sub_category.
+     */
+    public function sub_category()
+    {
+        return $this->belongsTo('App\Models\sub_category', 'sub_category_id', 'id');
+    }
 }

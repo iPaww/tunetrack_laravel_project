@@ -198,10 +198,13 @@ Route::prefix('admin')->group(function() {
                 Route::delete('/{course}', 'destroy')->name('courses.destroy');
             });
 
-        Route::controller(TopicsController::class)
-            ->prefix('topics')
-            ->group(function () {
-                Route::get('/', 'index');
+        Route::prefix('topics')->name('topics.')->controller(TopicsController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+                Route::get('edit/{topic}', 'edit')->name('edit');
+                Route::put('update/{topic}', 'update')->name('update');
+                Route::delete('destroy/{topic}', 'destroy')->name('destroy');
             });
 
         Route::controller(SalesController::class)
