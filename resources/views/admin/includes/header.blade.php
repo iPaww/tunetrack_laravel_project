@@ -60,7 +60,6 @@
         <!-- This should only be available to admin user role -->
         <h3>Super Admin Menu</h3>
         <div class="menu-item">
-            <a href="/admin/sales">Reports</a>
             <a href="/admin/courses"><i class="fas fa-question-circle"></i> Courses </a>
         </div>
         <div class="menu-item">
