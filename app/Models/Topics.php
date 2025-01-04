@@ -41,6 +41,6 @@ class Topics extends BaseModel
      */
     public function sub_category()
     {
-        return $this->belongsTo('App\Models\sub_category', 'sub_category_id', 'id');
+        return $this->belongsTo('App\Models\SubCategory', 'sub_category_id', 'id');
     }
 }

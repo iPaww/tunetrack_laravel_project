@@ -13,7 +13,7 @@ class ItemTrackController extends BasePageController
     {
         $orders = Orders::select('orders.id', 'orders.payment_method', 'orders.status', 'orders.total', 'users.fullname', 'orders.created_at')
             ->join('users', 'orders.user_id', '=', 'users.id')
-            ->get();
+            ->paginate(10);
 
         return $this->view_basic_page( $this->base_file_path . 'index', [
             'orders' => $orders,

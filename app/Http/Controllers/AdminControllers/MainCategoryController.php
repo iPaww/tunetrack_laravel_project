@@ -12,7 +12,7 @@ class MainCategoryController extends BasePageController
 
     public function index()
     {
-        $MainCategory = MainCategory::all();
+        $MainCategory = MainCategory::paginate(2);
         return $this->view_basic_page($this->base_file_path . 'index', compact('MainCategory'));
     }
 

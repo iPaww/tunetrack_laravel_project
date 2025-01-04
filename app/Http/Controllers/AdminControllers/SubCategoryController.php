@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\AdminControllers\BasePageController;
 use App\Models\MainCategory;
-use App\Models\sub_category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends BasePageController
@@ -14,7 +14,7 @@ class SubCategoryController extends BasePageController
     public function index(Request $request)
     {
         // Check if a search term is provided in the request
-    $query = sub_category::query();
+    $query = SubCategory::query();
 
     if ($request->has('search') && $request->search != '') {
         $query->where('name', 'like', '%' . $request->search . '%')
@@ -40,7 +40,7 @@ class SubCategoryController extends BasePageController
             'category_id' => 'required|exists:category,id', // Ensure category_id exists in the main_categories table
         ]);
 
-        sub_category::create([
+        SubCategory::create([
             'name' => $request->name, // Sub-category name
             'category_id' => $request->category_id, // Selected main category ID
         ]);
@@ -50,22 +50,23 @@ class SubCategoryController extends BasePageController
     public function edit($id,  Request $request)
     {
 
-        sub_category::where("id" ,$id)
+        SubCategory::where("id" ,$id)
         ->update(['name' => $_POST['name_txt']]);
         return redirect( '/admin/sub-category');
 
     }    public function editSub( $id )
     {
         $MainCategory = MainCategory::all();
+        $sub_category = SubCategory::find($id);
         return $this->view_basic_page( $this->base_file_path . 'edit', [
             "id" => $id
-        ],compact('MainCategory'));
+        ],compact('MainCategory','sub_category'));
     }
 
     public function destroy($id)
 {
     try {
-        $category = sub_category::findOrFail($id);
+        $category = SubCategory::findOrFail($id);
         $category->delete();
         return redirect('/admin/sub-category')->with('success', 'Sub-category deleted successfully');
     } catch (\Exception $e) {

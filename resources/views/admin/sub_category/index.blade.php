@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Cat_id</th>
+                <th>Category</th>
                 <th>Name</th>
                 <th>Action</th>
             </tr>
@@ -17,7 +17,7 @@
             @foreach ($sub_category as $category)
                 <tr>
                     <td>{{ $category->id }}</td>
-                    <td>{{ $category->category_id }}</td>
+                    <td>{{ $category->MainCategory->name }}</td>
                     <td>{{ $category->name }}</td>
                     <td>
                         <a href="/admin/sub-category/edit/{{ $category->id }}" class="btn btn-primary btn-sm">Edit</a>

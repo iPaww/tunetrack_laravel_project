@@ -34,6 +34,7 @@ class CategorySeeders extends Seeder
     {
         return DB::table('category')->insertGetId([
             'name' => $cateogry_name,
+            
         ]);
     }
 
