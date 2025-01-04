@@ -7,6 +7,7 @@ use App\Models\Instruments;
 use App\Models\InstrumentTypes;
 use App\Models\Supplies;
 use App\Http\Controllers\AdminControllers\BasePageController;
+use App\Models\Products;
 
 class InstrumentsController extends BasePageController
 {
@@ -21,7 +22,7 @@ class InstrumentsController extends BasePageController
     {
         $categories = Categories::get();
 
-        $instruments = Instruments::join('categories', 'instrument_models.category_id', '=', 'categories.id')
+        $instruments = Products::join('categories', 'instrument_models.category_id', '=', 'categories.id')
             ->join('instrument_types', 'instrument_models.type_id', '=', 'instrument_types.id')
             ->get();
 

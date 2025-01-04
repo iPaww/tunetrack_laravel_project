@@ -26,4 +26,10 @@ class Colors extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'name', // Add other fields that you want to allow for mass assignment
+    ];
 }

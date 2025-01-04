@@ -2,11 +2,11 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Verification;
-use App\Http\Middleware\VerificationForm;
-
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoginController;
+use App\Http\Middleware\VerificationForm;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElearningController;
@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminControllers\QuizController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\SalesController;
+use App\Http\Controllers\AdminControllers\ColorsController;
 use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
@@ -25,9 +26,9 @@ use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
 use App\Http\Controllers\AdminControllers\LoginController as AdminLoginController;
+use App\Http\Controllers\AdminControllers\CourseController as AdminCourseController;
 use App\Http\Controllers\AdminControllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointmentController;
-use App\Http\Controllers\AdminControllers\CourseController as AdminCourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +145,17 @@ Route::prefix('admin')->group(function() {
                 Route::get('supplies/add', 'supplies_add');
             });
 
+            Route::controller(ColorsController::class)
+            ->prefix('colors')
+            ->group(function () {
+                Route::get('/', 'index')->name('colors.index');
+                Route::get('create', 'create')->name('colors.create');
+                Route::post('store', 'store')->name('colors.store');
+                Route::get('edit/{id}', 'edit')->name('colors.edit');
+                Route::put('update/{id}', 'update')->name('colors.update');
+                Route::delete('destroy/{id}', 'destroy')->name('colors.destroy');
+            });
+
         Route::controller(InventoryController::class)
             ->prefix('inventory')
             ->group(function () {
@@ -173,7 +185,7 @@ Route::prefix('admin')->group(function() {
                 Route::put('/update/{id}', 'update')->name('update');  // quiz.update
                 Route::delete('/delete/{id}', 'destroy')->name('destroy');  // quiz.destroy
             });
-        
+
         Route::controller(MainCategoryController::class)
             ->prefix('main-category')
             ->group(function () {
