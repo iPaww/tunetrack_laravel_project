@@ -14,17 +14,17 @@ class SubCategoryController extends BasePageController
     public function index(Request $request)
     {
         // Check if a search term is provided in the request
-    $query = SubCategory::query();
+        $query = SubCategory::query();
 
-    if ($request->has('search') && $request->search != '') {
-        $query->where('name', 'like', '%' . $request->search . '%')
-              ->orWhere('category_id', 'like', '%' . $request->search . '%');
-    }
+            if ($request->has('search') && $request->search != '') {
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('category_id', 'like', '%' . $request->search . '%');
+            }
 
-    // Order by category_id in ascending order
-    $sub_category = $query->orderBy('category_id', 'asc')->get();
+            // Order by category_id in ascending order
+            $sub_category = $query->orderBy('category_id', 'asc')->paginate(10);
 
-        return $this->view_basic_page( $this->base_file_path . 'index',compact('sub_category'));
+            return $this->view_basic_page( $this->base_file_path . 'index',compact('sub_category'));
     }
 
     public function addSub()

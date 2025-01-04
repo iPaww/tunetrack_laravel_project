@@ -13,7 +13,7 @@ class QuizController extends BasePageController
 
         public function index()
     {
-        $quizzes = Quiz::with('course')->get(); // Eager load the course relationship to get course details
+        $quizzes = Quiz::with('course')->paginate(10); // Eager load the course relationship to get course details
         $topics = Topics::all();
 
         return $this->view_basic_page($this->base_file_path . 'index', compact('quizzes', 'topics'));

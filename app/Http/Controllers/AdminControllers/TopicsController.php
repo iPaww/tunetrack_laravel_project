@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\sub_category;
+use App\Models\SubCategory;
 use App\Models\Topics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +32,7 @@ class TopicsController extends BasePageController
     // Show the form to create a new topic
     public function create()
     {
-        $sub_category = sub_category::all(); // Fetch all sub-categories for the dropdown
+        $sub_category = SubCategory::all(); // Fetch all sub-categories for the dropdown
         return $this->view_basic_page($this->base_file_path . 'create', compact('sub_category'));
     }
 
@@ -66,7 +67,7 @@ class TopicsController extends BasePageController
     // Show the form to edit an existing topic
     public function edit(Topics $topic)
     {
-        $sub_category = sub_category::all();
+        $sub_category = SubCategory::all();
         return $this->view_basic_page($this->base_file_path . 'edit', compact('topic', 'sub_category'));
     }
 
