@@ -23,6 +23,7 @@ use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
 use App\Http\Controllers\AdminControllers\InstrumentsController;
+use App\Http\Controllers\AdminControllers\ProductTypeController;
 use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
 use App\Http\Middleware\AdminMiddleware\Authenticate as AdminAuthenticate;
@@ -157,7 +158,6 @@ Route::prefix('admin')->group(function() {
                 Route::delete('destroy/{id}', 'destroy')->name('colors.destroy');
             });
 
-        // Routes for Brands
         Route::controller(BrandsController::class)
         ->prefix('brands')
         ->group(function () {
@@ -168,6 +168,17 @@ Route::prefix('admin')->group(function() {
             Route::put('update/{id}', 'update')->name('brands.update');
             Route::delete('brands/destroy/{id}', 'destroy')->name('brands.destroy');
 
+        });
+
+        Route::controller(ProductTypeController::class)
+            ->prefix('product_type')
+            ->group(function () {
+                Route::get('/', 'index')->name('product_type.index');
+                Route::get('/create', 'create')->name('product_type.create');
+                Route::post('/', 'store')->name('product_type.store');
+                Route::get('/{id}/edit', 'edit')->name('product_type.edit');
+                Route::put('/{id}', 'update')->name('product_type.update');
+                Route::delete('/product_type/{id}', 'destroy')->name('product_type.destroy');
         });
 
         Route::controller(InventoryController::class)
