@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminControllers\QuizController;
 use App\Http\Controllers\AdminControllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\SalesController;
+use App\Http\Controllers\AdminControllers\BrandsController;
 use App\Http\Controllers\AdminControllers\ColorsController;
 use App\Http\Controllers\AdminControllers\TopicsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
@@ -145,7 +146,7 @@ Route::prefix('admin')->group(function() {
                 Route::get('supplies/add', 'supplies_add');
             });
 
-            Route::controller(ColorsController::class)
+        Route::controller(ColorsController::class)
             ->prefix('colors')
             ->group(function () {
                 Route::get('/', 'index')->name('colors.index');
@@ -155,6 +156,19 @@ Route::prefix('admin')->group(function() {
                 Route::put('update/{id}', 'update')->name('colors.update');
                 Route::delete('destroy/{id}', 'destroy')->name('colors.destroy');
             });
+
+        // Routes for Brands
+        Route::controller(BrandsController::class)
+        ->prefix('brands')
+        ->group(function () {
+            Route::get('/', 'index')->name('brands.index');
+            Route::get('create', 'create')->name('brands.create');
+            Route::post('store', 'store')->name('brands.store');
+            Route::get('edit/{id}', 'edit')->name('brands.edit');
+            Route::put('update/{id}', 'update')->name('brands.update');
+            Route::delete('brands/destroy/{id}', 'destroy')->name('brands.destroy');
+
+        });
 
         Route::controller(InventoryController::class)
             ->prefix('inventory')
