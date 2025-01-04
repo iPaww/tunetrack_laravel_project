@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Cart;
 use App\Models\Colors;
 use App\Models\InstrumentCategory;
-use App\Models\Inventory;
+use App\Models\InventoryProducts;
+use App\Models\InventorySupplies;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\Products;
@@ -25,6 +28,10 @@ class ShopController extends BasePageController
         3 => 'Delivered',
         4 => 'Cancelled',
     ];
+    public $payment_methods = [
+        1 => 'Cash',
+        2 => 'Gcash'
+    ];
 
     public function index()
     {
@@ -40,6 +47,7 @@ class ShopController extends BasePageController
     public function orders()
     {
         $orders = Orders::where('user_id', session('id'))
+            ->orderBy('status', 'asc')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
         
@@ -55,17 +63,35 @@ class ShopController extends BasePageController
             ->first();
         
         $order_item = OrderItems::select(
-                'products.*',
                 'orders_item.*',
-                Cart::raw('(SELECT name FROM colors where id=
-                    (SELECT color_id FROM inventory where id=orders_item.inventory_id)
-                ) as color_name'),
-                Cart::raw('orders_item.id as order_item_id'),
-                Cart::raw('products.id as product_id'),
+                OrderItems::raw('COUNT(inventory_products.id) as product_quantity'),
+                OrderItems::raw('GROUP_CONCAT(inventory_products.serial_number) as serial_numbers'),
+                OrderItems::raw('GROUP_CONCAT(colors.name) as color_names'),
             )
             ->where('order_id', $order_id)
             ->join('products', 'products.id', '=', 'orders_item.product_id')
+            ->leftJoin(OrderItems::raw('inventory_products'), function (JoinClause $join) {
+                    $join->on('orders_item.inventory_id', '=', 'inventory_products.id');
+                    $join->on('products.product_type_id', '=', OrderItems::raw(1));
+            })
+            ->leftJoin(OrderItems::raw('inventory_supplies'), function (JoinClause $join) {
+                $join->on('orders_item.inventory_id', '=', 'inventory_supplies.id');
+                $join->on('products.product_type_id', '=', OrderItems::raw(2));
+            })
+            ->leftJoin('colors', function (JoinClause $join) {
+                $join->on('colors.id', '=', 'inventory_supplies.color_id')
+                    ->orOn('colors.id', '=', 'inventory_products.color_id');
+            })
+            ->groupBy('inventory_products.product_id', 'inventory_products.color_id')
+            ->orderBy('products.product_type_id')
             ->get();
+            // ->toSql();
+
+        // $order_item = OrderItems::select('*', OrderItems::raw('GROUP_CONCAT(", ", inventory_id) as inventory_ids'))
+        //     ->where('order_id', $order_id)
+        //     ->groupBy('product_id')
+        //     ->get();
+    
         
         return $this->view_basic_page( $this->base_file_path . 'order_view', [
             'order' => $order,
@@ -80,18 +106,16 @@ class ShopController extends BasePageController
         $cart_items = Cart::select(
                 'products.*',
                 'cart.*',
-                Cart::raw('(SELECT name FROM colors where id=
-                    (SELECT color_id FROM inventory where id=cart.inventory_id)
-                ) as color_name'),
+                Cart::raw('colors.name as color_name'),
                 Cart::raw('cart.id as cart_id'),
                 Cart::raw('products.id as product_id'),
             )
             ->where('user_id', session('id'))
             ->join('products', 'products.id', '=', 'cart.product_id')
+            ->join('colors', 'colors.id', '=', 'cart.color_id')
             ->orderBy('cart.created_at', 'desc')
-            ->take(20)
-            ->paginate();
-        
+            ->paginate(5);
+
         $total_price = Cart::where('user_id', session('id'))
             ->join('products', 'cart.product_id', '=', 'products.id')
             ->sum(Cart::raw('quantity * price'));
@@ -105,12 +129,12 @@ class ShopController extends BasePageController
     public function cart_add($product_id, Request $request ): RedirectResponse
     {
         $form_quantity = $request->post('quantity');
-        $form_inventory_id = $request->post('inventory');
+        $form_color_id= $request->post('color');
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|numeric',
-            'inventory' => 'required',
+            'color' => 'required',
         ], [
-            'inventory.required' => 'Product color not selected, Please select a color!'
+            'color.required' => 'Product color not selected, Please select a color!'
         ]);
 
         if ($validator->fails()) {
@@ -119,29 +143,33 @@ class ShopController extends BasePageController
                 ->withInput();
         }
 
-        $condition = ['product_id' => $product_id, 'user_id' => session('id'), 'inventory_id' => $form_inventory_id];
+        $condition = ['product_id' => $product_id, 'user_id' => session('id'), 'color_id' => $form_color_id];
         $oldData = Cart::select('quantity')->where($condition)->first();
 
         if ( empty($oldData) ) {
             Cart::create([
                 'product_id' => $product_id,
                 'user_id' => session('id'),
-                'inventory_id' => $form_inventory_id,
+                'color_id' => $form_color_id,
                 'quantity' => $form_quantity
             ]);
         } else {
             Cart::where('product_id', $product_id)
                 ->where('user_id', session('id'))
-                ->where('inventory_id', $form_inventory_id)
+                ->where('color_id', $form_color_id)
                 ->update([
                     'product_id' => $product_id,
                     'user_id' => session('id'),
-                    'inventory_id' => $form_inventory_id,
+                    'color_id' => $form_color_id,
                     'quantity' => $oldData->quantity + $form_quantity
                 ]);
         }
 
-        return redirect("/shop/product/$product_id/view")
+        if( $request->has('check_out')) {
+            return redirect('/shop/cart');
+        }
+
+        return back()
             ->with(['data' => ['Product successfully added to cart!']]);
     }
 
@@ -172,7 +200,7 @@ class ShopController extends BasePageController
                 'quantity' => $form_quantity
             ]);
 
-        return redirect("/shop/cart")
+        return back()
             ->with(['data' => ['Cart item successfully updated!']]);
     }
 
@@ -192,11 +220,20 @@ class ShopController extends BasePageController
             ->where('id', $item_id)
             ->first();
 
-        $product_colors = Inventory::select('inventory.id', 'color_id', 'name', 'quantity')
-            ->where('product_id', $item_id)
-            ->join('colors', 'inventory.color_id', '=', 'colors.id')
-            ->get();
-        
+        if( $product->product_type_id == 1 ) {
+            $product_colors = InventoryProducts::select('color_id', 'name', InventoryProducts::raw('COUNT(product_id) as quantity'))
+                ->groupBy('product_id', 'color_id')
+                ->where('product_id', $item_id)
+                ->where('taken', false)
+                ->join('colors', 'inventory_products.color_id', '=', 'colors.id')
+                ->get();
+        } else if ( $product->product_type_id == 2 ) {
+            $product_colors = InventorySupplies::select('color_id', 'name', 'quantity')
+                ->where('product_id', $item_id)
+                ->join('colors', 'inventory_supplies.color_id', '=', 'colors.id')
+                ->get();
+        }
+
         $productImage = asset(
             !empty($product['image']) ?
             'assets/images/inventory/uploads/' . $product['image']:
@@ -208,5 +245,112 @@ class ShopController extends BasePageController
             'productImage' => $productImage,
             'colors' => $product_colors,
         ]);
+    }
+
+    public function cart_checkout(Request $request ): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'payment_method' => 'required',
+        ], [
+            'payment_method.required' => 'You must select payment method'
+        ]);
+        $form_payment_method = $request->post('payment_method');
+        
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator);
+        }
+
+        $order_item_batch = collect([]);
+        $product_inventory_batch = collect([]);
+        $order_validation_error = collect([]);
+        $user_id = session('id');
+        
+        if( empty( $user_id ) ) {
+            $order_validation_error->push('Could not find user logged in!');
+        }
+
+        Cart::select(
+                'products.*',
+                'cart.*',
+                Cart::raw('colors.name as color_name'),
+                Cart::raw('cart.id as cart_id'),
+                Cart::raw('products.id as product_id'),
+            )
+            ->where('user_id', $user_id)
+            ->join('products', 'products.id', '=', 'cart.product_id')
+            ->join('colors', 'colors.id', '=', 'cart.color_id')
+            ->chunk(50, function (Collection $cart_items) use (&$order_validation_error, &$product_inventory_batch, &$order_item_batch) {
+                foreach( $cart_items as $card_item ) {
+                    if ( $card_item->product_type_id == 1 ) {
+                        $SerialInventory = InventoryProducts::select('id')
+                            ->where('product_id', $card_item->product_id)
+                            ->where('color_id', $card_item->color_id)
+                            ->where('taken', false)
+                            ->take($card_item->quantity)
+                            ->get();
+                        $number_of_stocks = count($SerialInventory);
+                        if( $card_item->quantity > $number_of_stocks ) {
+                            $order_validation_error->push("Sorry, item \"$card_item->name\" with variant of \"$card_item->color_name\" only has $number_of_stocks stock(s) left.");
+                            return false;
+                        }
+                        foreach ( $SerialInventory as $serial ) {
+                            $order_item_batch->push([
+                                'product_id' => $card_item->product_id,
+                                'inventory_id' => $serial->id,
+                                'quantity' => 1,
+                                'price' => $card_item->price,
+                            ]);
+                            $product_inventory_batch->push([ $serial->id, ['taken' => true] ]);
+                        }
+                    } else if ( $card_item->product_type_id == 2 ) {
+                        $supplyInventory = InventorySupplies::select('id', 'quantity')
+                            ->where('product_id', $card_item->product_id)
+                            ->where('color_id', $card_item->color_id)
+                            ->first();
+                        if( $card_item->quantity > $supplyInventory->quantity ) {
+                            $order_validation_error->push("Sorry, item \"$card_item->name\" with variant of \"$card_item->color_name\" only has $supplyInventory->quantity stock(s) left.");
+                            return false;
+                        }             
+                        $order_item_batch->push([
+                            'product_id' => $card_item->product_id,
+                            'inventory_id' => $supplyInventory->id,
+                            'quantity' => $card_item->quantity,
+                            'price' => $card_item->price,
+                        ]);
+                    }
+                }
+            });
+
+        // Check if quantity is valid
+        if( count( $order_validation_error ) > 0 ) {
+            return back()
+                ->withErrors($order_validation_error->all());
+        }
+        
+        $total_price = Cart::where('user_id', $user_id)
+            ->join('products', 'cart.product_id', '=', 'products.id')
+            ->sum(Cart::raw('quantity * price'));
+
+        $order_insert = Orders::create([
+            'payment_method' => 'Cash',
+            'status' => 1,
+            'total' => $total_price,
+            'user_id' => $user_id,
+        ]);
+
+        foreach ( $order_item_batch as $order_item ) {
+            OrderItems::create([ 
+                ...$order_item,
+                'order_id' => $order_insert->id,
+            ]);
+        }
+        foreach ( $product_inventory_batch as [$inventory_id, $inventory_item] ) {
+            InventoryProducts::where('id', $inventory_id)
+                ->update($inventory_item);
+        }
+        Cart::where('user_id', $user_id)->delete();
+
+        return redirect("/shop/order/$order_insert->id/view");
     }
 }

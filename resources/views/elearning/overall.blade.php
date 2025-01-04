@@ -47,7 +47,7 @@
             </p>
             @else
                 <p class="text-break fs-3 text-center">
-                    You have to finish the test for you the see the result.
+                    You have to finish the test for you to see the result.
                 </p>
             @endif
             

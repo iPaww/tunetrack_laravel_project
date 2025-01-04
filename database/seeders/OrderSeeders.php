@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Collection;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -17,7 +19,11 @@ class OrderSeeders extends Seeder
     {
         $randNumber = rand(20, 50);
         for( $x = 1; $x <= $randNumber; $x++ ) {
-            $this->insert_item_order( $this->insert_order(), [ 3 ] );
+            $product_id_array = collect()->times(rand(1, 10), function (int $item) {
+                return rand(1, 104);
+            })->all();
+
+            $this->insert_item_order($this->insert_order() , $product_id_array);
         }
     }
 
@@ -34,9 +40,9 @@ class OrderSeeders extends Seeder
     private function insert_item_order($order_id, $array_of_product_id)
     {
         foreach( $array_of_product_id as $product_id ) {
-            return DB::table('orders_item')->insert([
+            DB::table('orders_item')->insert([
                 'product_id' => $product_id,
-                'inventory_id' => 1,
+                'inventory_id' => rand(1, 147),
                 'price' => rand(200, 50000),
                 'quantity' => rand(1, 15),
                 'order_id' => $order_id,

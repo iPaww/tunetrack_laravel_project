@@ -36,6 +36,6 @@ class Cart extends BaseModel
         'quantity',
         'product_id',
         'user_id',
-        'inventory_id',
+        'color_id',
     ];
 }

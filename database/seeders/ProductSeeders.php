@@ -37,7 +37,6 @@ class ProductSeeders extends Seeder
             'product_type_id' => 1,
             'brand_id' => 1,
             'image' => '67557317d4d722.25251400.jpeg',
-            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Trevor James',
@@ -50,7 +49,6 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
             'product_type_id' => 1,
             'brand_id' => 2,
             'image' => '6755735684e3a3.64016812.webp',
-            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Global',
@@ -63,7 +61,6 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
             'product_type_id' => 1,
             'brand_id' => 3,
             'image' => '6755737a44a4d4.25204277.jpeg',
-            'serial_number' =>Str::random(25),
         ]);
         DB::table('products')->insert([
             'name' => 'Pick',
@@ -74,7 +71,6 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
             'product_type_id' => 2,
             'brand_id' => 1,
             'image' => '6755737a44a4d4.25204277.jpeg',
-            'serial_number' =>Str::random(25),
         ]);
         // 50 Random Products
         for( $i = 1; $i <= 50; $i++ ) {
@@ -89,7 +85,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
                 'product_type_id' => 1,
                 'brand_id' => rand(1, 6),
                 'image' => '6755737a44a4d4.25204277.jpeg',
-                'serial_number' =>Str::random(25),
+
             ]);
         }
 
@@ -103,10 +99,10 @@ It is a long established fact that a reader will be distracted by the readable c
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.",
                 'category_id' => rand(1, 6),
                 'sub_category_id' => rand(1, 5),
-                'product_type_id' => 1,
+                'product_type_id' => 2,
                 'brand_id' => rand(1, 6),
                 'image' => '6755737a44a4d4.25204277.jpeg',
-                'serial_number' =>Str::random(25),
+
             ]);
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Products extends BaseModel
 {
@@ -26,4 +27,20 @@ class Products extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function supplies(): HasMany
+    {
+        return $this->hasMany(InventorySupplies::class);
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(InventoryProducts::class);
+    }
 }

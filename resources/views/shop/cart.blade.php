@@ -94,6 +94,7 @@
                     </div>
                 </div>
                 @endforeach
+                <div class="col-12">{{ $items->links() }}</div>
             </div>
             @endif
         </div>
@@ -130,10 +131,10 @@
                         <div class="col-6"><h4 class="fw-bold">Total</h4></div>
                         <div class="col-6 text-end">$ {{ number_format($total_price, 2) }}</div>
                         <div class="col-12 text-center mt-4">
-                            <form action="/shop/checkout" method="POST">
+                            <form action="/shop/cart/check_out" method="POST">
                                 @csrf <!-- {{ csrf_field() }} -->
-                                <input type="hidden" value="cash"/>
-                                <button type="button" class="btn btn-xl btn-primary btn-checkout w-75">PLACE ORDER NOW</button>
+                                <input type="hidden" name="payment_method" value="1"/>
+                                <button class="btn btn-xl btn-primary btn-checkout w-75">PLACE ORDER NOW</button>
                             </form>
                         </div>
                     </div>

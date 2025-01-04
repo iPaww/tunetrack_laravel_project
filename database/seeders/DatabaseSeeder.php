@@ -7,7 +7,8 @@ use Database\Seeders\BrandSeeders;
 use Database\Seeders\CategorySeeders;
 use Database\Seeders\ColorSeeders;
 use Database\Seeders\CourseSeeders;
-use Database\Seeders\InventorySeeders;
+use Database\Seeders\InventoryProductsSeeders;
+use Database\Seeders\InventorySuppliesSeeders;
 use Database\Seeders\OrderSeeders;
 use Database\Seeders\ProductSeeders;
 use Database\Seeders\ProductTypeSeeders;
@@ -32,7 +33,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             // NOTE: this should be in the right order because mostly this are foreigned keys
             ProductSeeders::class,
-            InventorySeeders::class,
+            InventoryProductsSeeders::class,
+            InventorySuppliesSeeders::class,
             OrderSeeders::class,
             CourseSeeders::class,
             QuizSeeders::class,

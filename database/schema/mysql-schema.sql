@@ -41,14 +41,14 @@ CREATE TABLE `cart` (
   `quantity` int NOT NULL,
   `product_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
-  `inventory_id` int DEFAULT NULL,
+  `color_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `delete_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `product_id` (`product_id`),
-  KEY `inventory_id` (`inventory_id`)
+  KEY `color_id` (`color_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `category`;
@@ -111,10 +111,24 @@ CREATE TABLE `courses_user_history` (
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `inventory`;
+DROP TABLE IF EXISTS `inventory_products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `inventory` (
+CREATE TABLE `inventory_products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `serial_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `taken` tinyint(1) NOT NULL DEFAULT '0',
+  `product_id` int DEFAULT NULL,
+  `color_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `color_id` (`color_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `inventory_supplies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `inventory_supplies` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quantity` int NOT NULL,
   `product_id` int DEFAULT NULL,
@@ -197,7 +211,6 @@ CREATE TABLE `products` (
   `price` int NOT NULL,
   `description` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `serial_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `category_id` int DEFAULT NULL,
   `product_type_id` int DEFAULT NULL,
   `sub_category_id` int DEFAULT NULL,
@@ -206,7 +219,6 @@ CREATE TABLE `products` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `serial_number` (`serial_number`),
   KEY `product_type_id` (`product_type_id`),
   KEY `category_id` (`category_id`),
   KEY `sub_category_id` (`sub_category_id`),

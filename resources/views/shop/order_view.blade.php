@@ -223,29 +223,48 @@
                     <tr>
                         <th>Product</th>
                         <th>Variant</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Serial Numbers</th>
+                        <th class="text-end">Total</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach( $items as $item )
                     <tr>
                         <td class="product-info">
-                            <a href="/shop/product/{{ $item->product_id }}/view" class="text-decoration-none">
-                                <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" width="60" class="img-thumbnail cart-image">
-                                <span>{{ $item['name'] }}</span>
+                            <a href="/shop/product/{{ $item->product->id }}/view" class="text-decoration-none">
+                                <img src="{{ asset('/assets/images/inventory/uploads/' . $item->product->image ) }}" alt="{{ $item->product->name }}" width="60" class="img-thumbnail cart-image">
+                                <span>{{ $item->product->name }}</span>
                             </a>
                         </td>
-                        <td>{{ $item['color_name'] }}</td>
-                        <td class="price-column">
-                            ${{ number_format($item['price'], 2) }}
+                        <td>{{ $item->InventoryProduct->color->name }}</td>
+                        <td class="text-end price-column">
+                            ${{ number_format($item->price, 2) }}
                         </td>
-                        <td class="quantity-column">
-                            {{ $item->quantity }}
+                        <td class="text-center quantity-column">
+                            @if ( $item->product->product_type_id == 1 )
+                                {{ number_format($item->product_quantity) }}
+                            @elseif ( $item->product->product_type_id == 2 )
+                                {{ number_format($item->quantity) }}
+                            @endif
                         </td>
-                        <td class="total-column">
-                            ${{ number_format($item['price'] * $item['quantity'], 2) }}
+                        <td class="text-center quantity-column">
+                            @if ( $item->product->product_type_id == 1 )
+                                @foreach ( explode(",", $item->serial_numbers) as $serial_number )
+                                    <div>{{ $serial_number }}</div>
+                                @endforeach
+                            @elseif ( $item->product->product_type_id == 2 )
+                                N/A
+                            @endif
+                            
+                        </td>
+                        <td class="text-end total-column">
+                            @if ( $item->product->product_type_id == 1 )
+                                ${{ number_format($item->price * $item->product_quantity, 2) }}
+                            @elseif ( $item->product->product_type_id == 2 )
+                                ${{ number_format($item->price * $item->quantity, 2) }}
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -267,8 +286,9 @@
                 </ul>
                 @endif
             </div>
-            <div class="cart-footer">
-                <h3 class="total-price">Total Price: ${{ number_format($order->total, 2) }}</h3>
+            <div class="cart-footer d-flex justify-countent-around">
+                <h3 class="total-price">Total Price:</h3>
+                <h3>${{ number_format($order->total, 2) }}</h3>
             </div>
 
             <div class="back-to-shop">

@@ -100,6 +100,7 @@ Route::controller(ShopController::class)
         Route::post('/cart/add/{id}', 'cart_add');
         Route::post('/cart/edit/{id}', 'cart_edit');
         Route::post('/cart/remove/{id}', 'cart_remove');
+        Route::post('/cart/check_out', 'cart_checkout');
     });
 
 Route::controller(LoginController::class)->group(function () {

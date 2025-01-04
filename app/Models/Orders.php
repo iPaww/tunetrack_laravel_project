@@ -26,4 +26,16 @@ class Orders extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'payment_method',
+        'status',
+        'total',
+        'user_id',
+    ];
 }

@@ -3,7 +3,8 @@
 <div class="container mt-5">
     <div class="row align-items-center mb-5">
         <div class="col-mg-12 mb-3">
-            <a href="/shop" class="btn btn-outline-dark border border-0 fw-bold">&laquo; Back to shop</a>
+            <a href="@if ( url()->previous() !== url()->current() && str_contains(url()->previous(), '/shop') ) {{ url()->previous() }} @else /shop @endif"
+                class="btn btn-outline-dark border border-0 fw-bold">&laquo; Back to shop</a>
         </div>
         <!-- Product Image -->
         <div class="col-md-6 text-center">
@@ -12,18 +13,23 @@
         <!-- Product Details -->
         <div class="col-md-6">
             <h3 class="fw-bold">{{ $product->name }}</h3>
+            <h4 class="fw-bold">$ {{ number_format($product->price) }}</h4>
             <div class="w-50">
                 <label class="form-label">Brand: {{ $product->brand_name }}</label>
             </div>
             <div class="mb-3">
                 <label class="form-label">Choose a color:</label>
-                @foreach ( $colors as $color )
-                    <input type="radio" name="colors" class="btn-check" id="btn-check-{{ $color->color_id }}" value="{{ $color->id }}" data-max={{ $color->quantity }} autocomplete="off"/>
-                    <label class="btn btn-sm btn-secondary" for="btn-check-{{ $color->color_id }}">
-                        <span class="badge text-bg-dark">{{ $color->quantity }}</span>
-                        {{ $color->name }}
-                    </label>
-                @endforeach
+                    <div class="d-flex flex-wrap">
+                    @foreach ( $colors as $color )
+                        <div class="me-1 mb-1">
+                            <input type="radio" name="colors" class="btn-check" id="btn-check-{{ $color->color_id }}" value="{{ $color->color_id }}" data-max={{ $color->quantity }} autocomplete="off"/>
+                            <label class="btn btn-sm btn-secondary" for="btn-check-{{ $color->color_id }}">
+                                <span class="badge text-bg-dark">{{ $color->quantity }}</span>
+                                {{ $color->name }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <div class="w-50">
                 <div class="input-group mb-3">
@@ -37,7 +43,8 @@
                 <form method="POST" action="/shop/cart/add/{{ $product->id }}" style="display: inline; width: fit-content;">
                     <!-- Hidden fields to pass product data -->
                     @csrf <!-- {{ csrf_field() }} -->
-                    <input type="hidden" name="inventory" required>
+                    <input type="hidden" name="add_cart" value="1">
+                    <input type="hidden" name="color" required>
                     <input type="hidden" name="quantity" value="1" required>
 
                     <!-- Button to add to cart -->
@@ -45,10 +52,11 @@
                 </form>
 
                 <!-- Other buttons (like Buy Now) can be here as well -->
-                <form method="POST" action="/shop/checkout/{{ $product->id }}" style="display: inline; width: fit-content;">
+                <form method="POST" action="/shop/cart/add/{{ $product->id }}" style="display: inline; width: fit-content;">
                     <!-- Hidden fields to pass product data -->
                     @csrf <!-- {{ csrf_field() }} -->
-                    <input type="hidden" name="inventory" required>
+                    <input type="hidden" name="check_out" value="1">
+                    <input type="hidden" name="color" required>
                     <input type="hidden" name="quantity" value="1" required>
                     <button class="but-now-btn btn btn-warning me-2" type="submit">Buy Now</button>
                 </form>
@@ -230,7 +238,7 @@ $(document).ready(function() {
         const selected_color = $(e.target)
         max_quantity = selected_color.data('max')
         $('.quantity-inp').trigger('input')
-        $('input[name="inventory"]').val( selected_color.val() )
+        $('input[name="color"]').val( selected_color.val() )
     })
 })
 </script>
