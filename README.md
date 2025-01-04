@@ -13,7 +13,10 @@
 ## Installing schema
 <code>php artisan migrate:install
 php artisan migrate --seed
-php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed</code>
+
+## Usuable commands
+<code>php artisan optimize
 composer dump-autoload</code>
 
 ## Test user Account
