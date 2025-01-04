@@ -30,8 +30,8 @@
                 @forelse ($topics as $topic)
                     <tr>
                         <td>{{ $topic->title }}</td>
-                        <td>{{ $topic->sub_category->name }}</td>
-                        <td>{{ $topic->description }}</td>
+                        <td class="text-truncate" style="max-width: 5em">{{ $topic->sub_category->name }}</td>
+                        <td class="text-truncate" style="max-width: 5em">{{ $topic->description }}</td>
                         <td>
                             <audio controls>
                                 <source src="{{ asset('storage/' . $topic->audio) }}" type="audio/mpeg">
