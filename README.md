@@ -8,16 +8,13 @@
 </p>
 
 ## Starting this project
-<code>
-php artisan serve
-</code>
+<code>php artisan serve</code>
 
 ## Installing schema
-<code>
-php artisan migrate:install
+<code>php artisan migrate:install
 php artisan migrate --seed
 php artisan migrate:fresh --seed
-</code>
+composer dump-autoload</code>
 
 ## Test user Account
 <div>
