@@ -22,7 +22,7 @@ class TopicsController extends BasePageController
                 // Filter topics by the title field using "like" for partial matches
                 return $query->where('title', 'like', '%' . $search . '%');
             })
-            ->get(); // Execute the query
+            ->paginate(10); // Execute the query
 
         return $this->view_basic_page($this->base_file_path . 'index', compact('topics'));
     }

@@ -73,6 +73,7 @@
             </tbody>
         </table>
     </div>
+    {{ $courses->links() }}
 </div>
 
 <script>

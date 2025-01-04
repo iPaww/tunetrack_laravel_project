@@ -59,6 +59,7 @@
                 @endforelse
             </tbody>
         </table>
+        {{ $topics->links() }}
     </div>
 
     <!-- Modal Notification for CRUD Actions -->
@@ -72,7 +73,7 @@
                 <div class="modal-body" id="crudModalBody">
                     <!-- Dynamic content here -->
                     @if ($topics->isEmpty() && request('search'))
-                        <p>No results found for your search query. Please try again with different keywords.</p>
+                        <p>No results found. Please try again with different keywords.</p>
                     @endif
                 </div>
                 <div class="modal-footer">
@@ -81,28 +82,27 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        @if (session('message'))
-            var message = '{{ session('message') }}';
-            var type = '{{ session('type', 'success') }}';
-            var modalBody = document.getElementById('crudModalBody');
-            modalBody.innerHTML = message;
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            @if (session('message'))
+                var message = '{{ session('message') }}';
+                var type = '{{ session('type', 'success') }}';
+                var modalBody = document.getElementById('crudModalBody');
+                modalBody.innerHTML = message;
 
-            // Show modal
-            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
-            crudModal.show();
-        @elseif ($topics->isEmpty() && request('search'))
-            var modalBody = document.getElementById('crudModalBody');
-            modalBody.innerHTML =
-                "No results found for your search query. Please try again with different keywords.";
+                // Show modal
+                var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
+                crudModal.show();
+            @elseif ($topics->isEmpty() && request('search'))
+                var modalBody = document.getElementById('crudModalBody');
+                modalBody.innerHTML =
+                    "No results found for your search query. Please try again with different keywords.";
 
-            // Show modal
-            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
-            crudModal.show();
-        @endif
-    });
-</script>
+                // Show modal
+                var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
+                crudModal.show();
+            @endif
+        });
+    </script>
