@@ -161,12 +161,18 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index');
             });
 
-        Route::controller(QuizController::class)
+            Route::controller(QuizController::class)
             ->prefix('quiz')
+            ->as('quiz.')  // This applies to all routes inside this group
             ->group(function () {
-                Route::get('/', 'index');
+                Route::get('/', 'index')->name('index');  // quiz.index
+                Route::get('/add', 'addQuiz')->name('add');  // quiz.add
+                Route::post('/add', 'add')->name('store');  // quiz.store
+                Route::get('/edit/{id}', 'edit')->name('edit');  // quiz.edit
+                Route::put('/update/{id}', 'update')->name('update');  // quiz.update
+                Route::delete('/delete/{id}', 'destroy')->name('destroy');  // quiz.destroy
             });
-
+        
         Route::controller(MainCategoryController::class)
             ->prefix('main-category')
             ->group(function () {

@@ -14,7 +14,7 @@ class MainCategory extends Model
      */
     protected $table = 'category';
     protected $fillable = [
-        'name'
+        'name','image'
     ];
     /**
      * The primary key associated with the table.

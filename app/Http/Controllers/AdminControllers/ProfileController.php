@@ -11,7 +11,7 @@ class ProfileController extends BasePageController
 
     public function index()
     {
-        $user = User::where('id', session('id'))
+        $user = User::where('id', session('admin_user.id'))
             ->first();
 
         return $this->view_basic_page( $this->base_file_path . 'index', [

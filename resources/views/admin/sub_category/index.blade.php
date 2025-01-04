@@ -1,10 +1,6 @@
 <div class="container mt-5">
     <h1>Sub Categories</h1>
-    <form action="/admin/sub-category" method="GET" class="mb-3">
-        <input type="text" name="search" placeholder="Search by Name or Category ID"
-            value="{{ request()->get('search') }}" class="form-control d-inline-block" style="width: 300px;">
-        <button type="submit" class="btn btn-info">Search</button>
-    </form>
+    
     <button class="btn btn-primary">
         <a href="/admin/sub-category/add" style="text-decoration: none; color: white;">Add</a>
     </button>

@@ -52,8 +52,8 @@
                 @foreach ($courses as $course)
                     <tr>
                         <td>{{ $course->name }}</td>
-                        <td>{{ $course->description }}</td>
-                        <td>{{ $course->objective }}</td>
+                        <td class="text-truncate" style="max-width: 5em">{{ $course->description }}</td>
+                        <td class="text-truncate" style="max-width: 5em">{{ $course->objective }}</td>
                         <td>{{ $course->category_id }}</td> <!-- Display category -->
                         <td>
                             <div class="d-flex justify-content-start gap-2">

@@ -32,4 +32,9 @@ class Courses extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'course_id');
+    }
 }

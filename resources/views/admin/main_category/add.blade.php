@@ -11,6 +11,10 @@
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" id="name" class="form-control" placeholder="Enter category name" required>
     </div>
+    <div class="form-group">
+        <label for="image">Category Image</label>
+        <input type="file" class="form-control" name="image" id="image">
+    </div>
 
     <!-- Submit Button -->
     <button type="submit" class="btn btn-primary w-100 py-2">Add Category</button>
