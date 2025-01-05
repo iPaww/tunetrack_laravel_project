@@ -1,6 +1,20 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Manage Orders</h2>
 
+    <!-- Filter Form -->
+    <form action="{{ route('itemTrack.index') }}" method="GET" class="mb-3">
+        <div class="row">
+            <div class="col-md-3">
+                <select name="status" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    <option value="1" {{ request()->status == '1' ? 'selected' : '' }}>Pending</option>
+                    <option value="2" {{ request()->status == '2' ? 'selected' : '' }}>Processing</option>
+                    <option value="3" {{ request()->status == '3' ? 'selected' : '' }}>Ready to Pickup</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
     <!-- Display Orders Table -->
     <table class="table table-bordered">
         <thead>
@@ -15,22 +29,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ( $orders as $row )
+            @foreach ($orders as $order)
                 <tr>
-                    <td>{{ $row['id'] }}</td>
-                    <td>{{ $row['fullname'] }}</td>
-                    <td>{{ $row['order_date'] }}</td>
-                    <td>{{ $row['payment_method'] }}</td>
-                    <td>{{ ucfirst($row['status']) }}</td>
-                    <td>{{ $row['total_price'] }}</td>
+                    <td>{{ $order->id }}</td>
+                    <td>{{ $order->user ? $order->user->fullname : 'N/A' }}</td>
+                    <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
+                    <td>{{ $order->payment_method }}</td>
+                    <td>{{ $statusMap[$order->status] ?? 'Unknown' }}</td>
+                    <td>{{ $order->total }}</td>
                     <td>
-                        <!-- Update Status Form -->
-                        <form action="update_order_status.php" method="POST">
-                            <input type="hidden" name="order_id" value="{{ $row['id'] }}">
+                        <form action="{{ route('itemTrack.index') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
                             <select name="status" class="form-select" required>
-                                <option value="pending" {{ ($row['status'] == 'pending') ? 'selected' : '' }}>Pending</option>
-                                <option value="processing" {{ ($row['status'] == 'processing') ? 'selected' : '' }}>Processing</option>
-                                <option value="Ready to Pickup" {{ ($row['status'] == 'Ready to Pickup') ? 'selected' : '' }}>Ready to Pickup</option>
+                                <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Pending</option>
+                                <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Processing</option>
+                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup</option>
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                         </form>
@@ -41,6 +55,12 @@
     </table>
     {{ $orders->links() }}
 </div>
+
+@if (session('success'))
+    <div class="alert alert-success mt-3">
+        {{ session('success') }}
+    </div>
+@endif
 
 <script>
     const toggleSidebar = document.getElementById('toggle-sidebar');

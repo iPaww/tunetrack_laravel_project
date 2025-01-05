@@ -136,11 +136,11 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index');
             });
 
-        Route::controller(AdminAppointmentController::class)
-            ->prefix('appointment')
-            ->group(function () {
-                Route::get('/', 'index');
+            Route::prefix('appointment')->controller(AdminAppointmentController::class)->group(function () {
+                Route::get('/', 'index')->name('admin.appointment.index');
+                Route::put('update/{id}', 'update')->name('admin.appointment.update');
             });
+            
 
         Route::controller(InstrumentsController::class)
             ->prefix('instruments')
@@ -192,11 +192,12 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index');
             });
 
-        Route::controller(ItemTrackController::class)
-            ->prefix('item-track')
-            ->group(function () {
-                Route::get('/', 'index');
-            });
+            Route::controller(ItemTrackController::class)
+                ->prefix('item-track')
+                ->group(function () {
+                    Route::get('/', 'index')->name('itemTrack.index');   // For displaying the orders
+                    Route::post('/', 'index')->name('itemTrack.index');  // For handling the status update
+                });
 
         Route::controller(AdminProfileController::class)
             ->prefix('profile')

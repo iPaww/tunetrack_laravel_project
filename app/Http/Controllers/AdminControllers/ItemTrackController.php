@@ -4,19 +4,31 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\Orders;
 use App\Http\Controllers\AdminControllers\BasePageController;
-
+use Illuminate\Http\Request;
 class ItemTrackController extends BasePageController
 {
     public string $base_file_path = 'item_track.';
 
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Orders::select('orders.id', 'orders.payment_method', 'orders.status', 'orders.total', 'users.fullname', 'orders.created_at')
-            ->join('users', 'orders.user_id', '=', 'users.id')
+        // Get the selected status from the request
+        $status = $request->input('status');
+
+        // Fetch orders with user data, and apply the status filter if provided
+        $orders = Orders::with('user')
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status); // Filter by status
+            })
             ->paginate(10);
 
-        return $this->view_basic_page( $this->base_file_path . 'index', [
-            'orders' => $orders,
-        ]);
+        // Map status integer to string value
+        $statusMap = [
+            1 => 'Pending',
+            2 => 'Processing',
+            3 => 'Ready to Pickup',
+        ];
+
+        // Pass the orders and status map to the view
+        return $this->view_basic_page($this->base_file_path . 'index', compact('orders', 'statusMap'));
     }
 }
