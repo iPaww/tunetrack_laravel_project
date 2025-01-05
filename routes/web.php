@@ -1,19 +1,19 @@
 <?php
 
+use App\Http\Controllers;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Verification;
-use App\Http\Middleware\CourseProgressTracker;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers;
-use App\Http\Controllers\BasePageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\VerificationForm;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BasePageController;
 use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ExcerciseController;
+use App\Http\Middleware\CourseProgressTracker;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ELearningCourseController;
 use App\Http\Controllers\AdminControllers\QuizController;
@@ -23,9 +23,9 @@ use App\Http\Controllers\AdminControllers\SalesController;
 use App\Http\Controllers\AdminControllers\BrandsController;
 use App\Http\Controllers\AdminControllers\ColorsController;
 use App\Http\Controllers\AdminControllers\TopicsController;
+use App\Http\Controllers\AdminControllers\ProductsController;
 use App\Http\Controllers\AdminControllers\InventoryController;
 use App\Http\Controllers\AdminControllers\ItemTrackController;
-use App\Http\Controllers\AdminControllers\InstrumentsController;
 use App\Http\Controllers\AdminControllers\ProductTypeController;
 use App\Http\Controllers\AdminControllers\SubCategoryController;
 use App\Http\Controllers\AdminControllers\MainCategoryController;
@@ -93,7 +93,9 @@ Route::controller(ProfileController::class)
         Route::get('/exam', 'exam');
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
+        Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
     });
+
 
 Route::controller(ShopController::class)
     ->middleware([Authenticate::class, Verification::class])
@@ -140,10 +142,10 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index')->name('admin.appointment.index');
                 Route::put('update/{id}', 'update')->name('admin.appointment.update');
             });
-            
 
-        Route::controller(InstrumentsController::class)
-            ->prefix('instruments')
+
+        Route::controller(ProductsController::class)
+            ->prefix('products')
             ->group(function () {
                 Route::get('/', 'index');
                 Route::get('instrument/add', 'add');

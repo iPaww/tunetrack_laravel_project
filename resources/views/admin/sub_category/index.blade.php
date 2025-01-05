@@ -1,6 +1,6 @@
-<div class="container mt-5">
-    <h1>Sub Categories</h1>
-    
+<div class="container">
+    <h1>SUB CATEGORIES</h1>
+
     <button class="btn btn-primary">
         <a href="/admin/sub-category/add" style="text-decoration: none; color: white;">Add</a>
     </button>

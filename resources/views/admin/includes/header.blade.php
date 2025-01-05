@@ -47,7 +47,7 @@
             <a href="/admin/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
         </div>
         <div class="menu-item">
-            <a href="/admin/instruments"><i class="fas fa-cogs"></i> Products</a>
+            <a href="/admin/products"><i class="fas fa-cogs"></i> Products</a>
         </div>
         <div class="menu-item">
             <a href="/admin/topics"><i class="fas fa-book"></i> Topics </a>

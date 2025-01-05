@@ -1,5 +1,5 @@
-<div class="container mt-5">
-    <h1 class="mb-4 text-center">User Appointments and Sessions</h1>
+<div class="container">
+    <h1 class="mb-4 text-center">USER APPOINTMENT AND SESSION</h1>
 
     <!-- Filter Dropdown for Appointments -->
     <div class="mb-4 d-flex justify-content-center">
@@ -8,7 +8,7 @@
                 <label for="status_filter" class="form-label">Filter by Appointment Status</label>
                 <select name="status_filter" id="status_filter" class="form-select">
                     <option value="">All Appointments</option>
-                    @foreach(['Pending', 'Accepted', 'Rejected', 'Reappoint'] as $status)
+                    @foreach (['Pending', 'Accepted', 'Rejected', 'Reappoint'] as $status)
                         <option value="{{ $status }}" @selected(request('status_filter') == $status)>{{ $status }}</option>
                     @endforeach
                 </select>
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Appointment Table -->
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
         </div>
@@ -41,7 +41,8 @@
                         <td>{{ $appointment->user->fullname }}</td>
                         <td>{{ \Carbon\Carbon::parse($appointment->selected_date)->format('F j, Y') }}</td>
                         <td>
-                            <span class="badge 
+                            <span
+                                class="badge
                                 @switch($appointment->status)
                                     @case('Accepted') badge-success text-dark font-weight-normal @break
                                     @case('Rejected') badge-danger text-dark font-weight-normal @break
@@ -53,7 +54,8 @@
                         </td>
                         <td>
                             <!-- Appointment Status Change Form (Inline) -->
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
+                                class="d-inline-block">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
@@ -74,5 +76,5 @@
     </div>
 
     <!-- Success message after status update -->
-    
+
 </div>

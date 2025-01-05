@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container">
     <h2 class="text-center mb-4">Manage Orders</h2>
 
     <!-- Filter Form -->
@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-3">
                 <select name="status" class="form-select" onchange="this.form.submit()">
-                    <option value="">All Statuses</option>
+                    <option value="">All Status</option>
                     <option value="1" {{ request()->status == '1' ? 'selected' : '' }}>Pending</option>
                     <option value="2" {{ request()->status == '2' ? 'selected' : '' }}>Processing</option>
                     <option value="3" {{ request()->status == '3' ? 'selected' : '' }}>Ready to Pickup</option>
@@ -44,7 +44,8 @@
                             <select name="status" class="form-select" required>
                                 <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Pending</option>
                                 <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Processing</option>
-                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup</option>
+                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup
+                                </option>
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                         </form>

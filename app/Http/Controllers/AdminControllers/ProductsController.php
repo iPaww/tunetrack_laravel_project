@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Models\Products;
+use App\Models\Supplies;
 use App\Models\Categories;
 use App\Models\Instruments;
 use App\Models\InstrumentTypes;
-use App\Models\Supplies;
 use App\Http\Controllers\AdminControllers\BasePageController;
-use App\Models\Products;
 
-class InstrumentsController extends BasePageController
+class ProductsController extends BasePageController
 {
-    public string $base_file_path = 'instruments.';
+    public string $base_file_path = 'products.';
 
     public function index()
     {

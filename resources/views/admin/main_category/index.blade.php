@@ -1,6 +1,7 @@
-<div class="container mt-5">
-    <h1>Main Categories</h1>
-    <button class="btn btn-primary"><a href="/admin/main-category/add"style="text-decoration: none; color: white;">Add</a></button>
+<div class="container">
+    <h1>MAIN CATEGORIES</h1>
+    <button class="btn btn-primary"><a
+            href="/admin/main-category/add"style="text-decoration: none; color: white;">Add</a></button>
     <table class="table table-striped">
         <thead>
             <tr>

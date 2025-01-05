@@ -20,7 +20,7 @@
 
     <!-- Title and Button Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h4 mb-0">Courses</h1>
+        <h1 class="h4 mb-0">COURSES</h1>
 
         <!-- Search Form and Add Course Button -->
         <div class="d-flex gap-2">

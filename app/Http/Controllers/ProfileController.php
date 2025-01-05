@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 use App\Models\Courses;
@@ -19,7 +21,7 @@ class ProfileController extends BasePageController
     {
         $profile = User::where('id', session('id'))
             ->first();
-        return $this->view_basic_page( $this->base_file_path . 'index', compact( 'profile' ));
+        return $this->view_basic_page($this->base_file_path . 'index', compact('profile'));
     }
 
     public function learning()
@@ -32,8 +34,8 @@ class ProfileController extends BasePageController
             ->leftJoin('topics_user_history', 'topics.id', '=', 'topics_user_history.topic_id')
             ->groupBy('courses_user_history.course_id')
             ->paginate(10);
-        
-        return $this->view_basic_page( $this->base_file_path . 'learning', compact('courses_history'));
+
+        return $this->view_basic_page($this->base_file_path . 'learning', compact('courses_history'));
     }
 
     public function exam()
@@ -53,16 +55,61 @@ class ProfileController extends BasePageController
             ->leftJoin('quiz_user_history', 'quiz.id', '=', 'quiz_user_history.quiz_id')
             ->groupBy('quiz.course_id')
             ->paginate(10);
-        return $this->view_basic_page( $this->base_file_path . 'exam', compact('courses'));
+        return $this->view_basic_page($this->base_file_path . 'exam', compact('courses'));
     }
 
     public function certificate()
     {
-        return $this->view_basic_page( $this->base_file_path . 'certificate');
+        return $this->view_basic_page($this->base_file_path . 'certificate');
     }
 
     public function orders()
     {
-        return $this->view_basic_page( $this->base_file_path . 'orders');
+        return $this->view_basic_page($this->base_file_path . 'orders');
     }
+
+    // New methods for profile update
+    public function edit()
+    {
+        // Fetch user's profile data for editing
+        $profile = User::where('id', session('id'))->first();
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('profile'));
+    }
+
+    public function update(Request $request)
+{
+    $user = User::find(session('id'));
+
+    // Validate the request
+    $request->validate([
+        'fullname' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:20',
+        'address' => 'required|string',
+        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Update profile picture if provided
+    if ($request->hasFile('profile_picture')) {
+        $profileImage = $request->file('profile_picture');
+        $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
+
+        // Store the image in public/assets/images/users/{user_id}
+        $path = "assets/images/users/" . session('id');
+        Storage::deleteDirectory("public/$path"); // Remove old images
+        $profileImage->storeAs("public/$path", $imageName);
+
+        $user->image = $imageName;
+    }
+
+    // Update user details
+    $user->fullname = $request->fullname;
+    $user->phone_number = $request->phone_number;
+    $user->address = $request->address;
+    $user->save();
+
+    return response()->json([
+        'message' => 'Profile updated successfully!',
+        'profile' => $user,
+    ]);
+}
 }
