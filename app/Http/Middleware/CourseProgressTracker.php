@@ -3,20 +3,43 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use \DateTime;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Models\User;
-use App\Models\CourseHistory;
+use App\Models\CourseUserHistory;
+use App\Models\TopicsUserHistory;
 
 class CourseProgressTracker
 {
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        
-        $user = User::select('verified_at')->where('id', session('id'))
-            ->first();
+
+        $user_id = session('id');
+        $course_id = request()->route('course_id');
+        $topic_id = request()->route('topic_id');
+
+        if( !empty( $user_id ) ) {
+            $course_condition = ['user_id' => $user_id, 'course_id' => $course_id];
+            if( !empty( $course_id ) && !CourseUserHistory::where($course_condition)->exists() ) {
+                CourseUserHistory::create($course_condition, [
+                    'user_id' => $user_id,
+                    'course_id' => $course_id,
+                    'start_date' => new DateTime()
+                ] );
+            }
+
+            $course_condition = ['user_id' => $user_id, 'topic_id' => $topic_id];
+            if( !empty( $topic_id ) && !TopicsUserHistory::where($course_condition)->exists() ) {
+                TopicsUserHistory::create($course_condition, [
+                    'user_id' => $user_id,
+                    'topic_id' => $topic_id,
+                    'start_date' => new DateTime()
+                ]);
+            }
+        }
  
         return $response;
     }

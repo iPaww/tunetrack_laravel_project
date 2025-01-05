@@ -2,24 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 use App\Models\BaseModel;
 
-class Courses extends BaseModel
+class TopicsUserHistory extends BaseModel
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'courses';
+    protected $table = 'topics_user_history';
     protected $fillable = [
-        'name',
-        'description',
-        'objective',
-        'trivia',
-        'category_id',
+        'topic_id',
+        'user_id',
     ];
     /**
      * The primary key associated with the table.
@@ -34,14 +29,4 @@ class Courses extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-
-    public function quizes(): HasMany
-    {
-        return $this->hasMany(Quiz::class, 'course_id');
-    }
-
-    public function topics(): HasMany
-    {
-        return $this->hasMany(Topics::class, 'course_id');
-    }
 }

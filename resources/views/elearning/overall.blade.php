@@ -32,7 +32,8 @@
             </div>
             <p class="fs-3 text-center">
                 @if ( $passed )
-                    Congratulations you passed the exam!!! <br>You can find you cerficate on your <a href="/profile/certificate" class="text-decoration-none">profile</a>.
+                    {{-- Congratulations you passed the exam!!! <br>You can find you cerficate on your <a href="/profile/certificate" class="text-decoration-none">profile</a>. --}}
+                    Congratulations you passed the exam!!! <br><small class="fs-6">if you find it intresting please select another course</small>.
                 @else
                     You Failed, you can try again. Make sure to review all the topics covered.
                     <div>

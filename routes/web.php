@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Verification;
+use App\Http\Middleware\CourseProgressTracker;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers;
@@ -62,6 +63,7 @@ Route::controller(AboutUsController::class)->group(function () {
 
 Route::controller(ElearningController::class)
     ->prefix('elearning')
+    ->middleware([CourseProgressTracker::class])
     ->group(function () {
         Route::get('/', 'index');
         Route::get('/category/{id}', 'category');

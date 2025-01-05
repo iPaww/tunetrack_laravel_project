@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 use App\Models\BaseModel;
 
-class CourseHistory extends BaseModel
+class CourseUserHistory extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -31,4 +34,9 @@ class CourseHistory extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+
+    public function course():HasOne
+    {
+        return $this->hasOne(Courses::class, 'id', 'course_id');
+    }
 }

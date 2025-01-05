@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Courses;
 use App\Models\Quiz;
+use App\Models\CourseUserHistory;
 
 use App\Http\Controllers\BasePageController;
 
@@ -23,7 +24,16 @@ class ProfileController extends BasePageController
 
     public function learning()
     {
-        return $this->view_basic_page( $this->base_file_path . 'learning');
+        $courses_history = CourseUserHistory::select('courses_user_history.*',
+                Courses::raw('COUNT(topics_user_history.id) as topics_viewed')
+            )
+            ->where('courses_user_history.user_id', session('id'))
+            ->leftJoin('topics', 'courses_user_history.course_id', '=', 'topics.course_id')
+            ->leftJoin('topics_user_history', 'topics.id', '=', 'topics_user_history.topic_id')
+            ->groupBy('courses_user_history.course_id')
+            ->paginate(10);
+        
+        return $this->view_basic_page( $this->base_file_path . 'learning', compact('courses_history'));
     }
 
     public function exam()

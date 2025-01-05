@@ -17,7 +17,7 @@
                                     @if ( $course->answered >= $course->quizes->count() )
                                         <h1 class="text-center text-nowrap fs-1">{{ $course->correct_answers }}/{{ $course->quizes->count() }}</h1>
                                     @else
-                                        <p class="text-center">In progress answered {{ $course->answered }} our of {{ $course->quizes->count() }} questions</p>
+                                        <p class="text-center">In progress, You have answered {{ $course->answered }} out of {{ $course->quizes->count() }} questions.</p>
                                     @endif
                                 </div>
                             </div>
