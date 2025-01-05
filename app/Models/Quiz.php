@@ -40,9 +40,4 @@ class Quiz extends BaseModel
     {
         return $this->belongsTo(Courses::class, 'course_id');
     }
-
-    // public function quizes_answered(): HasMany
-    // {
-    //     return $this->hasMany(QuizUserHistory::class, 'quiz_id');
-    // }
 }

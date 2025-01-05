@@ -3,7 +3,7 @@
         <a href="{{ route('quiz.index') }}" style="text-decoration: none; color: white;">Back</a>
     </button>
     <h1>Add a New Quiz</h1>
-    
+
     <form action="{{ route('quiz.store') }}" method="POST" class="mt-4">
         @csrf
 
@@ -11,8 +11,8 @@
             <label for="courseSelect">Select Course</label>
             <select class="form-control" id="courseSelect" name="course_id" required>
                 <option value="" disabled selected>Select a course</option>
-                @foreach($topic as $course)
-                    <option value="{{ $course->id }}">{{ $course->title }}</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->id }}">{{ $course->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -51,8 +51,8 @@
         </div>
 
         <div class="form-group mt-3">
-            <label for="">Quiz order:</label>
-            <input type="text" class="form-control" id="" name="question_order" placeholder="">
+            <label for="question_order">Quiz Order</label>
+            <input type="text" class="form-control" id="question_order" name="question_order" placeholder="Enter quiz order" required>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Submit</button>

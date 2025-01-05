@@ -11,7 +11,10 @@ class Categories extends BaseModel
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'category';
+    protected $fillable = [
+        'name', // Add other fields that you want to allow for mass assignment
+    ];
 
     /**
      * The primary key associated with the table.

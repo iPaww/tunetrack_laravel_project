@@ -144,14 +144,15 @@ Route::prefix('admin')->group(function() {
             });
 
 
-        Route::controller(ProductsController::class)
+            Route::controller(ProductsController::class)
             ->prefix('products')
             ->group(function () {
-                Route::get('/', 'index');
-                Route::get('instrument/add', 'add');
-                Route::get('category/add', 'category_add');
-                Route::get('type/add', 'type_add');
-                Route::get('supplies/add', 'supplies_add');
+                Route::get('/', 'index')->name('admin.products.index');
+                Route::get('create', 'create')->name('admin.products.create');
+                Route::post('store', 'store')->name('admin.products.store');
+                Route::get('edit/{id}', 'edit')->name('admin.products.edit');
+                Route::put('update/{id}', 'update')->name('admin.products.update');
+                Route::delete('destroy/{id}', 'destroy')->name('admin.products.destroy');
             });
 
         Route::controller(ColorsController::class)
@@ -184,7 +185,7 @@ Route::prefix('admin')->group(function() {
                 Route::get('/create', 'create')->name('product_type.create');
                 Route::post('/', 'store')->name('product_type.store');
                 Route::get('/{id}/edit', 'edit')->name('product_type.edit');
-                Route::put('/{id}', 'update')->name('product_type.update');
+                Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('admin.products.update');
                 Route::delete('/product_type/{id}', 'destroy')->name('product_type.destroy');
         });
 
