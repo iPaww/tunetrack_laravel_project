@@ -40,6 +40,7 @@ class QuizController extends BasePageController
         'c_answer' => 'required|string',
         'd_answer' => 'required|string',
         'correct_answer' => 'required|string|in:a,b,c,d', // Correct answer can only be one of these
+        'question_order' =>'required|string',
     ]);
 
     // Check if validation failed
@@ -64,6 +65,7 @@ class QuizController extends BasePageController
         'c_answer' => $validated['c_answer'],
         'd_answer' => $validated['d_answer'],
         'correct_answer' => $correctAnswerMap[$validated['correct_answer']], // Store as 1, 2, 3, or 4
+        'question_order' =>$validated['question_order'],
     ]);
 
     return redirect()->route('quiz.index')->with('success', 'Quiz added successfully!');
@@ -96,6 +98,7 @@ class QuizController extends BasePageController
             'c_answer' => 'required|string',
             'd_answer' => 'required|string',
             'correct_answer' => 'required|string|in:a,b,c,d',
+            'question_order' =>'required|string',
         ]);
 
         // Convert the correct_answer ('a', 'b', 'c', 'd') to numeric value
@@ -115,6 +118,7 @@ class QuizController extends BasePageController
             'c_answer' => $validated['c_answer'],
             'd_answer' => $validated['d_answer'],
             'correct_answer' => $correctAnswerMap[$validated['correct_answer']], // Convert correct_answer to numeric value
+            'question_order' =>$validated['question_order'],
         ]);
 
         return redirect()->route('quiz.index')->with('success', 'Quiz updated successfully!');

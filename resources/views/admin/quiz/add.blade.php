@@ -50,6 +50,11 @@
             </select>
         </div>
 
+        <div class="form-group mt-3">
+            <label for="">Quiz order:</label>
+            <input type="text" class="form-control" id="" name="question_order" placeholder="">
+        </div>
+
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
 </div>
