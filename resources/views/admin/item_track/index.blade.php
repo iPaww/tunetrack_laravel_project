@@ -38,7 +38,7 @@
                     <td>{{ $statusMap[$order->status] ?? 'Unknown' }}</td>
                     <td>{{ $order->total }}</td>
                     <td>
-                        <form action="{{ route('itemTrack.index') }}" method="POST">
+                        <form action="{{ route('itemTrack.updateStatus') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $order->id }}">
                             <select name="status" class="form-select" required>

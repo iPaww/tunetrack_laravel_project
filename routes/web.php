@@ -195,9 +195,10 @@ Route::prefix('admin')->group(function() {
             Route::controller(ItemTrackController::class)
                 ->prefix('item-track')
                 ->group(function () {
-                    Route::get('/', 'index')->name('itemTrack.index');   // For displaying the orders
-                    Route::post('/', 'index')->name('itemTrack.index');  // For handling the status update
+                    Route::get('/', 'index')->name('itemTrack.index'); // For displaying the orders
+                    Route::post('/update-status', 'updateStatus')->name('itemTrack.updateStatus'); // For updating the order status
                 });
+
 
         Route::controller(AdminProfileController::class)
             ->prefix('profile')

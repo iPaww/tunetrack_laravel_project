@@ -31,4 +31,21 @@ class ItemTrackController extends BasePageController
         // Pass the orders and status map to the view
         return $this->view_basic_page($this->base_file_path . 'index', compact('orders', 'statusMap'));
     }
+
+    public function updateStatus(Request $request)
+{
+    $validatedData = $request->validate([
+        'order_id' => 'required|exists:orders,id',
+        'status' => 'required|in:1,2,3', // Ensure the status is valid
+    ]);
+
+    // Find the order and update the status
+    $order = Orders::find($validatedData['order_id']);
+    $order->status = $validatedData['status'];
+    $order->save();
+
+    return redirect()->route('itemTrack.index')->with('success', 'Order status updated successfully!');
+}
+    
+
 }
