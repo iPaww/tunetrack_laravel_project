@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class Products extends BaseModel
+class Products extends Model
 {
     protected $table = 'products';
 
@@ -26,22 +24,25 @@ class Products extends BaseModel
 
     public $incrementing = true;
 
-    // Correct relationship method (singular "category")
+    // Relationship with categories (make sure it's singular "category")
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Categories::class, 'category_id');
+        return $this->belongsTo(MainCategory::class, 'category_id');
     }
 
+    // Relationship with subcategories
     public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
+    // Relationship with product types
     public function productType(): BelongsTo
     {
         return $this->belongsTo(ProductType::class, 'product_type_id');
     }
 
+    // Relationship with brands
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brands::class, 'brand_id');
