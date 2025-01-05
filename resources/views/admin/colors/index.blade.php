@@ -1,7 +1,7 @@
 <!-- resources/views/admin/colors/index.blade.php -->
 <div class="container">
 
-    <h1>Colors</h1>
+    <h1><b>COLORS</b></h1>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -9,7 +9,7 @@
 
     <a href="{{ route('colors.create') }}" class="btn btn-primary mb-3">Add New Color</a>
     <!-- Back Button -->
-    <a href="/admin/instruments" class="btn btn-secondary mb-3">
+    <a href="/admin/products" class="btn btn-secondary mb-3">
         <i class="bi bi-arrow-left-circle"></i> Back
     </a>
     <table class="table">

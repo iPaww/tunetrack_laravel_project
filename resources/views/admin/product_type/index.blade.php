@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Product Types</h1>
+    <h1><b>PRODUCT TYPE</b></h1>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -7,7 +7,7 @@
 
     <a href="{{ route('product_type.create') }}" class="btn btn-primary mb-3">Add New Product Type</a>
     <!-- Back Button -->
-    <a href="/admin/instruments" class="btn btn-secondary mb-3">
+    <a href="/admin/products" class="btn btn-secondary mb-3">
         <i class="bi bi-arrow-left-circle"></i> Back
     </a>
     <table class="table">

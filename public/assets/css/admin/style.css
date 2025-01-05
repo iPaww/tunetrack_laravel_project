@@ -42,14 +42,13 @@ body {
     background-color: #333;
     color: white;
     height: 100vh;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin: 0;
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 250px;
-    overflow-y: auto; /* Make sidebar scrollable */
+    overflow-y: auto;
     transition: all 0.3s ease-in-out;
     z-index: 999;
     scrollbar-width: thin;
@@ -112,7 +111,8 @@ body {
         transform: translateX(-250px);
         position: fixed;
         z-index: 9999;
-        height: auto; /* Ensure height is not fixed for smaller screens */
+        height: auto;
+        /* Ensure height is not fixed for smaller screens */
     }
 
     .sidebar.visible {
