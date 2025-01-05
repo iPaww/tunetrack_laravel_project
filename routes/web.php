@@ -4,6 +4,8 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Verification;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers;
+use App\Http\Controllers\BasePageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\VerificationForm;
@@ -44,7 +46,8 @@ use App\Http\Controllers\AdminControllers\AppointmentController as AdminAppointm
 */
 
 Route::get('/', function () {
-    return view('basic_page', [ 'page' => 'index' ]);
+    $basepage = new BasePageController();
+    return $basepage->view_basic_page('index');
 });
 
 Route::controller(AppointmentController::class)

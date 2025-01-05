@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use App\Models\BaseModel;
 
 class Courses extends BaseModel
@@ -33,7 +35,7 @@ class Courses extends BaseModel
      */
     public $incrementing = true;
 
-    public function quizzes()
+    public function quizes(): HasMany
     {
         return $this->hasMany(Quiz::class, 'course_id');
     }

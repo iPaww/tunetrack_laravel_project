@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+
+use App\Models\Cart;
 use App\Models\CourseHistory;
 use App\Models\Courses;
 use App\Models\MainCategory;
 use App\Models\Quiz;
 use App\Models\QuizUserHistory;
 use App\Models\Topics;
+
 use App\Http\Controllers\ElearningController;
 
 class ELearningCourseController extends ElearningController
@@ -49,9 +52,16 @@ class ELearningCourseController extends ElearningController
         $template = 'basic_page';
         if( view()->exists($this->base_file_path . 'template') ) 
             $template = $this->base_file_path . 'template';
+
+        $cart_count = 0;
+        if( !empty(session('id')) ) {
+            $cart_count = Cart::where('user_id', session('id'))->count();
+        }
+        
         return view( $template, [ 
             'page_title' => $this->page_title,
             'page' => $page,
+            'cart_count' => $cart_count,
             'categories' => $categories,
             'courses' => $courses,
             'topics' => $topics,

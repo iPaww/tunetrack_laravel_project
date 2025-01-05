@@ -10,9 +10,9 @@
             <a class="text-reset text-decoration-none" href="/profile/exam">
                 <div class="instruments-ctgry"><i class="fas fa-pen-alt"></i> Assesments</div>
             </a>
-            <a class="text-reset text-decoration-none" href="/profile/certificate">
+            {{-- <a class="text-reset text-decoration-none" href="/profile/certificate">
                 <div class="instruments-ctgry"><i class="fas fa-certificate"></i> Certificate</div>
-            </a>
+            </a> --}}
             <a class="text-reset text-decoration-none" href="/shop/orders">
                 <div class="instruments-ctgry"><i class="fas fa-truck"></i> Track My Order</div>
             </a>

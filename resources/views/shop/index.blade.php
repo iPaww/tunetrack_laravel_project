@@ -97,14 +97,12 @@
                         </a>
                     </div>
                 @endforeach
-            </div>
-            <div class="position-relative" style="min-height: 10vh">
-                <div class="position-absolute top-50 start-50 translate-middle">
+                <div class="col-12">
                     {{ $items->links() }}
-                    <div>
-                    </div>
-                @else
-                    <p>No products found.</p>
+                </div>
+            </div>
+        @else
+            <p>No products found.</p>
         @endif
     </main>
     <!--end of shop container-->

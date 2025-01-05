@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'fullname' => Str::random(10),
-            'phone_number' => Str::random(11),
-            'address' => Str::random(25),
+            'fullname' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(11, true),
+            'address' => fake()->address(),
             'email' => 'admin@example.com',
             'role' => 1,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
             'verified_at' => new DateTime(),
         ]);
         DB::table('users')->insert([
-            'fullname' => Str::random(10),
-            'phone_number' => Str::random(11),
-            'address' => Str::random(25),
+            'fullname' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(11, true),
+            'address' => fake()->address(),
             'email' => 'employee@example.com',
             'role' => 2,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
@@ -38,9 +38,9 @@ class UserSeeder extends Seeder
             'verified_at' => new DateTime(),
         ]);
         DB::table('users')->insert([
-            'fullname' => Str::random(10),
-            'phone_number' => Str::random(11),
-            'address' => Str::random(25),
+            'fullname' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(11, true),
+            'address' => fake()->address(),
             'email' => 'user1@example.com',
             'role' => 3,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
@@ -48,9 +48,9 @@ class UserSeeder extends Seeder
             'verified_at' => new DateTime(),
         ]);
         DB::table('users')->insert([
-            'fullname' => Str::random(10),
-            'phone_number' => Str::random(11),
-            'address' => Str::random(25),
+            'fullname' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(11, true),
+            'address' => fake()->address(),
             'email' => 'user2@example.com',
             'role' => 3,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
@@ -58,9 +58,9 @@ class UserSeeder extends Seeder
             'verified_at' => new DateTime(),
         ]);
         DB::table('users')->insert([
-            'fullname' => Str::random(10),
-            'phone_number' => Str::random(11),
-            'address' => Str::random(25),
+            'fullname' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(11, true),
+            'address' => fake()->address(),
             'email' => 'user4@example.com',
             'role' => 3,
             'password' => password_hash('ASDASDqweqwe123!', PASSWORD_DEFAULT),
