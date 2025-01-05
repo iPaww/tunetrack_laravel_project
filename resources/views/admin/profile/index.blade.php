@@ -30,7 +30,11 @@
         <h5>Update Profile</h5>
     </div>
     <div class="card-body">
-        <form method="POST" enctype="multipart/form-data" action="">
+        <!-- Update Profile Form -->
+        <form method="POST" enctype="multipart/form-data" action="{{ route('profile.update') }}">
+            @csrf
+            @method('PUT') <!-- This line is required to simulate PUT request -->
+
             <div class="mb-3">
                 <label for="fullname" class="form-label">Full Name</label>
                 <input type="text" class="form-control" id="fullname" name="fullname"

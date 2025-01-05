@@ -202,11 +202,14 @@ Route::prefix('admin')->group(function() {
                 });
 
 
-        Route::controller(AdminProfileController::class)
-            ->prefix('profile')
-            ->group(function () {
-                Route::get('/', 'index');
-            });
+            Route::controller(AdminProfileController::class)
+                ->prefix('profile')
+                ->group(function () {
+                    Route::get('/', 'index')->name('profile.index');  // View the profile
+                    Route::put('/update', 'update')->name('profile.update');  // Update profile
+                });
+
+
 
             Route::controller(QuizController::class)
             ->prefix('quiz')

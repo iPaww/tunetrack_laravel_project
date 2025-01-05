@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AdminControllers\BasePageController;
 
 class ProfileController extends BasePageController
@@ -11,11 +13,50 @@ class ProfileController extends BasePageController
 
     public function index()
     {
-        $user = User::where('id', session('admin_user.id'))
-            ->first();
+        $user = User::find(session('admin_user.id'));
 
-        return $this->view_basic_page( $this->base_file_path . 'index', [
+        return $this->view_basic_page($this->base_file_path . 'index', [
             'user' => $user
         ]);
+    }
+
+    public function update(Request $request)
+    {
+        // Validate the input data
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone_number' => 'required|string|max:20',
+            'address' => 'required|string',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => 'nullable|string|min:6|confirmed', // optional password confirmation
+        ]);
+
+        // Find the current user
+        $user = User::find(session('admin_user.id'));
+
+        // Update user fields
+        $user->fullname = $validated['fullname'];
+        $user->email = $validated['email'];
+        $user->phone_number = $validated['phone_number'];
+        $user->address = $validated['address'];
+
+        // Handle the profile picture update
+        if ($request->hasFile('profile_picture')) {
+            $imageName = time() . '.' . $request->profile_picture->extension();
+            $request->profile_picture->move(public_path('assets/images/users/' . $user->id), $imageName);
+            $user->profile_picture = $imageName;
+        }
+
+        // Update password if provided
+        if ($request->filled('password')) {
+            $user->password = bcrypt($validated['password']);
+        }
+
+        // Save the updated user data
+        $user->save();
+
+        // Redirect back with a success message
+        return redirect()->route('profile.index')->with('success', 'Profile updated successfully!');
     }
 }

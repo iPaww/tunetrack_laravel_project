@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ isset($page_title) ? $page_title : 'TuneTrack' }}</title>
-    <link rel="stylesheet" href="{{ asset("assets/css/home.css") }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         /* Background image */
@@ -18,8 +17,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            min-height: 100vh;  /* Change from height to min-height */
-            overflow: auto;  /* Allow content overflow if needed */
+            min-height: 100vh;
+            overflow: auto;
         }
 
         /* Banner */
@@ -41,6 +40,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            transform: translateY(-3px);
         }
 
         .title-banner:hover {
@@ -89,7 +89,7 @@
         }
 
         .set-banner:hover {
-            color:black;
+            color: black;
             transform: translateY(-3px);
         }
 
@@ -115,7 +115,9 @@
         }
 
         @media (max-width: 768px) {
-            .home-banner, .nav-bar {
+
+            .home-banner,
+            .nav-bar {
                 text-align: center;
             }
 
@@ -135,6 +137,7 @@
             overflow: hidden;
             background-color: #555;
         }
+
         /* Profile Image inside header */
         .profile-container {
             display: flex;
@@ -149,20 +152,21 @@
             object-fit: cover;
             border: 2px solid #fff;
             margin-left: 15px;
-       }
+        }
     </style>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
-        crossorigin="anonymous"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
     <style>
         .login-container {
             max-width: 800px;
             border-radius: 12px;
-            
+
         }
+
         .form {
             border-radius: 25px;
         }
+
         .form input {
             width: 100%;
             height: 40px;
@@ -171,6 +175,7 @@
             border: none;
             padding: 0 15px;
         }
+
         .button {
             height: 40px;
             width: 100px;
@@ -179,57 +184,65 @@
             color: white;
             background-color: tomato;
         }
+
         .button:hover {
             background-color: white;
             color: black;
         }
+
         .toggle-link {
             color: rgb(49, 32, 209);
             font-size: 14px;
         }
+
         /* Responsive adjustments */
         @media (max-width: 576px) {
             .login-container {
-                flex-direction: column; /* Stack logo and form */
+                flex-direction: column;
                 padding: 20px;
             }
+
             .col-6 {
                 max-width: 100%;
             }
         }
+
         input.is-invalid {
             background-color: #ffb3ad;
             border: 1px solid red;
         }
     </style>
 </head>
-    <div class="container login-container d-flex flex-lg-row flex-column align-items-center" style="min-height: 75vh;">
-        <!-- Logo Section -->
-        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center p-4">
-            <img src="{{ asset('assets/images/logo/logo.png') }}" alt="logo" class="img-fluid">
-        </div>
+<div class="container login-container d-flex flex-lg-row flex-column align-items-center" style="min-height: 75vh;">
+    <!-- Logo Section -->
+    <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center p-4">
+        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="logo" class="img-fluid">
+    </div>
 
-        <!-- Login Form -->
-        <div id="loginForm" class="form col-lg-6 col-12 p-4" style="background-color: #ffa07a;">
-            <h2 class="text-center text-white mb-4">Log In</h2>
-            <form action="/login" method="post">
-                @csrf <!-- {{ csrf_field() }} -->
-                <input class="text-center fs-4 @error('email') is-invalid @enderror" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-                <input class="text-center fs-4 @error('password') is-invalid @enderror" type="password" name="password" placeholder="Password" value="{{ old('password') }}" required>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="button">Login</button>
-                </div>
-                @if ($errors->any())
+    <!-- Login Form -->
+    <div id="loginForm" class="form col-lg-6 col-12 p-4" style="background-color: #ffa07a;">
+        <h2 class="text-center text-white mb-4">Log In</h2>
+        <form action="/login" method="post">
+            @csrf <!-- {{ csrf_field() }} -->
+            <input class="text-center fs-4 @error('email') is-invalid @enderror" type="email" name="email"
+                placeholder="Email" value="{{ old('email') }}" required>
+            <input class="text-center fs-4 @error('password') is-invalid @enderror" type="password" name="password"
+                placeholder="Password" value="{{ old('password') }}" required>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="button">Login</button>
+            </div>
+            @if ($errors->any())
                 <ul class="list-group my-2">
                     @foreach ($errors->all() as $error)
                         <li class="list-group-item list-group-item-danger">{{ $error }}</li>
                     @endforeach
                 </ul>
-                @endif
-                <div class="text-center mt-5">
-                    <a href="/register" class="text-decoration-none toggle-link">Don’t have an account?<br>Create account here</a>
-                </div>
-            </form>
-        </div>
+            @endif
+            <div class="text-center mt-5">
+                <a href="/register" class="text-decoration-none toggle-link">Don’t have an account?<br>Create account
+                    here</a>
+            </div>
+        </form>
     </div>
+</div>
 @include('includes/footer')

@@ -40,6 +40,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            transform: translateY(-3px);
         }
 
         .title-banner:hover {
@@ -170,34 +171,35 @@
             </div>
             <!-- Profile Image & Name -->
             <div class="profile-container pe-4">
-                @if ( !empty( session('id')) )
-                <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
-                    <img src="{{ !empty(session('profile_picture')) &&
-                    file_exists(public_path('assets/images/users/' . session('id') . '/' . session('profile_picture')))
-                        ? asset('assets/images/users/' . session('id') . '/' . session('profile_picture')) // TODO FIXME: This should use image of user
-                        : asset('assets/images/default/default_user.png') }}"
-                        alt="Profile Image" class="profile-image">
-                    <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
-                </a>
-                <a class="text-white text-decoration-none ms-2" href="/shop/cart">
-                    <div class="position-relative">
-                        <a href="/shop/cart" class="text-decoration-none text-white position-relative">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            @if ( isset($cart_count) && $cart_count > 0 )
-                                <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                    {{ number_format($cart_count) }}
-                                    <span class="visually-hidden">cart items</span>
-                                </span>
-                            @endif
-                        </a>
-                    </div>
-                </a>
+                @if (!empty(session('id')))
+                    <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
+                        <img src="{{ !empty(session('profile_picture')) &&
+                        file_exists(public_path('assets/images/users/' . session('id') . '/' . session('profile_picture')))
+                            ? asset('assets/images/users/' . session('id') . '/' . session('profile_picture')) // TODO FIXME: This should use image of user
+                            : asset('assets/images/default/default_user.png') }}"
+                            alt="Profile Image" class="profile-image">
+                        <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
+                    </a>
+                    <a class="text-white text-decoration-none ms-2" href="/shop/cart">
+                        <div class="position-relative">
+                            <a href="/shop/cart" class="text-decoration-none text-white position-relative">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                @if (isset($cart_count) && $cart_count > 0)
+                                    <span
+                                        class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                        {{ number_format($cart_count) }}
+                                        <span class="visually-hidden">cart items</span>
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+                    </a>
                 @else
-                <a href="/login" class="text-white text-decoration-none">
-                    <img src="{{ asset('assets/images/default/default_user.png') }}"
-                        alt="Profile Image" class="profile-image">
-                    <span class="text-white ms-2 fw-bold">Guest</span>
-                </a>
+                    <a href="/login" class="text-white text-decoration-none">
+                        <img src="{{ asset('assets/images/default/default_user.png') }}" alt="Profile Image"
+                            class="profile-image">
+                        <span class="text-white ms-2 fw-bold">Guest</span>
+                    </a>
                 @endif
             </div>
         </div>
