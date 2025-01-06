@@ -7,11 +7,6 @@
                     <h4>Create New Brand</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Back Button -->
-                    <a href="{{ route('brands.index') }}" class="btn btn-secondary mb-4">
-                        <i class="bi bi-arrow-left-circle"></i> Back to Brands
-                    </a>
-
                     <!-- Brand Creation Form -->
                     <form action="{{ route('brands.store') }}" method="POST">
                         @csrf
@@ -21,7 +16,15 @@
                             <input type="text" id="name" name="name" class="form-control" required>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-block">Create Brand</button>
+                        <!-- Buttons (Back and Create Brand) -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('brands.index') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left-circle"></i> Back to Brands
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                Create Brand
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
