@@ -18,14 +18,19 @@
                             @error('name')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
-                            <!-- Back Button -->
-                            <a href="{{ route('colors.index') }}" class="btn btn-secondary mb-3">
-                                <i class="bi bi-arrow-left-circle"></i> Back to Colors
-                            </a>
                         </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-success btn-block mt-3">Create Color</button>
+                        <!-- Buttons (Back and Create Color) -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Back Button -->
+                            <a href="{{ route('colors.index') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left-circle"></i> Back to Colors
+                            </a>
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-success">
+                                Create Color
+                            </button>
+                        </div>
 
                     </form>
                 </div>
