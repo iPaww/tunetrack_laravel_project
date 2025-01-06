@@ -5,26 +5,30 @@
     <i class="fas fa-arrow-left"></i> Back
 </a>
 
-<form action="/admin/sub-category/add" method="POST" class="shadow p-4 rounded-lg bg-light">
-    @csrf <!-- {{ csrf_field() }} -->
-    
+<form action="/admin/sub-category/edit/{{ $sub_category->id }}" method="POST" class="shadow p-4 rounded-lg bg-light">
+    @csrf <!-- CSRF Token -->
+
     <!-- Sub-Category Name Input -->
     <div class="mb-3">
         <label for="name" class="form-label">Sub-Category Name</label>
-        <input type="text" name="name" id="name" class="form-control" value="{{ $sub_category->name }}" placeholder="Enter sub-category name" required>
+        <input type="text" name="name" id="name" class="form-control" 
+               value="{{ old('name', $sub_category->name) }}" 
+               placeholder="Enter sub-category name" required>
     </div>
 
-    <!-- Main Category Dropdown (Foreign Key) -->
+    <!-- Main Category Dropdown -->
     <div class="mb-3">
         <label for="category_id" class="form-label">Main Category</label>
-        <select name="category_id" id="category_id" class="form-select"  required>
+        <select name="category_id" id="category_id" class="form-select" required>
             <option value="">Select Main Category</option>
             @foreach ($MainCategory as $category)
-                <option @selected($category->id == $sub_category->category_id) value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}" 
+                        @selected($category->id == $sub_category->category_id)>
+                    {{ $category->name }}
+                </option>
             @endforeach
         </select>
     </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary w-100 py-2">Add Sub-Category</button>
+    <button type="submit" class="btn btn-primary w-100 py-2">Update Sub-Category</button>
 </form>
