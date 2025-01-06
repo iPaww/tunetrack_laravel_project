@@ -6,9 +6,9 @@
     <div class="card-body d-flex">
         <!-- Left: Profile Picture -->
         <div class="me-4">
-            <img src="{{ !empty($user['profile_picture']) &&
-            file_exists(public_path('assets/images/users/' . $user['id'] . '/' . $user['profile_picture']))
-                ? asset('assets/images/users/' . $user['id'] . '/' . $user['profile_picture'])
+            <img src="{{ !empty($user['image']) &&
+            file_exists(public_path('assets/images/users/' . $user['id'] . '/' . $user['image']))
+                ? asset('assets/images/users/' . $user['id'] . '/' . $user['image'])
                 : asset('assets/images/default/admindp.jpg') }}"
                 alt="Profile Picture" class="rounded-circle mb-3" style="width: 300px; height: 300px;">
         </div>
@@ -18,7 +18,17 @@
             <p><strong>Email:</strong>{{ $user['email'] }}</p>
             <p><strong>Phone Number:</strong>{{ $user['phone_number'] }}</p>
             <p><strong>Address:</strong>{{ $user['address'] }}</p>
-            <p><strong>Role:</strong>{{ ucfirst($user['role']) }}</p>
+            <p><strong>Role:</strong>
+                @if ($user['role'] == 1)
+                    Admin
+                @elseif ($user['role'] == 2)
+                    Employee
+                @elseif ($user['role'] == 3)
+                    User
+                @else
+                    Unknown
+                @endif
+            </p>
             <p><strong>Created At:</strong>{{ $user['created_at'] }}</p>
         </div>
     </div>
@@ -33,7 +43,7 @@
         <!-- Update Profile Form -->
         <form method="POST" enctype="multipart/form-data" action="/admin/profile/update">
             @csrf
-            @method('PUT') <!-- This line is required to simulate PUT request -->
+            @method('PUT')
 
             <div class="mb-3">
                 <label for="fullname" class="form-label">Full Name</label>
