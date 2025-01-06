@@ -213,8 +213,8 @@ Route::prefix('admin')->group(function() {
             Route::controller(AdminProfileController::class)
                 ->prefix('profile')
                 ->group(function () {
-                    Route::get('/', 'index')->name('index');  // View the profile
-                    Route::put('/update', 'update')->name('update');  // Update profile
+                    Route::get('/', 'index')->name('profile.index');
+                    Route::put('/update', 'update')->name('profile.update');
                 });
 
 
