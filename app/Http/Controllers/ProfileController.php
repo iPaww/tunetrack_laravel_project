@@ -77,39 +77,39 @@ class ProfileController extends BasePageController
     }
 
     public function update(Request $request)
-{
-    $user = User::find(session('id'));
+    {
+        $user = User::find(session('id'));
 
-    // Validate the request
-    $request->validate([
-        'fullname' => 'required|string|max:255',
-        'phone_number' => 'required|string|max:20',
-        'address' => 'required|string',
-        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+        // Validate the request
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'address' => 'required|string',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // Update profile picture if provided
-    if ($request->hasFile('profile_picture')) {
-        $profileImage = $request->file('profile_picture');
-        $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
+        // Update profile picture if provided
+        if ($request->hasFile('profile_picture')) {
+            $profileImage = $request->file('profile_picture');
+            $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
 
-        // Store the image in public/assets/images/users/{user_id}
-        $path = "assets/images/users/" . session('id');
-        Storage::deleteDirectory("public/$path"); // Remove old images
-        $profileImage->storeAs("public/$path", $imageName);
+            // Store the image in public/user/{user_id}
+            $path = 'public/user/' . session('id');
+            $profileImage->storeAs($path, $imageName);  // Store the image in the correct folder
 
-        $user->image = $imageName;
+            // Update the image field in the user table
+            $user->image = $imageName;
+        }
+
+        // Update user details
+        $user->fullname = $request->fullname;
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully!',
+            'profile' => $user,
+        ]);
     }
-
-    // Update user details
-    $user->fullname = $request->fullname;
-    $user->phone_number = $request->phone_number;
-    $user->address = $request->address;
-    $user->save();
-
-    return response()->json([
-        'message' => 'Profile updated successfully!',
-        'profile' => $user,
-    ]);
-}
 }

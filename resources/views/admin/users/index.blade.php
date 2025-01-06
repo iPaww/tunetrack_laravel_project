@@ -15,7 +15,7 @@
     <tbody>
         @foreach ($users as $user)
             <tr>
-                <td>{{ $user['id'] }}</td>  
+                <td>{{ $user['id'] }}</td>
                 <td>{{ $user['fullname'] }}</td>
                 <td>{{ $user['email'] }}</td>
                 <td>{{ $user['address'] }}</td>
@@ -32,7 +32,20 @@
                 </td>
                 <td>{{ $user['phone_number'] }}</td>
                 <td>
-                    <a href="?delete_id={{ $user['id'] }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    @if ($user['role'] == 1)
+                        Admin
+                    @elseif ($user['role'] == 2)
+                        Employee
+                    @elseif ($user['role'] == 3)
+                        User
+                    @else
+                        Unknown
+                    @endif
+                </td>
+                <td>{{ $user['phone_number'] }}</td>
+                <td>
+                    <a href="?delete_id={{ $user['id'] }}" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                 </td>
             </tr>
         @endforeach

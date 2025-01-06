@@ -6,11 +6,6 @@
                     <h4>Create New Color</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Back Button -->
-                    <a href="{{ route('colors.index') }}" class="btn btn-secondary mb-3">
-                        <i class="bi bi-arrow-left-circle"></i> Back to Colors
-                    </a>
-
                     <!-- Color Creation Form -->
                     <form action="{{ route('colors.store') }}" method="POST">
                         @csrf
@@ -23,10 +18,15 @@
                             @error('name')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
+                            <!-- Back Button -->
+                            <a href="{{ route('colors.index') }}" class="btn btn-secondary mb-3">
+                                <i class="bi bi-arrow-left-circle"></i> Back to Colors
+                            </a>
                         </div>
 
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-success btn-block mt-3">Create Color</button>
+
                     </form>
                 </div>
             </div>
