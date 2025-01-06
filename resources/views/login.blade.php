@@ -213,11 +213,11 @@
         }
     </style>
 </head>
-<div class="container login-container d-flex flex-lg-row flex-column align-items-center" style="min-height: 75vh;">
-    <!-- Logo Section -->
-    <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center p-4">
-        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="logo" class="img-fluid">
-    </div>
+    <div class="container login-container d-flex flex-lg-row flex-column align-items-center" style="min-height: 75vh;">
+        <!-- Logo Section -->
+        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center p-4">
+            <a href="/"><img src="{{ asset('assets/images/logo/logo.png') }}" alt="logo" class="img-fluid"></a>
+        </div>
 
     <!-- Login Form -->
     <div id="loginForm" class="form col-lg-6 col-12 p-4" style="background-color: #ffa07a;">

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/admin/profile.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin/courses.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin/topics.css') }}">
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

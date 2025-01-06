@@ -19,7 +19,8 @@ class ItemTrackController extends BasePageController
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status); // Filter by status
             })
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         // Map status integer to string value
         $statusMap = [

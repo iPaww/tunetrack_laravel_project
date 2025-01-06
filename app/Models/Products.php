@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 
 class Products extends Model
 {
@@ -46,5 +50,13 @@ class Products extends Model
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brands::class, 'brand_id');
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function type(): HasOne
+    {
+        return $this->hasOne(ProductType::class, 'id', 'product_type_id');
     }
 }

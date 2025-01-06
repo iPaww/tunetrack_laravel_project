@@ -188,10 +188,10 @@ CREATE TABLE `product_review` (
   `id` int NOT NULL AUTO_INCREMENT,
   `review` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `rating` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   `delete_at` date DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;

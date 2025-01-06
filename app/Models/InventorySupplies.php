@@ -28,7 +28,7 @@ class InventorySupplies extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'serial_number',
+        'quantity',
         'product_id',
         'color_id',
     ];
@@ -48,5 +48,10 @@ class InventorySupplies extends BaseModel
     public function color(): HasOne
     {
         return $this->hasOne(\App\Models\Colors::class, 'id', 'color_id');
+    }
+
+    public function product(): HasOne
+    {
+        return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');
     }
 }

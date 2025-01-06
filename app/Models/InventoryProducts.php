@@ -50,4 +50,9 @@ class InventoryProducts extends BaseModel
     {
         return $this->hasOne(\App\Models\Colors::class, 'id', 'color_id');
     }
+
+    public function product(): HasOne
+    {
+        return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');
+    }
 }

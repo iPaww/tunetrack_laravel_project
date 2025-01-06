@@ -1,6 +1,6 @@
 
 
-<div class="container mt-5">
+<div class="container mt-5 pb-5">
     <div class="row align-items-center mb-5">
         <div class="col-mg-12 mb-3">
             <a href="@if ( url()->previous() !== url()->current() && str_contains(url()->previous(), '/shop') ) {{ url()->previous() }} @else /shop @endif"

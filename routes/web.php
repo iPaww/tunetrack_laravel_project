@@ -185,7 +185,7 @@ Route::prefix('admin')->group(function() {
                 Route::get('/create', 'create')->name('product_type.create');
                 Route::post('/', 'store')->name('product_type.store');
                 Route::get('/{id}/edit', 'edit')->name('product_type.edit');
-                Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('admin.products.update');
+                Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('product_type.update');
                 Route::delete('/product_type/{id}', 'destroy')->name('product_type.destroy');
         });
 
@@ -193,6 +193,13 @@ Route::prefix('admin')->group(function() {
             ->prefix('inventory')
             ->group(function () {
                 Route::get('/', 'index');
+                Route::get('/add', 'add');
+                Route::post('/add', 'add_form');
+                Route::get('/edit/{product_id}/product-type/1/color/{color_id}', 'edit_products');
+                Route::get('/edit/{product_id}/product-type/2/color/{color_id}', 'edit_supplies');
+                Route::put('/edit/{product_id}/product-type/1/color/{color_id}', 'edit_form_products');
+                Route::put('/edit/{product_id}/product-type/2/color/{color_id}', 'edit_form_supplies');
+                Route::delete('/delete/{product_id}/product-type/{product_type_id}/color/{color_id}', 'delete');
             });
 
             Route::controller(ItemTrackController::class)
@@ -206,8 +213,8 @@ Route::prefix('admin')->group(function() {
             Route::controller(AdminProfileController::class)
                 ->prefix('profile')
                 ->group(function () {
-                    Route::get('/', 'index')->name('profile.index');  // View the profile
-                    Route::put('/update', 'update')->name('profile.update');  // Update profile
+                    Route::get('/', 'index')->name('admin.profile.index');  // View the profile
+                    Route::put('/update', 'update')->name('admin.profile.update');  // Update profile
                 });
 
 
