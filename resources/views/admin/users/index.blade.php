@@ -13,17 +13,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ( $users as $user )
+        @foreach ($users as $user)
             <tr>
-                <td>{{ $user['id'] }}</td>  
+                <td>{{ $user['id'] }}</td>
                 <td>{{ $user['fullname'] }}</td>
                 <td>{{ $user['email'] }}</td>
                 <td>{{ $user['password'] }}</td>
-                <td>{{ $user['role'] }}</td>
+                <td>{{ $user['role'] == 1 ? 'Admin' : 'Employee' }}</td>
                 <td>{{ $user['created_at'] }}</td>
                 <td>
-                    <a href="?delete_id={{ $user['id'] }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                </td>
+                    <a href="{{ route('user.delete', $user['id']) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
             </tr>
         @endforeach
     </tbody>
@@ -37,7 +36,8 @@
                 <h5 class="modal-title" id="addUserModalLabel">Add New Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="user_management.php" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Full Name</label>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="add_user" class="btn btn-primary">Add User</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
                 </div>
             </form>
         </div>
