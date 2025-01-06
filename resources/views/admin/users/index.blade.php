@@ -32,8 +32,12 @@
                 </td>
                 <td>{{ $user['phone_number'] }}</td>
                 <td>
-                    <a href="?delete_id={{ $user['id'] }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                </td>
+                    <!-- Delete Form -->
+                    <form action="{{ route('users.delete', $user['id']) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
             </tr>
         @endforeach
     </tbody>

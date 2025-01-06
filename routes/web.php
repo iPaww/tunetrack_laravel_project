@@ -283,13 +283,14 @@ Route::prefix('admin')->group(function() {
             });
 
             Route::controller(UserController::class)
-            ->middleware(AdminAuthenticate::class)  // Ensure only admins can access this
-            ->prefix('users')
-            ->group(function () {
-                Route::get('/', 'index')->name('users.index');  // Route to display the user list
-                Route::get('/add','add');
-                Route::post('/store', 'store')->name('users.store');  // Corrected route to store a new user
-            });
+    ->middleware(AdminAuthenticate::class)  // Ensure only admins can access this
+    ->prefix('users')
+    ->group(function () {
+        Route::get('/', 'index')->name('users.index');  // Route to display the user list
+        Route::get('/add','add');
+        Route::post('/store', 'store')->name('users.store');  // Route to store a new user
+        Route::delete('/delete/{id}', 'delete')->name('users.delete');  // Route to delete a user
+    });
 
     });
 });

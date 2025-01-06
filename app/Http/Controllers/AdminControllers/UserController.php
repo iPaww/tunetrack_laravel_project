@@ -54,4 +54,21 @@ class UserController extends BasePageController
     // Redirect or return a response
     return redirect()->route('users.index')->with('success', 'User created successfully!');
 }
+
+public function delete($id)
+{
+    // Find the user by ID
+    $user = User::find($id);
+
+    if ($user) {
+        // If user is found, delete the user
+        $user->delete();
+
+        // Return a success message and redirect back to the user list
+        return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+    } else {
+        // If user is not found, show an error message
+        return redirect()->route('users.index')->with('error', 'User not found!');
+    }
+}
 }
