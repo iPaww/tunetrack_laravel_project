@@ -64,7 +64,7 @@ class ProductsController extends BasePageController
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->storeAs('assets/image/product_image', $image->getClientOriginalName(), 'public');
+            $imagePath = $image->storeAs("assets/image/product_image/$product->id", $image->getClientOriginalName(), 'public');
             $product->image = 'storage/' . $imagePath;
         }
 
@@ -109,7 +109,7 @@ class ProductsController extends BasePageController
             }
 
             $image = $request->file('image');
-            $imagePath = $image->storeAs('assets/image/product_image', $image->getClientOriginalName(), 'public');
+            $imagePath = $image->storeAs("assets/image/product_image/$product->id", $image->getClientOriginalName(), 'public');
             $product->image = 'storage/' . $imagePath;
         }
 

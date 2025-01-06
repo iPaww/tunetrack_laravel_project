@@ -127,7 +127,7 @@ class InventoryController extends BasePageController
             $color_arr = $request->post('instrument_color');
             foreach( $request->post('insturment_serial_number') as $index => $serial_number ) {
                 // Validate if product already has inventory
-                if( InventoryProducts::where([ 'product_id' => $product_id ])->exists() ) {
+                if( InventoryProducts::where([ 'product_id' => $product_id , 'taken'=> false])->exists() ) {
                     return back()
                         ->withErrors('Product already has inventory')
                         ->withInput();
@@ -232,9 +232,11 @@ class InventoryController extends BasePageController
                     ]);
             }
         }
+        if(!empty($delete_inventories)){
         InventoryProducts::whereIn('id', $delete_inventories)
-            ->delete();
-        
+            ->delete();}
+
+
         return redirect('/admin/inventory');
     }
 

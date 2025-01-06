@@ -8,8 +8,17 @@
         </div>
         <!-- Product Image -->
         <div class="col-md-6 text-center">
-            <img src="{{ $productImage }}" alt="{{ $product->name }}" class="img-fluid border rounded" style="min-width: 100%">
+
+            {{-- code for image --}}
+            @if (file_exists(public_path($product->image)))
+                <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="min-width: 100%" alt="{{ ($product->name) }}" />
+            @else
+                <img src="{{ asset("storage/assets/image/product_image/default.png") }}" class="img-fluid border rounded" style="min-width: 100%" alt="{{ ($product->name) }}" />
+            @endif
+
+            
         </div>
+    
         <!-- Product Details -->
         <div class="col-md-6">
             <h3 class="fw-bold">{{ $product->name }}</h3>

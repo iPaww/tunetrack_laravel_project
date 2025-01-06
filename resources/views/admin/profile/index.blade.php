@@ -31,7 +31,7 @@
     </div>
     <div class="card-body">
         <!-- Update Profile Form -->
-        <form method="POST" enctype="multipart/form-data" action="{{ route('profile.update') }}">
+        <form method="POST" enctype="multipart/form-data" action="/admin/profile/update">
             @csrf
             @method('PUT') <!-- This line is required to simulate PUT request -->
 

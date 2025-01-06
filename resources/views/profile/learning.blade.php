@@ -9,14 +9,14 @@
                             <h5 class="card-title">{{ $course_history->course->name }}</h5>
                             <p class="text-truncate">{{ $course_history->course->description }}</p>
                             <div class="h-25">
-                                <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="{{ ceil( $course_history->topics_viewed / $course_history->course->topics->count() ) }}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress" role="progressbar" aria-label="Warning example" aria-valuenow="{{ ceil( $course_history->topics_viewed / ($course_history->course->topics->count() || 1)) }}" aria-valuemin="0" aria-valuemax="100">
                                     <div @class([
                                         'progress-bar' => true,
-                                        'bg-success' => ceil( ($course_history->topics_viewed / $course_history->course->topics->count() ) * 100 ) >= 100,
-                                        'bg-warning' => ceil( ($course_history->topics_viewed / $course_history->course->topics->count() ) * 100 ) < 100,
-                                    ]) style="width: {{ ceil( ($course_history->topics_viewed / $course_history->course->topics->count() ) * 100 ) }}%"></div>
+                                        'bg-success' => ceil( ($course_history->topics_viewed / ($course_history->course->topics->count() || 1 )) * 100 ) >= 100,
+                                        'bg-warning' => ceil( ($course_history->topics_viewed / ($course_history->course->topics->count() || 1 )) * 100 ) < 100,
+                                    ]) style="width: {{ ceil( ($course_history->topics_viewed / ($course_history->course->topics->count() || 1 )) * 100 ) }}%"></div>
                                 </div>
-                                @if ( $course_history->topics_viewed >= $course_history->course->topics->count() )
+                                @if ( ($course_history->topics_viewed >= $course_history->course->topics->count() || 1) )
                                     <div class="text-center">
                                         <small>
                                             You have finished this course

@@ -85,8 +85,12 @@
                         <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view"
                             class="text-decoration-none text-dark">
                             <div class="card bg-light">
-                                <img src="{{ asset('assets/images/inventory/uploads/' . htmlspecialchars($product->image)) }}"
-                                    class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                                @if (file_exists(public_path($product->image)))
+                                    <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                                @else
+                                    <img src="{{ asset("storage/assets/image/product_image/default.png") }}" class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                                @endif
+                                
                                 <div class="card-body">
                                     <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}
                                     </h5>

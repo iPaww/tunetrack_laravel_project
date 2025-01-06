@@ -16,7 +16,7 @@ class Authenticate
             empty( session('admin_user') ),
             session('admin_user.role') >= 3,
         ]);
-        $conditions = $conditions_collection->every(function (bool $condition) {
+        $conditions = $conditions_collection->some(function (bool $condition) {
             return $condition;
         });
         
