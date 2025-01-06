@@ -93,7 +93,7 @@ Route::controller(ProfileController::class)
         Route::get('/exam', 'exam');
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
-        Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/update', 'update');
     });
 
 
@@ -205,8 +205,8 @@ Route::prefix('admin')->group(function() {
             Route::controller(ItemTrackController::class)
                 ->prefix('item-track')
                 ->group(function () {
-                    Route::get('/', 'index')->name('itemTrack.index'); // For displaying the orders
-                    Route::post('/update-status', 'updateStatus')->name('itemTrack.updateStatus'); // For updating the order status
+                    Route::get('/', 'index')->name('itemTrack.index');
+                    Route::post('/update-status', 'updateStatus')->name('itemTrack.updateStatus');
                 });
 
 
@@ -218,17 +218,16 @@ Route::prefix('admin')->group(function() {
                 });
 
 
-
             Route::controller(QuizController::class)
             ->prefix('quiz')
             ->as('quiz.')  // This applies to all routes inside this group
             ->group(function () {
-                Route::get('/', 'index')->name('index');  // quiz.index
-                Route::get('/add', 'addQuiz')->name('add');  // quiz.add
-                Route::post('/add', 'add')->name('store');  // quiz.store
-                Route::get('/edit/{id}', 'edit')->name('edit');  // quiz.edit
-                Route::put('/update/{id}', 'update')->name('update');  // quiz.update
-                Route::delete('/delete/{id}', 'destroy')->name('destroy');  // quiz.destroy
+                Route::get('/', 'index')->name('index');
+                Route::get('/add', 'addQuiz')->name('add');
+                Route::post('/add', 'add')->name('store');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::put('/update/{id}', 'update')->name('update');
+                Route::delete('/delete/{id}', 'destroy')->name('destroy');
             });
 
         Route::controller(MainCategoryController::class)

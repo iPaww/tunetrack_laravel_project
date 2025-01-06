@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="title">INSTRUMENTS</h2>
         <div>
@@ -26,53 +26,57 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($products as $product)
+            @foreach ($products as $product)
                 <tr>
                     <td>{{ $product->name }}</td>
                     <td>{{ number_format($product->price, 2) }}</td>
-                    <td>{{ Str::limit($product->description, 50) }}</td> <!-- Truncate long descriptions -->
+                    <td>{{ Str::limit($product->description, 50) }}</td>
                     <td>
-                        @foreach($categories as $category)
-                            @if($category->id == $product->category_id)
+                        @foreach ($categories as $category)
+                            @if ($category->id == $product->category_id)
                                 {{ $category->name }}
                             @endif
                         @endforeach
                     </td>
                     <td>
-                        @foreach($subCategories as $subCategory)
-                            @if($subCategory->id == $product->sub_category_id)
+                        @foreach ($subCategories as $subCategory)
+                            @if ($subCategory->id == $product->sub_category_id)
                                 {{ $subCategory->name }}
                             @endif
                         @endforeach
                     </td>
                     <td>
-                        @foreach($productTypes as $productType)
-                            @if($productType->id == $product->product_type_id)
+                        @foreach ($productTypes as $productType)
+                            @if ($productType->id == $product->product_type_id)
                                 {{ $productType->name }}
                             @endif
                         @endforeach
                     </td>
                     <td>
-                        @foreach($brands as $brand)
-                            @if($brand->id == $product->brand_id)
+                        @foreach ($brands as $brand)
+                            @if ($brand->id == $product->brand_id)
                                 {{ $brand->name }}
                             @endif
                         @endforeach
                     </td>
                     <td>
-                        @if($product->image)
+                        @if ($product->image)
                             <div class="mt-2">
                                 <img src="{{ asset($product->image) }}" alt="Product Image" width="100">
                             </div>
                         @endif
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-warning btn-sm" href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
-                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-warning btn-sm"
+                                href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
+                                class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach
@@ -81,9 +85,10 @@
     {{ $products->links() }}
 </div>
 
-<!-- Add some custom CSS for table styling and spacing -->
+<!-- Custom Styling -->
 <style>
-    .table th, .table td {
+    .table th,
+    .table td {
         text-align: center;
         vertical-align: middle;
     }
@@ -97,14 +102,14 @@
     .title {
         font-size: 2rem;
         font-weight: bold;
-        color: #343a40;
     }
 
-    .btn-outline-dark, .btn-success, .btn-primary {
+    .btn-outline-dark,
+    .btn-success {
         font-weight: bold;
     }
 
-    .btn-outline-dark:hover, .btn-success:hover, .btn-primary:hover {
+    .btn-outline-dark:hover {
         background-color: #007bff;
         color: white;
     }
@@ -122,7 +127,7 @@
         background-color: #f2f2f2;
     }
 
-    .mb-4 {
-        margin-bottom: 2rem;
+    .btn-group .btn {
+        margin-right: 0.5rem;
     }
 </style>

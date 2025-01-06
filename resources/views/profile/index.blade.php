@@ -64,7 +64,7 @@
                 // Update the profile picture dynamically
                 if (data.profile.image) {
                     document.getElementById('profileImage').src =
-                        `{{ asset('assets/images/users/' . session('id')) }}/` + data.profile.image;
+                        {{ asset('assets/images/users/' . session('id')) }} / +data.profile.image;
                 }
             })
             .catch(error => console.error('Error:', error));

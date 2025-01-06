@@ -19,7 +19,7 @@ class ProductTypeController extends BasePageController
     // Show the form for creating a new product type
     public function create()
     {
-        return view('admin.product_type.create');
+        return $this->view_basic_page($this->base_file_path . 'create');
     }
 
     // Store a newly created product type in the database
@@ -39,7 +39,7 @@ class ProductTypeController extends BasePageController
     {
         $productType = ProductType::findOrFail($id);
 
-        return view('admin.product_type.edit', compact('productType'));
+        return $this->view_basic_page($this->base_file_path . 'edit',compact('productType'));
     }
 
     // Update an existing product type in the database

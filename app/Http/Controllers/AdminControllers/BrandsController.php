@@ -18,7 +18,8 @@ class BrandsController extends BasePageController
     // Show the form for creating a new brand
     public function create()
     {
-        return view('admin.brands.create'); // Return the create form view
+        // return view('admin.brands.create'); // Return the create form view
+        return $this->view_basic_page($this->base_file_path . 'create');
     }
 
     // Store a newly created brand
@@ -38,7 +39,8 @@ class BrandsController extends BasePageController
     public function edit($id)
     {
         $brand = Brands::findOrFail($id); // Find the brand by ID
-        return view('admin.brands.edit', compact('brand')); // Return the edit form with the brand
+        // return view('admin.brands.edit', compact('brand')); // Return the edit form with the brand
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('brand'));
     }
 
     // Update an existing brand

@@ -14,7 +14,7 @@
     @endif
 
     <!-- Product Type Edit Form -->
-    <form action="{{ route('product_type.update', $productType->id) }}" method="POST"
+    <form action="{{ route('admin.product_type.update', $productType->id) }}" method="POST"
         class="p-4 border rounded-3 shadow-sm bg-light">
         @csrf
         @method('PUT')

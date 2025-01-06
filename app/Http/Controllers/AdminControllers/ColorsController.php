@@ -18,7 +18,7 @@ class ColorsController extends BasePageController
     // Show the form for creating a new color
     public function create()
     {
-        return view('admin.colors.create'); // Return the create form view
+        return $this->view_basic_page($this->base_file_path . 'create'); // return view('admin.colors.create'); // Return the create form view
     }
 
     // Store a newly created color
@@ -36,7 +36,8 @@ class ColorsController extends BasePageController
     public function edit($id)
     {
         $color = Colors::findOrFail($id); // Find color by ID
-        return view('admin.colors.edit', compact('color')); // Return the edit form view with the color
+        // return view('admin.colors.edit', compact('color')); // Return the edit form view with the color
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('color'));
     }
 
     // Update an existing color
