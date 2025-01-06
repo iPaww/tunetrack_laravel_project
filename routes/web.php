@@ -265,6 +265,7 @@ Route::prefix('admin')->group(function() {
 
         Route::controller(TopicsController::class)
         ->prefix('topics')
+        ->name('topics.')
         ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('create', 'create')->name('create');
