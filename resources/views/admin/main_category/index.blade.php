@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>MAIN CATEGORIES</h1>
+    <h1>MAIN CATEGORY</h1>
     <button class="btn btn-primary"><a
             href="/admin/main-category/add"style="text-decoration: none; color: white;">Add</a></button>
     <table class="table table-striped">

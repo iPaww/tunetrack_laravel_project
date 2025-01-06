@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>SUB CATEGORIES</h1>
+    <h1>SUB CATEGORY</h1>
 
     <button class="btn btn-primary">
         <a href="/admin/sub-category/add" style="text-decoration: none; color: white;">Add</a>
