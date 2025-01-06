@@ -46,18 +46,18 @@ class MainCategoryController extends BasePageController
 
     public function edit($id, Request $request)
 {
-    // Validate the request (ensure the image is an image file and optional)
+    // Validate the request
     $validated = $request->validate([
         'name' => 'required|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Validate the image
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);
 
     $category = MainCategory::findOrFail($id);
 
-    // If a new image was uploaded, delete the old one and save the new one
-    $imagePath = $category->image;
+    // Handle the image upload
+    $imagePath = $category->image; // Retain the old image path by default
     if ($request->hasFile('image')) {
-        // Delete old image if it exists
+        // Delete the old image if it exists
         if ($category->image && file_exists(storage_path('app/public/' . $category->image))) {
             unlink(storage_path('app/public/' . $category->image));
         }
@@ -66,20 +66,19 @@ class MainCategoryController extends BasePageController
         $imagePath = $request->file('image')->store('main_category_images', 'public');
     }
 
-    // Update the main category
+    // Update the category
     $category->update([
         'name' => $validated['name'],
-        'image' => $imagePath, // Save the new image path
+        'image' => $imagePath, // Save the updated image path
     ]);
 
-    return redirect('/admin/main-category');
+    return redirect('/admin/main-category')->with('success', 'Category updated successfully!');
 }
 
     public function editMain($id)
     {
-        return $this->view_basic_page($this->base_file_path . 'edit', [
-            "id" => $id
-        ]);
+        $category = MainCategory::findOrFail($id); // Fetch the category
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('category'));
     }
 
     public function destroy($id){
