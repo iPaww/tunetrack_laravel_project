@@ -12,7 +12,7 @@
         <label for="category_id" class="form-label">Category:</label>
         <select name="category_id" id="category_id" class="form-select" required>
             <option value="">Select a category</option>
-            @foreach ($MainCategory as $category)
+            @foreach ($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>

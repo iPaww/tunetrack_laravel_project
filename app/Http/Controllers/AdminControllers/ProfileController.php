@@ -21,42 +21,45 @@ class ProfileController extends BasePageController
     }
 
     public function update(Request $request)
-    {
-        // Validate the input data
-        $validated = $request->validate([
-            'fullname' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone_number' => 'required|string|max:20',
-            'address' => 'required|string',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'password' => 'nullable|string|min:6|confirmed', // optional password confirmation
-        ]);
+{
+    // Validate input
+    $validated = $request->validate([
+        'fullname' => 'required|string|max:255',
+        'email' => 'required|email',
+        'phone_number' => 'required|string|max:20',
+        'address' => 'required|string',
+        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'password' => 'nullable|string|min:6', // Optional password
+    ]);
 
-        // Find the current user
-        $user = User::find(session('admin_user.id'));
+    // Fetch the admin user
+    $user = User::find(session('admin_user.id')); // Ensure session contains the admin ID
 
-        // Update user fields
-        $user->fullname = $validated['fullname'];
-        $user->email = $validated['email'];
-        $user->phone_number = $validated['phone_number'];
-        $user->address = $validated['address'];
-
-        // Handle the profile picture update
-        if ($request->hasFile('profile_picture')) {
-            $imageName = time() . '.' . $request->profile_picture->extension();
-            $request->profile_picture->move(public_path('assets/images/users/' . $user->id), $imageName);
-            $user->profile_picture = $imageName;
-        }
-
-        // Update password if provided
-        if ($request->filled('password')) {
-            $user->password = bcrypt($validated['password']);
-        }
-
-        // Save the updated user data
-        $user->save();
-
-        // Redirect back with a success message
-        return redirect()->route('profile.index')->with('success', 'Profile updated successfully!');
+    if (!$user) {
+        return redirect()->back()->withErrors(['error' => 'Admin user not found!']);
     }
+
+    // Update the user fields
+    $user->fullname = $validated['fullname'];
+    $user->email = $validated['email'];
+    $user->phone_number = $validated['phone_number'];
+    $user->address = $validated['address'];
+
+    // Handle profile picture upload
+    if ($request->hasFile('profile_picture')) {
+        $imageName = time() . '.' . $request->profile_picture->extension();
+        $request->profile_picture->move(public_path('assets/images/users/' . $user->id), $imageName);
+        $user->profile_picture = $imageName;
+    }
+
+    // Update password if provided
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    // Save changes to the database
+    $user->save();
+
+    return redirect()->route('index')->with('success', 'Profile updated successfully!');
+}
 }
