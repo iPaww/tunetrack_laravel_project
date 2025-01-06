@@ -32,21 +32,20 @@ class CourseController extends BasePageController
     // Show the form to create a new course
     public function create()
     {
-        $MainCategory = MainCategory::all();
-        return $this->view_basic_page($this->base_file_path . 'create', compact('MainCategory'));
+        $categories = MainCategory::all(); // Assuming MainCategory stores the categories
+        return $this->view_basic_page($this->base_file_path . 'create', compact('categories'));
     }
 
     // Show the form to edit an existing course
     public function edit(courses $course)
     {
-        $MainCategory = MainCategory::all(); // Fetch categories for the form
-        return $this->view_basic_page($this->base_file_path . 'edit', compact('course', 'MainCategory'));
+        $categories = MainCategory::all(); // Assuming MainCategory stores the categories
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('course', 'categories'));
     }
 
     // Store a newly created course
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -60,10 +59,9 @@ class CourseController extends BasePageController
         $course->description = $request->description;
         $course->objective = $request->objective;
         $course->trivia = $request->trivia;
-        $course->category_id = $request->category_id;
+        $course->category_id = $request->category_id; // Store category ID
         $course->save();
 
-        // Flash message for success
         session()->flash('message', 'Course created successfully!');
         session()->flash('type', 'success');
 
@@ -85,10 +83,9 @@ class CourseController extends BasePageController
         $course->description = $request->description;
         $course->objective = $request->objective;
         $course->trivia = $request->trivia;
-        $course->category_id = $request->category_id;
+        $course->category_id = $request->category_id; // Update category ID
         $course->save();
 
-        // Flash message for update
         session()->flash('message', 'Course updated successfully!');
         session()->flash('type', 'info');
 

@@ -54,7 +54,7 @@
                         <td>{{ $course->name }}</td>
                         <td class="text-truncate" style="max-width: 5em">{{ $course->description }}</td>
                         <td class="text-truncate" style="max-width: 5em">{{ $course->objective }}</td>
-                        <td>{{ $course->category_id }}</td> <!-- Display category -->
+                        <td>{{ $course->category->name ?? 'Uncategorized' }}</td> <!-- Display category name -->
                         <td>
                             <div class="d-flex justify-content-start gap-2">
                                 <a href="{{ route('courses.edit', $course->id) }}"

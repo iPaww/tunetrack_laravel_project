@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 use App\Models\BaseModel;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Courses extends BaseModel
 {
@@ -43,5 +44,10 @@ class Courses extends BaseModel
     public function topics(): HasMany
     {
         return $this->hasMany(Topics::class, 'course_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 }
