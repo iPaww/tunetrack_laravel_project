@@ -94,7 +94,6 @@ Route::controller(ProfileController::class)
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
         Route::post('/update', 'update');
-        
     });
 
 
@@ -221,7 +220,7 @@ Route::prefix('admin')->group(function() {
 
             Route::controller(QuizController::class)
             ->prefix('quiz')
-            ->as('quiz.')  // This applies to all routes inside this group
+            ->as('quiz.')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/add', 'addQuiz')->name('add');
@@ -283,13 +282,11 @@ Route::prefix('admin')->group(function() {
                 Route::get('/', 'index');
             });
 
-            Route::controller(UserController::class)
-            ->middleware(AdminAuthenticate::class) // Ensure the correct middleware is applied
+        Route::controller(UserController::class)
+            ->middleware(AdminAuthenticate::class) // TODO FIXME: Middleware for superadmin
             ->prefix('users')
             ->group(function () {
-                Route::get('/', 'index')->name('users.index'); // Users index
-                Route::post('/store', 'store')->name('user.store'); // Store new user
-                Route::get('/delete/{id}', 'delete')->name('user.delete'); // Delete user
+                Route::get('/', 'index');
             });
 
     });
