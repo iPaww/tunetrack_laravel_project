@@ -1,7 +1,9 @@
 <?php
 use Illuminate\Support\Collection;
 ?>
-<div class="title col-sm-3"><b>INVENTORY</b></div>
+<div class="title col-sm-3">
+    <h2><b>INVENTORY</b></h2>
+</div>
 
 <a class="btn btn-primary m-1" href="/admin/inventory/add">Add</a>
 

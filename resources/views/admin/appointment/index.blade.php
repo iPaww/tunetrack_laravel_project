@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="mb-4 text-center">USER APPOINTMENT AND SESSION</h1>
+    <h1 class="mb-4 text-center"><b>APPOINTMENT</b></h1>
 
     <!-- Filter Dropdown for Appointments -->
     <div class="mb-4 d-flex justify-content-center">

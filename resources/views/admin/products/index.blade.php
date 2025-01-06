@@ -1,6 +1,6 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="title">INSTRUMENTS</h2>
+        <h2 class="title">PRODUCTS</h2>
         <div>
             <a class="btn btn-outline-dark m-1" href="/admin/colors">Colors</a>
             <a class="btn btn-outline-dark m-1" href="/admin/brands">Brands</a>
@@ -8,8 +8,6 @@
             <a class="btn btn-success m-1" href="/admin/products/create">Create Product</a>
         </div>
     </div>
-
-    <h3 class="mb-4">Product List</h3>
 
     <table class="table table-striped table-bordered table-hover">
         <thead class="thead-dark">
