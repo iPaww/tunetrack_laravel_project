@@ -220,7 +220,7 @@ Route::prefix('admin')->group(function() {
 
             Route::controller(QuizController::class)
             ->prefix('quiz')
-            ->as('quiz.')  // This applies to all routes inside this group
+            ->as('quiz.')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/add', 'addQuiz')->name('add');
