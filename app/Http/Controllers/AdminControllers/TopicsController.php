@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Models\Courses;
 use App\Models\sub_category;
 use App\Models\SubCategory;
 use App\Models\Topics;
@@ -32,8 +33,9 @@ class TopicsController extends BasePageController
     // Show the form to create a new topic
     public function create()
     {
-        $sub_category = SubCategory::all(); // Fetch all sub-categories for the dropdown
-        return $this->view_basic_page($this->base_file_path . 'create', compact('sub_category'));
+        $sub_category = SubCategory::all(); // Fetch all sub-categories
+        $courses = Courses::all(); // Fetch all courses for the dropdown
+        return $this->view_basic_page($this->base_file_path . 'create', compact('sub_category', 'courses'));
     }
 
     // Store a newly created topic
@@ -42,14 +44,16 @@ class TopicsController extends BasePageController
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'sub_category_id' => 'required|integer|exists:sub_category,id', // Foreign key validation
-            'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240', // Validate audio file (optional)
+            'sub_category_id' => 'required|integer|exists:sub_category,id',
+            'course_id' => 'required|integer|exists:courses,id', // Validate course_id
+            'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
         ]);
 
         $topic = new Topics();
         $topic->title = $request->title;
         $topic->description = $request->description;
         $topic->sub_category_id = $request->sub_category_id;
+        $topic->course_id = $request->course_id; // Assign course_id here
 
         // Handle audio file upload
         if ($request->hasFile('audio')) {
@@ -67,8 +71,9 @@ class TopicsController extends BasePageController
     // Show the form to edit an existing topic
     public function edit(Topics $topic)
     {
-        $sub_category = SubCategory::all();
-        return $this->view_basic_page($this->base_file_path . 'edit', compact('topic', 'sub_category'));
+        $sub_category = SubCategory::all(); // Fetch all sub-categories
+        $courses = Courses::all(); // Fetch all courses
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('topic', 'sub_category', 'courses'));
     }
 
     // Update the specified topic
@@ -77,13 +82,17 @@ class TopicsController extends BasePageController
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'sub_category_id' => 'required|integer|exists:sub_category,id', // Foreign key validation
-            'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240', // Validate audio file (optional)
+            'sub_category_id' => 'required|integer|exists:sub_category,id',
+            'course_id' => 'required|integer|exists:courses,id', // Foreign key validation for course_id
+            'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
         ]);
 
+
+        $topic = new Topics();
         $topic->title = $request->title;
         $topic->description = $request->description;
         $topic->sub_category_id = $request->sub_category_id;
+        $topic->course_id = $request->course_id; // Assign course_id here
 
         // Handle audio file upload (only if a new file is provided)
         if ($request->hasFile('audio')) {

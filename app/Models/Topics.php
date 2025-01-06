@@ -43,4 +43,9 @@ class Topics extends BaseModel
     {
         return $this->belongsTo('App\Models\SubCategory', 'sub_category_id', 'id');
     }
+    public function course()
+{
+    return $this->belongsTo('App\Models\Course', 'course_id', 'id');
+}
+
 }

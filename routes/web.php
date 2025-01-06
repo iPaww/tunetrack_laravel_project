@@ -249,19 +249,23 @@ Route::prefix('admin')->group(function() {
                 Route::post('/add', 'add');
                 Route::get('/edit/{id}', 'editSub');
                 Route::post('/edit/{id}', 'edit');
-                Route::delete('/{id}', 'destroy');  // Correct DELETE route
+                Route::delete('/{id}', 'destroy');
             });
 
-        Route::prefix('courses')->controller(AdminCourseController::class)->group(function () {
-                Route::get('/', 'index')->name('courses.index'); // View all courses
-                Route::get('/create', 'create')->name('courses.create'); // Show create form
-                Route::post('/', 'store')->name('courses.store'); // Store a new course
+        Route::controller(AdminCourseController::class)
+        ->prefix('courses')
+        ->group(function () {
+                Route::get('/', 'index')->name('courses.index');
+                Route::get('/create', 'create')->name('courses.create');
+                Route::post('/', 'store')->name('courses.store');
                 Route::get('/{course}/edit', 'edit')->name('courses.edit');
                 Route::put('/{course}', 'update')->name('courses.update');
                 Route::delete('/{course}', 'destroy')->name('courses.destroy');
             });
 
-        Route::prefix('topics')->name('topics.')->controller(TopicsController::class)->group(function () {
+        Route::controller(TopicsController::class)
+        ->prefix('topics')
+        ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('create', 'create')->name('create');
                 Route::post('store', 'store')->name('store');

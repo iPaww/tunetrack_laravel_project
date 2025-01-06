@@ -9,7 +9,17 @@
             <label for="title" class="form-label">Title</label>
             <input type="text" name="title" id="title" class="form-control" value="{{ $topic->title }}" required>
         </div>
-
+        <!-- Course Field -->
+        <div class="mb-3">
+            <label for="course_id" class="form-label">Course</label>
+            <select name="course_id" id="course_id" class="form-select" required>
+                @foreach ($courses as $course)
+                    <option value="{{ $course->id }}" {{ $course->id == $topic->course_id ? 'selected' : '' }}>
+                        {{ $course->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <!-- Sub Category Field -->
         <div class="mb-3">
             <label for="sub_category_id" class="form-label">Sub Category</label>
