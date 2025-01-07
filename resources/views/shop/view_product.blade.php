@@ -100,123 +100,85 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-12">
                         <div class="d-flex align-items-center mb-3 text-nowrap" style="font-size: 5em;">
-                            <span class="fw-bold text-warning mb-0">4.8<span class="ms-2 text-muted">/5</span></span>
+                            <span class="fw-bold text-warning mb-0">{{ $product_rating }}<span class="ms-2 text-muted">/5</span></span>
                             
                         </div>
                     </div>
                     <div class="col-md-10 col-sm-12">
-                        <div class="row mb-md-0 mb-2">
-                            <div class="col-md-2 col-6 order-md-1 order-1">
-                                <span class="float-md-end text-warning">★★★★★</span>
-                            </div>
-                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
-                                <div class="position-relative h-100">
-                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
-                                        <div class="progress w-100" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
+                        @foreach( $rating_scores as $index => [ $total_rating, $progress ] )
+                            <div class="row mb-md-0 mb-2">
+                                <div class="col-md-2 col-6 order-md-1 order-1">
+                                    <span class="float-md-end selected-product-rating d-flex" data-star="{{ 5 - $index }}">
+                                        <span class="text-warning user-select-none">☆</span>
+                                        <span class="text-warning user-select-none">☆</span>
+                                        <span class="text-warning user-select-none">☆</span>
+                                        <span class="text-warning user-select-none">☆</span>
+                                        <span class="text-warning user-select-none">☆</span>
+                                    </span>
+                                </div>
+                                <div class="col-md-7 col-sm-5 order-md-2 order-3">
+                                    <?php [$total_rating_5, ] = $rating_scores[0] ?>
+                                    <div class="position-relative h-100">
+                                        <div class="position-absolute top-50 start-50 translate-middle w-100">
+                                            <div class="progress w-100" style="height: 10px;">
+                                                <div class="progress-bar bg-warning" style="width: {{ $progress }}%;"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-1 col-6 order-md-3 order-2">
-                                <span class="text-nowrap text-muted float-md-start float-end w-25">110</span>
-                            </div>
-                        </div>
-                        <div class="row mb-md-0 mb-2">
-                            <div class="col-md-2 col-6 order-md-1 order-1">
-                                <span class="float-md-end text-warning">★★★★☆</span>
-                            </div>
-                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
-                                <div class="position-relative h-100">
-                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
-                                        <div class="progress w-100" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" style="width: 80%;"></div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-1 col-6 order-md-3 order-2">
+                                    <span class="text-nowrap text-muted float-md-start float-end w-25">{{ $total_rating }}</span>
                                 </div>
                             </div>
-                            <div class="col-md-1 col-6 order-md-3 order-2">
-                                <span class="text-nowrap text-muted float-md-start float-end w-25">8</span>
-                            </div>
-                        </div>
-                        <div class="row mb-md-0 mb-2">
-                            <div class="col-md-2 col-6 order-md-1 order-1">
-                                <span class="float-md-end text-warning">★★★☆☆</span>
-                            </div>
-                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
-                                <div class="position-relative h-100">
-                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
-                                        <div class="progress w-100" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" style="width: 60%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1 col-6 order-md-3 order-2">
-                                <span class="text-nowrap text-muted float-md-start float-end w-25">5</span>
-                            </div>
-                        </div>
-                        <div class="row mb-md-0 mb-2">
-                            <div class="col-md-2 col-6 order-md-1 order-1">
-                                <span class="float-md-end text-warning">★★☆☆☆</span>
-                            </div>
-                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
-                                <div class="position-relative h-100">
-                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
-                                        <div class="progress w-100" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" style="width: 40%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1 col-6 order-md-3 order-2">
-                                <span class="text-nowrap text-muted float-md-start float-end w-25">1</span>
-                            </div>
-                        </div>
-                        <div class="row mb-md-0 mb-2">
-                            <div class="col-md-2 col-6 order-md-1 order-1">
-                                <span class="float-md-end text-warning">★☆☆☆☆</span>
-                            </div>
-                            <div class="col-md-7 col-sm-5 order-md-2 order-3">
-                                <div class="position-relative h-100">
-                                    <div class="position-absolute top-50 start-50 translate-middle w-100">
-                                        <div class="progress w-100" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" style="width: 40%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1 col-6 order-md-3 order-2">
-                                <span class="text-nowrap text-muted float-md-start float-end w-25">1</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
         <!-- Product Reviews -->
-        <div class="mt-4">
+        <div id="product-review" class="mt-4">
             <h4 class="fw-bold">Product Reviews</h4>
             <div class="row">
-                <div class="col-12">
-                    <div class="card card-sm py-0 px-0">
-                        <div class="row g-0">
-                            <div class="col-md-1 col-sm-12" style="min-height: 5em">
-                                <div class="position-relative my-1" style="min-height: 100%">
-                                    <img src="{{ asset('/assets/images/default/default_user.png') }}" class="position-absolute top-50 start-50 translate-middle img-fluid border rounded-circle" alt="..." style="max-height: 5rem;">
-                                </div>
-                            </div>
-                            <div class="col-md-11 col-sm-12">
-                                <div class="card-body position-relative">
-                                    <h6 class="card-title text-warning mb-1">★★★★☆</h6>
-                                    <h6 class="card-title fw-bold">Amorganda, Mico</h6>
-                                    <span class="card-text mb-0">It arrived in perfect condition, and I appreciated the included accessories, which made it an even better value. This guitar has quickly become my go-to instrument, and I would highly recommend it to anyone looking for a high-quality, reliable guitar. Whether you're a beginner or a seasoned player, this guitar will exceed your expectations!</span>
-                                    <span class="position-absolute top-0 end-0 me-4 mt-4"><small class="text-body-secondary">{{ date("F j, Y, g:i a", strtotime('')) }}</small></span>
+                @if( count($reviews) > 0 )
+                    @foreach( $reviews as $review )
+                        <div class="col-12 mb-2">
+                            <div class="card card-sm py-0 px-0">
+                                <div class="row g-0">
+                                    <div class="col-md-1 col-sm-12" style="min-height: 5em">
+                                        <div class="position-relative my-1" style="min-height: 100%">
+                                            @if ($review->image && file_exists(public_path($review->user->image)))
+                                                <img src="{{ asset($review->user->image) }}" class="position-absolute top-50 start-50 translate-middle img-fluid border rounded-circle" style="max-height: 5rem;" />
+                                            @else
+                                                <img src="{{ asset('/assets/images/default/default_user.png') }}" class="position-absolute top-50 start-50 translate-middle img-fluid border rounded-circle" alt="{{ $review->user->fullname }}'s image" style="max-height: 5rem;">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-12">
+                                        <div class="card-body position-relative">
+                                            <h6 class="card-title mb-1 selected-product-rating d-flex" data-star="{{ $review->rating }}">
+                                                <span class="text-warning user-select-none">☆</span>
+                                                <span class="text-warning user-select-none">☆</span>
+                                                <span class="text-warning user-select-none">☆</span>
+                                                <span class="text-warning user-select-none">☆</span>
+                                                <span class="text-warning user-select-none">☆</span>
+                                            </h6>
+                                            <h6 class="card-title fw-bold">{{ $review->user->fullname }}</h6>
+                                            <span class="card-text mb-0">{{ $review->review }}</span>
+                                            <span class="position-absolute top-0 end-0 me-4 mt-4"><small class="text-body-secondary">{{ date("F j, Y, g:i a", strtotime($review->created_at)) }}</small></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endforeach
+                    <div class="col-12">
+                        {{ $reviews->links() }}
                     </div>
-                </div>
+                @else
+                    <div class="card">
+                        <div class="card-body">There are no reviews for this product.</div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -225,6 +187,18 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+    const selected_product_rating_container = $('.selected-product-rating')
+    selected_product_rating_container.change((e) => {
+        const container = $(e.target)
+        const star = parseInt( container.data('star') )
+        $('span', container).text('☆')
+        $('span', container).slice(0, star).each(function(index, item) {
+            const span_2 = $(item)
+            span_2.text('★')
+        })
+    })
+    selected_product_rating_container.trigger('change')
+
     let max_quantity = 999
     $('.quantity-inp').on('input', function() {
         const input = $(this)
@@ -249,5 +223,6 @@ $(document).ready(function() {
         $('.quantity-inp').trigger('input')
         $('input[name="color"]').val( selected_color.val() )
     })
+    
 })
 </script>

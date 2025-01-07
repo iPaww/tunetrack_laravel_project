@@ -13,6 +13,7 @@ use Database\Seeders\OrderSeeders;
 use Database\Seeders\ProductSeeders;
 use Database\Seeders\ProductTypeSeeders;
 use Database\Seeders\QuizSeeders;
+use Database\Seeders\ReviewsSeeders;
 use Database\Seeders\TopicSeeders;
 use Database\Seeders\UserSeeder;
 
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeders::class,
             CourseSeeders::class,
             QuizSeeders::class,
+            ReviewsSeeders::class,
             TopicSeeders::class,
             AppointmentSeeder::class,
         ]);

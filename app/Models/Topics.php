@@ -20,6 +20,7 @@ class Topics extends BaseModel
         'course_id',
         'sub_category_id',
     ];
+    
     /**
      * The primary key associated with the table.
      *

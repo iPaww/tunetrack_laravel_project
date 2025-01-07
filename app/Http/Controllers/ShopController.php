@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 use App\Models\Cart;
 use App\Models\Colors;
 use App\Models\InstrumentCategory;
@@ -15,6 +17,7 @@ use App\Models\InventorySupplies;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\Products;
+use App\Models\ProductReview;
 use App\Models\Supplies;
 use App\Http\Controllers\BasePageController;
 
@@ -83,14 +86,9 @@ class ShopController extends BasePageController
                     ->orOn('colors.id', '=', 'inventory_products.color_id');
             })
             ->groupBy('inventory_products.product_id', 'inventory_products.color_id')
+            ->orderBy('products.name')
             ->orderBy('products.product_type_id')
             ->get();
-            // ->toSql();
-
-        // $order_item = OrderItems::select('*', OrderItems::raw('GROUP_CONCAT(", ", inventory_id) as inventory_ids'))
-        //     ->where('order_id', $order_id)
-        //     ->groupBy('product_id')
-        //     ->get();
     
         
         return $this->view_basic_page( $this->base_file_path . 'order_view', [
@@ -99,6 +97,118 @@ class ShopController extends BasePageController
             'statuses' => $this->order_statuses,
         ]);
     }
+
+    public function product_review( $order_id )
+    {
+        $order = Orders::where('id', $order_id)
+            ->first();
+        
+        $items = OrderItems::select(
+                'orders_item.*',
+                OrderItems::raw('COUNT(inventory_products.id) as product_quantity'),
+                OrderItems::raw('colors.name as color_name'),
+            )
+            ->where('order_id', $order_id)
+            ->join('products', 'products.id', '=', 'orders_item.product_id')
+            ->leftJoin(OrderItems::raw('inventory_products'), function (JoinClause $join) {
+                    $join->on('orders_item.inventory_id', '=', 'inventory_products.id');
+                    $join->on('products.product_type_id', '=', OrderItems::raw(1));
+            })
+            ->leftJoin(OrderItems::raw('inventory_supplies'), function (JoinClause $join) {
+                $join->on('orders_item.inventory_id', '=', 'inventory_supplies.id');
+                $join->on('products.product_type_id', '=', OrderItems::raw(2));
+            })
+            ->leftJoin('colors', function (JoinClause $join) {
+                $join->on('colors.id', '=', 'inventory_supplies.color_id')
+                    ->orOn('colors.id', '=', 'inventory_products.color_id');
+            })
+            ->groupBy('inventory_products.product_id', 'inventory_products.color_id')
+            ->orderBy('products.name')
+            ->orderBy('products.product_type_id')
+            ->get();
+        
+        $review_count = ProductReview::where('order_id', $order_id)
+            ->join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
+            ->count();
+        
+        return $this->view_basic_page( $this->base_file_path . 'product_review', compact(
+            'order',
+            'items',
+            'review_count'
+        ));
+    }
+
+    public function product_review_form($order_id, Request $request ): RedirectResponse
+    {
+        $form_quantity = $request->post('quantity');
+        $form_color_id= $request->post('color');
+        $validator = Validator::make($request->all(), [
+            'order_item_id' => 'required|array',
+            'order_item_id.*' => Rule::forEach(function ($value, string $attribute) use (&$order_id) {
+                return [
+                    'required',
+                    'numeric',
+                    'distinct',
+                    Rule::exists('orders_item', 'id')->where('order_id', $order_id)
+                ];
+            }),
+            'review' => 'required|array',
+            'review.*' => Rule::forEach(function ($value, string $attribute) {
+                    [, $count] = explode('.', $attribute);
+                    return [ "required_with:rating.$count" ];
+                }),
+        ], [
+            'order_item_id.*.exists' => 'Something went wrong on product #:position!',
+            'review.*.required_with' => 'You did not put any review for product #:position!',
+        ]);
+
+        $user_id = session('id');
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        foreach( $request->post('order_item_id') as $value ) {
+            if(
+                ProductReview::where('order_item_id', $value)
+                    ->where('user_id', $user_id)
+                    ->exists()
+            ) {
+                return back()
+                    ->withErrors('You already submitted a review on of the products. Please refresh the page or contact support.')
+                    ->withInput();
+            }
+        }
+        
+        $order_item_id_arr = $request->post('order_item_id');
+        $review_arr = $request->post('review');
+        $created = 0;
+        foreach( $request->post('rating') as $index => $rating ) {
+            if( empty($rating) ) {
+                continue;
+            }
+            $order_item_id = $order_item_id_arr[$index];
+            $review = $review_arr[$index];
+
+            ProductReview::create([
+                'rating' => $rating,
+                'order_item_id' => $order_item_id,
+                'review' => $review,
+                'user_id' => $user_id,
+            ]);
+            $created++;
+        }
+
+        return back()
+            ->with([
+                'data' => ['You have succesfully added a review(s) for the product!'],
+                'start_with' => $created,
+            ])
+            ->withInput();
+    }
+
 
     public function cart()
     {
@@ -240,10 +350,47 @@ class ShopController extends BasePageController
             'assets/images/inventory/uploads/default.png'
         );
         
+        $multiplier = 5;
+        $total_rating_count = ProductReview::join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
+            ->where('product_id', $item_id)
+            ->count();
+
+        $rating_arr = collect([]);
+        $rating_count_arr = collect([]);
+        for( $rating = 1; $rating <= 5; $rating ++ ) {
+            $rating_count = ProductReview::join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
+                ->where('product_id', $item_id)
+                ->where('rating', '=', $rating)
+                ->count();
+            $rating_arr->push( $rating_count * $rating );
+            $rating_count_arr->push( $rating_count );
+        }
+        
+        $modified_rating_arr = $rating_arr->map(function (int $item, int $key) use (&$multiplier) {
+            return $item * $multiplier;
+        });
+        $rating_scores = $rating_count_arr->map(function (int $rating, int $key) use (&$total_rating_count) {
+            $total = $total_rating_count > 0 ? $total_rating_count : 1;
+            return [$rating, ($rating / $total) * 100];
+        });
+        $score_rating = $modified_rating_arr->sum();
+        $total_rating = $total_rating_count * $multiplier;
+        $product_rating = round($score_rating / ($total_rating > 0 ? $total_rating : 1), 1);
+        
+        $reviews = ProductReview::select('product_review.*')
+            ->join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
+            ->where('product_id', $item_id)
+            ->orderBy('rating', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
         return $this->view_basic_page( $this->base_file_path . 'view_product', [
             'product' => $product,
             'productImage' => $productImage,
             'colors' => $product_colors,
+            'reviews' => $reviews,
+            'rating_scores' => $rating_scores,
+            'product_rating' => $product_rating,
         ]);
     }
 

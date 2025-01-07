@@ -189,11 +189,13 @@ CREATE TABLE `product_review` (
   `review` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `rating` int NOT NULL,
   `user_id` int DEFAULT NULL,
+  `order_item_id` int NOT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   `delete_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `order_item_id` (`order_item_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `product_type`;

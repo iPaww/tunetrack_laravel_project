@@ -111,6 +111,8 @@ Route::controller(ShopController::class)
         Route::get('/product/{id}/view', 'view_product')->withoutMiddleware([Authenticate::class, Verification::class]);
         Route::get('/orders', 'orders');
         Route::get('/order/{id}/view', 'order_view');
+        Route::get('/order/{id}/product-review', 'product_review');
+        Route::post('/order/{id}/product-review', 'product_review_form');
         Route::get('/cart', 'cart');
         Route::post('/cart/add/{id}', 'cart_add');
         Route::post('/cart/edit/{id}', 'cart_edit');

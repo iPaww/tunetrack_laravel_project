@@ -53,6 +53,11 @@ class OrderItems extends BaseModel
         return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');
     }
 
+    public function product_review(): HasOne
+    {
+        return $this->hasOne(\App\Models\ProductReview::class, 'order_item_id', 'id');
+    }
+
     public function InventoryProduct(): HasOne
     {
         return $this->hasOne(\App\Models\InventoryProducts::class, 'id', 'inventory_id');

@@ -226,7 +226,7 @@
     </div>
     @if (count($items) == 0)
     <div class="alert alert-warning" role="alert">
-        Error occured not item(s) found.
+        Error occured no item(s) found.
     </div>
     @else
         <div class="cart-container">
@@ -310,7 +310,7 @@
 
             <div class="back-to-shop">
                 @if ( $order->status == 3 )
-                    <a href="/shop/orders/{{ $order->id }}/product-review" class="btn btn-lg btn-tunetrack">Add review</a>
+                    <a href="/shop/order/{{ $order->id }}/product-review" class="btn btn-lg btn-tunetrack">Add review</a>
                 @endif
                 <a href="/shop/orders" class="btn btn-secondary">Back to orders</a>
             </div>
