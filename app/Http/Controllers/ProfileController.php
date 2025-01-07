@@ -94,8 +94,8 @@ class ProfileController extends BasePageController
             $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
 
             // Store the image in public/user/{user_id}
-            $path = 'public/user/' . session('id');
-            $profileImage->storeAs($path, $imageName);  // Store the image in the correct folder
+            $path = 'userprofile' . session('id');
+            $profileImage->storeAs($path, $imageName);
 
             // Update the image field in the user table
             $user->image = $imageName;

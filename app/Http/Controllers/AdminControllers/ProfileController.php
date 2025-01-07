@@ -39,17 +39,25 @@ class ProfileController extends BasePageController
             return redirect()->back()->withErrors(['error' => 'Admin user not found!']);
         }
 
-        // Update the user fields
+        // Update user details
         $user->fullname = $validated['fullname'];
         $user->email = $validated['email'];
         $user->phone_number = $validated['phone_number'];
         $user->address = $validated['address'];
 
-        // Handle profile image upload (note 'image' instead of 'profile_picture')
+        // Handle profile image upload
         if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($user->image && file_exists(storage_path('app/public/adminprofile/' . $user->id . '/' . $user->image))) {
+                unlink(storage_path('app/public/adminprofile/' . $user->id . '/' . $user->image));
+            }
+
+            // Store new image
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('assets/images/users/' . $user->id), $imageName);
-            $user->image = $imageName;
+            $image = $request->file('image');
+            $imagePath = $image->storeAs("adminprofile/$user->id",$imageName, 'public');
+            $user->image = 'storage/' . $imagePath;
+            session([ 'admin_user.profile_picture' => 'storage/' . $imagePath ]);
         }
 
         // Update password if provided

@@ -24,9 +24,9 @@
         <div class="title">ADMIN DASHBOARD</div>
         <div class="profile">
             <a href="/admin/profile">
-                <img src="{{ !empty(session('profile_picture')) &&
-                file_exists(public_path('assets/images/users/' . session('id') . '/' . session('profile_picture')))
-                    ? asset('assets/images/users/' . session('id') . '/' . session('profile_picture'))
+                <img src="{{ !empty(session('admin_user.profile_picture')) &&
+                file_exists(public_path(session('admin_user.profile_picture')))
+                    ? asset(session('admin_user.profile_picture'))
                     : asset('assets/images/default/admindp.jpg') }}"
                     alt="Profile Picture">
             </a>

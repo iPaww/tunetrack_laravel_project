@@ -6,18 +6,17 @@
     <div class="card-body d-flex">
         <!-- Left: Profile Picture -->
         <div class="me-4">
-            <img src="{{ !empty($user['image']) &&
-            file_exists(public_path('assets/images/users/' . $user['id'] . '/' . $user['image']))
-                ? asset('assets/images/users/' . $user['id'] . '/' . $user['image'])
+            <img src="{{ $user['image'] && file_exists(public_path($user['image']))
+                ? asset($user['image'])
                 : asset('assets/images/default/admindp.jpg') }}"
                 alt="Profile Picture" class="rounded-circle mb-3" style="width: 300px; height: 300px;">
         </div>
         <!-- Right: Information -->
         <div class="flex-grow-1 ms-5">
-            <p><strong>Full Name:</strong>{{ $user['fullname'] }}</p>
-            <p><strong>Email:</strong>{{ $user['email'] }}</p>
-            <p><strong>Phone Number:</strong>{{ $user['phone_number'] }}</p>
-            <p><strong>Address:</strong>{{ $user['address'] }}</p>
+            <p><strong>Full Name:</strong> {{ $user['fullname'] }}</p>
+            <p><strong>Email:</strong> {{ $user['email'] }}</p>
+            <p><strong>Phone Number:</strong> {{ $user['phone_number'] }}</p>
+            <p><strong>Address:</strong> {{ $user['address'] }}</p>
             <p><strong>Role:</strong>
                 @if ($user['role'] == 1)
                     Admin
@@ -29,10 +28,18 @@
                     Unknown
                 @endif
             </p>
-            <p><strong>Created At:</strong>{{ $user['created_at'] }}</p>
+            <p><strong>Created At:</strong> {{ $user['created_at'] }}</p>
         </div>
     </div>
 </div>
+
+<!-- Success Alert -->
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
 <!-- Update Admin Details Form -->
 <div class="card shadow-lg border-0 rounded-3">
@@ -70,7 +77,7 @@
             </div>
             <div class="mb-3">
                 <label for="profile_picture" class="form-label">Profile Picture</label>
-                <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
             </div>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Update Profile</button>
