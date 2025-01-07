@@ -72,4 +72,10 @@ class OrderItems extends BaseModel
     {
         return $this->hasMany(\App\Models\InventorySupplies::class, 'id', 'inventory_id');
     }
+
+    public function order()
+{
+    return $this->belongsTo(Orders::class, 'order_id', 'id'); // Assuming 'order_id' is the foreign key in 'orders_item' table
+}
+   
 }

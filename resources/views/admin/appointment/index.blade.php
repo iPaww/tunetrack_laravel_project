@@ -8,8 +8,8 @@
                 <label for="status_filter" class="form-label">Filter by Appointment Status</label>
                 <select name="status_filter" id="status_filter" class="form-select">
                     <option value="">All Appointments</option>
-                    @foreach (['Pending', 'Accepted', 'Rejected', 'Reappoint'] as $status)
-                        <option value="{{ $status }}" @selected(request('status_filter') == $status)>{{ $status }}</option>
+                    @foreach (['pending', 'accepted', 'rejected', 're-book'] as $status)
+                        <option value="{{ $status }}" @selected(request('status_filter') == $status)>{{ ucfirst($status) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -41,40 +41,44 @@
                         <td>{{ $appointment->user->fullname }}</td>
                         <td>{{ \Carbon\Carbon::parse($appointment->selected_date)->format('F j, Y') }}</td>
                         <td>
-                            <span
-                                class="badge
+                            <span class="badge
                                 @switch($appointment->status)
-                                    @case('Accepted') badge-success text-dark font-weight-normal @break
-                                    @case('Rejected') badge-danger text-dark font-weight-normal @break
-                                    @case('Pending') badge-warning text-dark font-weight-normal @break
+                                    @case('accepted') badge-success text-dark font-weight-normal @break
+                                    @case('declined') badge-danger text-dark font-weight-normal @break
+                                    @case('pending') badge-warning text-dark font-weight-normal @break
+                                    @case('re-book') badge-secondary text-dark font-weight-normal @break
                                     @default badge-secondary text-dark font-weight-normal @break
                                 @endswitch">
-                                {{ $appointment->status }}
+                                {{ ucfirst($appointment->status) }}
                             </span>
                         </td>
                         <td>
                             <!-- Appointment Status Change Form (Inline) -->
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
-                                class="d-inline-block">
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
                                 @csrf
-                                @method('PUT')
+                                @method('PUT') <!-- This line tells Laravel to treat the form as a PUT request -->
                                 <div class="form-group">
                                     <select name="status" class="form-select">
                                         <option value="pending" @selected($appointment->status == 'pending')>Pending</option>
                                         <option value="accepted" @selected($appointment->status == 'accepted')>Accept</option>
-                                        <option value="rejected" @selected($appointment->status == 'rejected')>Reject</option>
-                                        <option value="reappoint" @selected($appointment->status == 'reappoint')>Reappoint</option>
+                                        <option value="declined" @selected($appointment->status == 'declined')>Reject</option>
+                                        <option value="re-book" @selected($appointment->status == 're-book')>Re-book</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
                             </form>
+
+                            {{-- <!-- Re-book Button (Visible only if status is 're-book') -->
+                            @if ($appointment->status == 're-book')
+                                <form action="{{ route('appointments.rebook', $appointment->id) }}" method="POST" class="d-inline-block mt-2">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning btn-sm">Re-book</button>
+                                </form>
+                            @endif --}}
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-
-    <!-- Success message after status update -->
-
 </div>

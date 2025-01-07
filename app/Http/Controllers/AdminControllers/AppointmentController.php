@@ -31,7 +31,7 @@ class AppointmentController extends BasePageController
     $status = strtolower($request->input('status')); // Ensure lowercase value
 
     // Only allow valid status options
-    $validStatuses = ['pending', 'accepted', 'rejected', 'reappoint'];
+    $validStatuses = ['pending', 'accepted', 're-book', 'declined'];
 
     // If the status is valid, update the appointment
     if (in_array($status, $validStatuses)) {
@@ -41,6 +41,7 @@ class AppointmentController extends BasePageController
 
     return redirect()->route('admin.appointment.index')->with('success', 'Appointment status updated.');
 }
+
 
     
 

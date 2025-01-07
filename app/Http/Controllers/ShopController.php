@@ -24,7 +24,7 @@ class ShopController extends BasePageController
     public string $base_file_path = 'shop.';
     public $order_statuses = [
         1 => 'Pending',
-        2 => 'Delivery',
+        2 => 'Proccessing',
         3 => 'Delivered',
         4 => 'Cancelled',
     ];

@@ -54,8 +54,13 @@ Route::get('/', function () {
 Route::controller(AppointmentController::class)
     ->middleware([Authenticate::class, Verification::class])
     ->group(function () {
-        Route::get('/appointment', 'index');
+        Route::get('/appointment', 'index')->name('appointment.index'); // View appointments
+        Route::get('/appointment/book', 'book')->name('appointment.book'); // Book appointment
+        Route::post('/appointment', 'store')->name('appointment.store'); // Create appointment
+        Route::get('/appointment/edit/{id}', 'edit')->name('appointment.edit'); // Edit appointment
+        Route::post('/appointment/update/{id}', 'update')->name('appointment.update'); // Update appointment
     });
+
 
 Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about-us', 'index');

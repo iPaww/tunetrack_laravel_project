@@ -1,15 +1,15 @@
 <style>
-table tbody tr {
-    cursor: pointer;
-}
+    table tbody tr {
+        cursor: pointer;
+    }
 
-.table tbody tr td {
-    background: transparent;
-}
+    .table tbody tr td {
+        background: transparent;
+    }
 
-table tbody tr:hover {
-    filter: brightness(85%);
-}
+    table tbody tr:hover {
+        filter: brightness(85%);
+    }
 </style>
 
 <div class="container mt-5 min-vh-100">

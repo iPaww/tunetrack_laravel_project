@@ -1,34 +1,34 @@
 <style>
-.price-text {
-    color: #FC6A03;
-}
+    .price-text {
+        color: #FC6A03;
+    }
 
-.select-payment {
-    cursor: pointer;
-}
+    .select-payment {
+        cursor: pointer;
+    }
 
-.select-payment:hover {
-    background-color: #bfbfbf;
-}
+    .select-payment:hover {
+        background-color: #bfbfbf;
+    }
 
-.select-payment:active {
-    background-color: #5e5e5e;
-}
+    .select-payment:active {
+        background-color: #5e5e5e;
+    }
 
-.btn-checkout {
-    background-color: #FC6A03;
-    border-color: #FC6A03;
-}
+    .btn-checkout {
+        background-color: #FC6A03;
+        border-color: #FC6A03;
+    }
 
-.btn-checkout:hover {
-    background-color: #bd4f02;
-    border-color: #bd4f02;
-}
+    .btn-checkout:hover {
+        background-color: #bd4f02;
+        border-color: #bd4f02;
+    }
 
-.btn-checkout:active {
-    background-color: #853700 !important;
-    border-color: #853700 !important;
-}
+    .btn-checkout:active {
+        background-color: #853700 !important;
+        border-color: #853700 !important;
+    }
 </style>
 
 <div class="container align-items-center min-vh-100 py-5">
@@ -62,9 +62,15 @@
             <div class="row">
                 @foreach ($items as $item)
                 <div class="col-12 row mb-1 py-3">
-                    <div class="col-3 position-relative">
-                        <a href="/shop/product/{{ $item->product_id }}/view" class="text-decoration-none position-absolute top-50 start-50 translate-middle w-100">
-                            <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" class="img-fluid border rounded">
+                    <div class="col-3 ">
+                        <a href="/shop/product/{{ $item->product_id }}/view" class="text-decoration-none  w-100">
+                            {{-- <img src="{{ asset('/assets/images/inventory/uploads/' . $item->image ) }}" alt="{{ $item['product_name'] }}" class="img-fluid border rounded"> --}}
+                        @if (file_exists(public_path($item->image)))
+                                    <img src="{{ asset($item->image) }}" class="img-fluid border rounded" alt="{{ htmlspecialchars($item->name) }}" />
+                                @else
+                                    <img src="{{ asset("storage/assets/image/product_image/default.png") }}" class="img-fluid border rounded" alt="{{ htmlspecialchars($item->name) }}" />
+                                @endif
+                        
                         </a>
                     </div>
                     <div class="col-9 row">

@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
-    use HasFactory, SoftDeletes; // SoftDeletes to handle deleted_at column
+    use HasFactory, SoftDeletes;
 
-    // Define the table name (optional if it's plural form)
     protected $table = 'appointment';
 
-    // Define the fillable attributes (columns that can be mass-assigned)
     protected $fillable = [
         'selected_date',
         'user_id',
@@ -21,14 +19,12 @@ class Appointment extends Model
         'status',
     ];
 
-    // The attributes that should be mutated to dates.
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    // Define the relationships
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -36,7 +32,24 @@ class Appointment extends Model
 
     public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class); // Assuming sub_category_id is related to SubCategory
+        return $this->belongsTo(SubCategory::class);
     }
+
+    // Define the relationship to the Order model (assuming you have an Order model)
+    public function order()
+    {
+        return $this->belongsTo(Orders::class, 'order_id', 'id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Orders::class, 'appointment_id', 'id'); // Assuming orders have an appointment_id
+    }
+
+    // Define the relationship to the OrderItems model via the Order model
+    public function orderItems()
+{
+    return $this->hasMany(OrderItems::class, 'order_id', 'id'); // Correct relationship to order_items
+}
     
 }
