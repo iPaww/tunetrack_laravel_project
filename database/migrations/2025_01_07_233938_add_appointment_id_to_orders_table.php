@@ -17,7 +17,7 @@ return new class extends Migration
     });
 
     Schema::table('orders_item', function (Blueprint $table) {
-        $table->unsignedBigInteger('order_id'); // Add the order_id column
+
         $table->foreign('order_id')->references('id')->on('orders'); // Add the foreign key constraint
     });
 }
