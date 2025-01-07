@@ -39,10 +39,11 @@ class Topics extends BaseModel
      *
      * This assumes sub_category_id is a foreign key to sub_category.
      */
-    public function sub_category()
-    {
-        return $this->belongsTo('App\Models\SubCategory', 'sub_category_id', 'id');
-    }
+      // Define the relationship with Courses
+      public function courses()
+      {
+          return $this->belongsTo(Courses::class, 'course_id', 'id');
+      }
     public function course()
 {
     return $this->belongsTo('App\Models\Course', 'course_id', 'id');

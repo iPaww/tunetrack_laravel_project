@@ -17,20 +17,17 @@
                 @endforeach
             </select>
         </div>
-        <!-- Sub Category Field    -->
-        <div class="mb-3">
-            <label for="sub_category_id" class="form-label">Sub Category</label>
-            <select name="sub_category_id" id="sub_category_id" class="form-select" required>
-                @foreach ($sub_category as $sub_category)
-                    <option value="{{ $sub_category->id }}">{{ $sub_category->name }}</option>
-                @endforeach
-            </select>
-        </div>
 
         <!-- Description Field -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea name="description" id="description" class="form-control" required></textarea>
+        </div>
+
+        <!-- Image Upload Field -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Add Image</label>
+            <input type="file" name="image" id="image" class="form-control" accept="image/*">
         </div>
 
         <!-- Audio Upload Field -->

@@ -20,23 +20,24 @@
                 @endforeach
             </select>
         </div>
-        <!-- Sub Category Field -->
-        <div class="mb-3">
-            <label for="sub_category_id" class="form-label">Sub Category</label>
-            <select name="sub_category_id" id="sub_category_id" class="form-select" required>
-                @foreach ($sub_category as $sub_category)
-                    <option value="{{ $sub_category->id }}"
-                        {{ $sub_category->id == $topic->sub_category_id ? 'selected' : '' }}>
-                        {{ $sub_category->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
 
         <!-- Description Field -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea name="description" id="description" class="form-control" required>{{ $topic->description }}</textarea>
+        </div>
+
+        <!-- Existing Image Preview -->
+        @if ($topic->image)
+            <div class="mb-3">
+                <img src="{{ asset('storage/' . $topic->image) }}" alt="Topic Image" style="max-width: 200px;">
+            </div>
+        @endif
+
+        <!-- Image Upload Field -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Update Image</label>
+            <input type="file" name="image" id="image" class="form-control" accept="image/*">
         </div>
 
         <!-- Audio Upload Field -->

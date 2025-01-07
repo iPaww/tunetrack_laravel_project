@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\Courses;
-use App\Models\sub_category;
-use App\Models\SubCategory;
 use App\Models\Topics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,95 +17,99 @@ class TopicsController extends BasePageController
         $search = $request->input('search');
 
         // Query topics and filter by title if search term exists
-        $topics = Topics::with('sub_category')
-            ->when($search, function($query, $search) {
-                // Filter topics by the title field using "like" for partial matches
-                return $query->where('title', 'like', '%' . $search . '%');
-            })
-            ->paginate(10); // Execute the query
+        $topics = Topics::with('courses')
+        ->when($search, function ($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%');
+        })
+        ->paginate(10);
 
-        return $this->view_basic_page($this->base_file_path . 'index', compact('topics'));
+    return $this->view_basic_page($this->base_file_path . 'index', compact('topics'));
+
     }
 
 
     // Show the form to create a new topic
     public function create()
     {
-        $sub_category = SubCategory::all(); // Fetch all sub-categories
-        $courses = Courses::all(); // Fetch all courses for the dropdown
-        return $this->view_basic_page($this->base_file_path . 'create', compact('sub_category', 'courses'));
+        $courses = Courses::all();
+        return $this->view_basic_page($this->base_file_path . 'create', compact( 'courses'));
     }
 
+    //Edit
+    public function edit(Topics $topic)
+    {
+        $courses = Courses::all();
+        return $this->view_basic_page($this->base_file_path . 'edit', compact('topic', 'courses'));
+    }
     // Store a newly created topic
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'sub_category_id' => 'required|integer|exists:sub_category,id',
-            'course_id' => 'required|integer|exists:courses,id', // Validate course_id
+            'course_id' => 'required|integer|exists:courses,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
         ]);
 
         $topic = new Topics();
         $topic->title = $request->title;
         $topic->description = $request->description;
-        $topic->sub_category_id = $request->sub_category_id;
-        $topic->course_id = $request->course_id; // Assign course_id here
+        $topic->course_id = $request->course_id;
 
-        // Handle audio file upload
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('topics/images', 'public');
+            $topic->image = $imagePath;
+        }
+
+        // Handle audio upload
         if ($request->hasFile('audio')) {
-            $audioPath = $request->file('audio')->store('audio', 'public');
+            $audioPath = $request->file('audio')->store('topics/audio', 'public');
             $topic->audio = $audioPath;
         }
 
         $topic->save();
 
-        return redirect()->route('topics.index')->with('success', 'Topic created successfully.')
-        ->with('message', 'Topic created successfully.')
-        ->with('type', 'success');  // You can customize the type to 'success', 'danger', etc.
+        return redirect()->route('topics.index')->with('success', 'Topic created successfully.');
     }
 
-    // Show the form to edit an existing topic
-    public function edit(Topics $topic)
-    {
-        $sub_category = SubCategory::all(); // Fetch all sub-categories
-        $courses = Courses::all(); // Fetch all courses
-        return $this->view_basic_page($this->base_file_path . 'edit', compact('topic', 'sub_category', 'courses'));
-    }
-
-    // Update the specified topic
+    // Update an existing topic
     public function update(Request $request, Topics $topic)
     {
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'sub_category_id' => 'required|integer|exists:sub_category,id',
-            'course_id' => 'required|integer|exists:courses,id', // Foreign key validation for course_id
+            'course_id' => 'required|integer|exists:courses,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
         ]);
 
-
-        $topic = new Topics();
         $topic->title = $request->title;
         $topic->description = $request->description;
-        $topic->sub_category_id = $request->sub_category_id;
-        $topic->course_id = $request->course_id; // Assign course_id here
+        $topic->course_id = $request->course_id;
 
-        // Handle audio file upload (only if a new file is provided)
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            if ($topic->image) {
+                Storage::disk('public')->delete($topic->image);
+            }
+            $imagePath = $request->file('image')->store('topics/images', 'public');
+            $topic->image = $imagePath;
+        }
+
+        // Handle audio upload
         if ($request->hasFile('audio')) {
             if ($topic->audio) {
-                Storage::disk('public')->delete($topic->audio); // Delete the old audio file if it exists
+                Storage::disk('public')->delete($topic->audio);
             }
-            $audioPath = $request->file('audio')->store('audio', 'public');
+            $audioPath = $request->file('audio')->store('topics/audio', 'public');
             $topic->audio = $audioPath;
         }
 
         $topic->save();
 
-        return redirect()->route('topics.index')->with('success', 'Topic updated successfully.')
-        ->with('message', 'Topic updated successfully.')
-        ->with('type', 'success');
+        return redirect()->route('topics.index')->with('success', 'Topic updated successfully.');
     }
 
     // Delete a topic
@@ -121,7 +123,7 @@ class TopicsController extends BasePageController
         $topic->delete();
 
         return redirect()->route('topics.index')->with('success', 'Topic deleted successfully.')
-        ->with('message', 'Topic deleted successfully.')
-        ->with('type', 'success');
+            ->with('message', 'Topic deleted successfully.')
+            ->with('type', 'success');
     }
 }

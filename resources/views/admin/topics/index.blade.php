@@ -20,8 +20,9 @@
             <thead class="bg-light">
                 <tr>
                     <th scope="col">Title</th>
-                    <th scope="col">Sub Category</th>
+                    <th scope="col">Course</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Audio</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -30,12 +31,25 @@
                 @forelse ($topics as $topic)
                     <tr>
                         <td>{{ $topic->title }}</td>
-                        <td class="text-truncate" style="max-width: 5em">{{ $topic->sub_category->name }}</td>
+                        <td class="text-truncate" style="max-width: 5em">{{ $topic->courses->name }}</td>
                         <td class="text-truncate" style="max-width: 5em">{{ $topic->description }}</td>
                         <td>
-                            <audio controls>
-                                <source src="{{ asset('storage/' . $topic->audio) }}" type="audio/mpeg">
-                            </audio>
+                            @if ($topic->image)
+                                <img src="{{ asset('storage/' . $topic->image) }}" alt="Topic Image"
+                                    style="width: 50px; height: auto;">
+                            @else
+                                <span class="text-muted">No Image</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($topic->audio)
+                                <audio controls>
+                                    <source src="{{ asset('storage/' . $topic->audio) }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            @else
+                                <span class="text-muted">No Audio</span>
+                            @endif
                         </td>
                         <td>
                             <div class="d-flex justify-content-start gap-2">
@@ -54,12 +68,12 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">No topics found for the search criteria.</td>
+                        <td colspan="6" class="text-center">No topics found for the search criteria.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
-        {{ $topics->links() }}
+        {{ $topics->appends(['search' => request('search')])->links() }}
     </div>
 
     <!-- Modal Notification for CRUD Actions -->
@@ -82,27 +96,27 @@
             </div>
         </div>
     </div>
+</div>
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        @if (session('message'))
+            var message = '{{ session('message') }}';
+            var type = '{{ session('type', 'success') }}';
+            var modalBody = document.getElementById('crudModalBody');
+            modalBody.innerHTML = message;
 
-    <!-- JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            @if (session('message'))
-                var message = '{{ session('message') }}';
-                var type = '{{ session('type', 'success') }}';
-                var modalBody = document.getElementById('crudModalBody');
-                modalBody.innerHTML = message;
+            // Show modal
+            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
+            crudModal.show();
+        @elseif ($topics->isEmpty() && request('search'))
+            var modalBody = document.getElementById('crudModalBody');
+            modalBody.innerHTML =
+                "No results found for your search query. Please try again with different keywords.";
 
-                // Show modal
-                var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
-                crudModal.show();
-            @elseif ($topics->isEmpty() && request('search'))
-                var modalBody = document.getElementById('crudModalBody');
-                modalBody.innerHTML =
-                    "No results found for your search query. Please try again with different keywords.";
-
-                // Show modal
-                var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
-                crudModal.show();
-            @endif
-        });
-    </script>
+            // Show modal
+            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
+            crudModal.show();
+        @endif
+    });
+</script>
