@@ -11,14 +11,14 @@ class ColorsController extends BasePageController
     // Display all colors
     public function index()
     {
-        $colors = Colors::all(); // Get all colors from the database
+        $colors = Colors::all();
         return $this->view_basic_page($this->base_file_path . 'index', compact('colors'));
     }
 
     // Show the form for creating a new color
     public function create()
     {
-        return $this->view_basic_page($this->base_file_path . 'create'); // return view('admin.colors.create'); // Return the create form view
+        return $this->view_basic_page($this->base_file_path . 'create');
     }
 
     // Store a newly created color
@@ -28,15 +28,14 @@ class ColorsController extends BasePageController
             'name' => 'required|string|max:255',
         ]);
 
-        Colors::create($request->all()); // Create new color
+        Colors::create($request->all());
         return redirect()->route('colors.index')->with('success', 'Color created successfully!');
     }
 
     // Show the form to edit an existing color
     public function edit($id)
     {
-        $color = Colors::findOrFail($id); // Find color by ID
-        // return view('admin.colors.edit', compact('color')); // Return the edit form view with the color
+        $color = Colors::findOrFail($id);
         return $this->view_basic_page($this->base_file_path . 'edit', compact('color'));
     }
 
@@ -47,16 +46,16 @@ class ColorsController extends BasePageController
             'name' => 'required|string|max:255',
         ]);
 
-        $color = Colors::findOrFail($id); // Find the color by ID
-        $color->update($request->all()); // Update the color
+        $color = Colors::findOrFail($id);
+        $color->update($request->all());
         return redirect()->route('colors.index')->with('success', 'Color updated successfully!');
     }
 
     // Delete a color
     public function destroy($id)
     {
-        $color = Colors::findOrFail($id); // Find the color by ID
-        $color->delete(); // Delete the color
+        $color = Colors::findOrFail($id);
+        $color->delete();
         return redirect()->route('colors.index')->with('success', 'Color deleted successfully!');
     }
 }

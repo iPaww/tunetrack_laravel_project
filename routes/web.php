@@ -103,7 +103,7 @@ Route::controller(ProfileController::class)
         Route::get('/exam', 'exam');
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
-        Route::post('/update', 'update');
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     });
 
 
