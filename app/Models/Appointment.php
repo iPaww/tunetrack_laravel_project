@@ -48,8 +48,19 @@ class Appointment extends Model
 
     // Define the relationship to the OrderItems model via the Order model
     public function orderItems()
-{
-    return $this->hasMany(OrderItems::class, 'order_id', 'id'); // Correct relationship to order_items
-}
-    
+    {
+        return $this->hasMany(OrderItems::class, 'order_id', 'id'); // Correct relationship to order_items
+    }
+    public function appointment()
+    {
+        // Access appointment via the related order
+        return $this->hasOneThrough(
+            Appointment::class,
+            Orders::class,
+            'id', // Foreign key on orders table
+            'order_id', // Foreign key on appointments table
+            'order_id', // Local key on order_items table
+            'id' // Local key on orders table
+        );
+    }
 }

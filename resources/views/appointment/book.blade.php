@@ -1,6 +1,6 @@
 <div class="container mt-5" style="max-width: 600px; border: 2px solid #ddd; border-radius: 10px; padding: 30px; background-color: #f9f9f9;">
-    <h1 class="text-center mb-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: black;">Appointment</h1>
-    <form action="{{ route('appointments.store') }}" method="POST">
+    <h1 class="text-center mb-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: black;">Booking Tutorials</h1>
+    <form action="{{ route('appointment.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="order_id" class="form-label" style="font-weight: bold; color: #555;">Select Order:</label>
@@ -11,10 +11,8 @@
                         @foreach($order->orderItems as $orderItem)
                             @if($orderItem->product) <!-- Ensure product exists -->
                                 <option value="{{ $orderItem->product->id }}">
-                                    {{ $orderItem->product->name }} (Quantity: {{ $orderItem->quantity }})
+                                    {{ $orderItem->product->name }}
                                 </option>
-                            @else
-                                <option value="" disabled>No Product</option>
                             @endif
                         @endforeach
                     </optgroup>
@@ -28,7 +26,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<!-- Add some hover effect for the button -->
 <style>
     .btn-primary:hover {
         background-color: #45a049;

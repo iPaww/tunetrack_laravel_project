@@ -180,7 +180,7 @@
                         style="text-decoration:none; color:white;">E-Learning</a>
                     <a href="/shop" class="set-banner mx-2" style="text-decoration:none; color:white;">Shop</a>
                     <a href="/appointment" class="set-banner mx-2"
-                        style="text-decoration:none; color:white;">Appointment</a>
+                        style="text-decoration:none; color:white;">Book Tutorial</a>
                     <a href="/about-us" class="set-banner mx-2" style="text-decoration:none; color:white;">About Us</a>
                 </div>
             </div>

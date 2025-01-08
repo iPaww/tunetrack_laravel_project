@@ -59,6 +59,7 @@ Route::controller(AppointmentController::class)
         Route::post('/appointment', 'store')->name('appointment.store'); // Create appointment
         Route::get('/appointment/edit/{id}', 'edit')->name('appointment.edit'); // Edit appointment
         Route::post('/appointment/update/{id}', 'update')->name('appointment.update'); // Update appointment
+        Route::delete('/appointment/{id}',  'destroy')->name('appointment.destroy');
     });
 
 
