@@ -30,9 +30,9 @@
             <tbody>
                 @forelse ($topics as $topic)
                     <tr>
-                        <td>{{ $topic->title }}</td>
-                        <td class="text-truncate" style="max-width: 5em">{{ $topic->courses->name }}</td>
-                        <td class="text-truncate" style="max-width: 5em">{{ $topic->description }}</td>
+                        <td class="text-truncate" style="max-width: 10em;">{{ $topic->title }}</td>
+                        <td class="text-truncate" style="max-width: 8em;">{{ $topic->courses->name }}</td>
+                        <td class="text-truncate" style="max-width: 12em;">{{ $topic->description }}</td>
                         <td>
                             @if ($topic->image)
                                 <img src="{{ asset('storage/' . $topic->image) }}" alt="Topic Image"
@@ -52,7 +52,7 @@
                             @endif
                         </td>
                         <td>
-                            <div class="d-flex justify-content-start gap-2">
+                            <div class="d-flex justify-content-start gap-3">
                                 <a href="{{ route('topics.edit', $topic->id) }}"
                                     class="btn btn-warning btn-sm w-auto">Edit</a>
 
@@ -94,6 +94,7 @@
         </div>
     </div>
 </div>
+
 <!-- JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {

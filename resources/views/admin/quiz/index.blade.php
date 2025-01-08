@@ -5,6 +5,8 @@
             <a href="/admin/quiz/add" style="text-decoration: none; color: white;">Add</a>
         </button>
     </div>
+
+    <!-- Table Section with Bootstrap Responsiveness -->
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -43,5 +45,9 @@
             </tbody>
         </table>
     </div>
-    {{ $quizzes->links() }}
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {{ $quizzes->links() }}
+    </div>
 </div>

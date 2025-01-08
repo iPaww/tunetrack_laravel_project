@@ -24,6 +24,7 @@
             {{ session('success') }}
         </div>
     @endif
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead class="table-light">
@@ -59,7 +60,7 @@
                             <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
                                 class="d-inline-block">
                                 @csrf
-                                @method('PUT') <!-- This line tells Laravel to treat the form as a PUT request -->
+                                @method('PUT')
                                 <div class="form-group">
                                     <select name="status" class="form-select">
                                         <option value="pending" @selected($appointment->status == 'pending')>Pending</option>

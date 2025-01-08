@@ -52,8 +52,8 @@
                 @forelse ($courses as $course)
                     <tr>
                         <td>{{ $course->name }}</td>
-                        <td class="text-truncate" style="max-width: 5em">{{ $course->description }}</td>
-                        <td class="text-truncate" style="max-width: 5em">{{ $course->objective }}</td>
+                        <td class="text-truncate" style="max-width: 15em;">{{ $course->description }}</td>
+                        <td class="text-truncate" style="max-width: 15em;">{{ $course->objective }}</td>
                         <td>{{ $course->category->name ?? 'Uncategorized' }}</td> <!-- Display category name -->
                         <td>
                             <div class="d-flex justify-content-start gap-2">
@@ -77,7 +77,11 @@
             </tbody>
         </table>
     </div>
-    {{ $courses->links() }}
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {{ $courses->links() }}
+    </div>
 </div>
 
 <script>

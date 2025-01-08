@@ -22,10 +22,24 @@
         }
 
         /* Banner */
+
         .home-banner {
             background-color: #FC6A03;
             color: white;
             padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            /* Set the header's height */
+        }
+
+        /* Logo */
+        .home-banner .title-banner img {
+            height: 100%;
+            /* Makes the logo fill the header's height */
+            object-fit: contain;
+            /* Ensures the logo keeps its aspect ratio */
         }
 
         .nav-bar {
@@ -158,7 +172,8 @@
         <!-- Banner Section -->
         <div class="home-banner d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none">TuneTrack</a>
+                <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none"><img
+                            src="{{ asset('storage/logo/logo.png') }}" style="max-width: 80px;" alt=""></a>
                 </div>
                 <div class="d-flex banner-items flex-wrap">
                     <a href="/elearning" class="set-banner mx-2"
