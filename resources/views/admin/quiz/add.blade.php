@@ -1,7 +1,4 @@
 <div class="container mt-5">
-    <button class="btn btn-secondary mb-3">
-        <a href="{{ route('quiz.index') }}" style="text-decoration: none; color: white;">Back</a>
-    </button>
     <h1>Add a New Quiz</h1>
 
     <form action="{{ route('quiz.store') }}" method="POST" class="mt-4">
@@ -11,7 +8,7 @@
             <label for="courseSelect">Select Course</label>
             <select class="form-control" id="courseSelect" name="course_id" required>
                 <option value="" disabled selected>Select a course</option>
-                @foreach($courses as $course)
+                @foreach ($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
                 @endforeach
             </select>
@@ -25,16 +22,16 @@
         <div class="form-group">
             <label>Options</label>
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <input type="text" class="form-control" placeholder="Option A" name="a_answer" required>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <input type="text" class="form-control" placeholder="Option B" name="b_answer" required>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-12 col-md-6 mt-2">
                     <input type="text" class="form-control" placeholder="Option C" name="c_answer" required>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-12 col-md-6 mt-2">
                     <input type="text" class="form-control" placeholder="Option D" name="d_answer" required>
                 </div>
             </div>
@@ -52,9 +49,13 @@
 
         <div class="form-group mt-3">
             <label for="question_order">Quiz Order</label>
-            <input type="text" class="form-control" id="question_order" name="question_order" placeholder="Enter quiz order" required>
+            <input type="text" class="form-control" id="question_order" name="question_order"
+                placeholder="Enter quiz order" required>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ route('quiz.index') }}" class="btn btn-secondary">Back</a>
+        </div>
     </form>
 </div>
