@@ -1,5 +1,3 @@
-<!-- resources/views/admin/colors/index.blade.php -->
-
 <div class="container">
     <div class="row align-items-center mb-3">
         <div class="col-12 col-md-6">
@@ -14,7 +12,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal for Notification -->
     <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -33,6 +31,7 @@
         </div>
     </div>
 
+    <!-- Colors Table -->
     <table class="table">
         <thead>
             <tr>
@@ -57,6 +56,8 @@
         </tbody>
     </table>
 </div>
+
+<!-- JavaScript to handle the modal -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Check if there's a notification message from the session

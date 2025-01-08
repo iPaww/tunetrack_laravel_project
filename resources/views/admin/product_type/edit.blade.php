@@ -2,10 +2,6 @@
     <!-- Title and Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Edit Product Type</h1>
-        <!-- Back Button -->
-        <a href="{{ route('product_type.index') }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left-circle"></i> Back to Product Types
-        </a>
     </div>
 
     <!-- Success Message -->
@@ -14,7 +10,7 @@
     @endif
 
     <!-- Product Type Edit Form -->
-    <form action="{{ route('admin.product_type.update', $productType->id) }}" method="POST"
+    <form action="{{ route('product_type.update', $productType->id) }}" method="POST"
         class="p-4 border rounded-3 shadow-sm bg-light">
         @csrf
         @method('PUT')
@@ -26,7 +22,12 @@
                 value="{{ old('name', $productType->name) }}" required>
         </div>
 
-        <!-- Update Button -->
-        <button type="submit" class="btn btn-success w-100">Update Product Type</button>
+        <!-- Buttons (side by side) -->
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-success w-48">Update</button>
+            <a href="{{ route('product_type.index') }}" class="btn btn-secondary w-48 text-center">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </a>
+        </div>
     </form>
 </div>

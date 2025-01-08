@@ -54,11 +54,11 @@ Route::get('/', function () {
 Route::controller(AppointmentController::class)
     ->middleware([Authenticate::class, Verification::class])
     ->group(function () {
-        Route::get('/appointment', 'index')->name('appointment.index'); // View appointments
-        Route::get('/appointment/book', 'book')->name('appointment.book'); // Book appointment
-        Route::post('/appointment', 'store')->name('appointment.store'); // Create appointment
-        Route::get('/appointment/edit/{id}', 'edit')->name('appointment.edit'); // Edit appointment
-        Route::post('/appointment/update/{id}', 'update')->name('appointment.update'); // Update appointment
+        Route::get('/appointment', 'index')->name('appointment.index');
+        Route::get('/appointment/book', 'book')->name('appointment.book');
+        Route::post('/appointment', 'store')->name('appointment.store');
+        Route::get('/appointment/edit/{id}', 'edit')->name('appointment.edit');
+        Route::post('/appointment/update/{id}', 'update')->name('appointment.update');
         Route::delete('/appointment/{id}',  'destroy')->name('appointment.destroy');
     });
 
@@ -85,8 +85,8 @@ Route::controller(ElearningController::class)
                 Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware([Authenticate::class, Verification::class]);
                 Route::get('/overall', 'overall')->middleware([Authenticate::class, Verification::class]);
                 Route::post('/overall', 'retake')->middleware([Authenticate::class, Verification::class]);
-                
-                
+
+
             });
     });
 
@@ -103,7 +103,7 @@ Route::controller(ProfileController::class)
         Route::get('/exam', 'exam');
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
-        Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('update');
     });
 
 
@@ -202,7 +202,7 @@ Route::prefix('admin')->group(function() {
                 Route::get('/create', 'create')->name('product_type.create');
                 Route::post('/', 'store')->name('product_type.store');
                 Route::get('/{id}/edit', 'edit')->name('product_type.edit');
-                Route::put('/admin/products/{id}', [ProductsController::class, 'update'])->name('product_type.update');
+                Route::put('/{id}', 'update')->name('product_type.update');
                 Route::delete('/product_type/{id}', 'destroy')->name('product_type.destroy');
         });
 

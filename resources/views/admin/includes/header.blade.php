@@ -69,9 +69,6 @@
                 <a href="/admin/sub-category"><i class="fas fa-layer-group"></i> Sub Category</a>
             </div>
             <div class="menu-item">
-                <a href="/admin/sales"><i class="fas fa-chart-pie"></i> Reports</a>
-            </div>
-            <div class="menu-item">
                 <a href="/admin/users"><i class="fas fa-users-cog"></i> User Management</a>
             </div>
         @endif

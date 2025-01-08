@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <h2 class="title"><b>Products</b></h2>
-        <div>
-            <a class="btn btn-outline-dark m-1" href="/admin/colors">Colors</a>
-            <a class="btn btn-outline-dark m-1" href="/admin/brands">Brands</a>
-            <a class="btn btn-outline-dark m-1" href="/admin/product_type">Product Type</a>
-            <a class="btn btn-success m-1" href="/admin/products/create">Create Product</a>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-dark" href="/admin/colors">Colors</a>
+            <a class="btn btn-outline-dark" href="/admin/brands">Brands</a>
+            <a class="btn btn-outline-dark" href="/admin/product_type">Product Type</a>
+            <a class="btn btn-success" href="/admin/products/create">Create Product</a>
         </div>
     </div>
 
@@ -79,5 +79,41 @@
             @endforeach
         </tbody>
     </table>
+
     {{ $products->links() }}
 </div>
+
+<!-- Modal Notice -->
+<div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noticeModalLabel">Notice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="noticeModalBody">
+                <!-- The success message will be dynamically added here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const successMessage = "{{ session('success') }}"; // Get the session success message
+
+        if (successMessage) {
+            const noticeModalBody = document.getElementById('noticeModalBody');
+            const noticeModal = new bootstrap.Modal(document.getElementById('noticeModal'));
+
+            // Set the success message in the modal body
+            noticeModalBody.textContent = successMessage;
+
+            // Show the modal
+            noticeModal.show();
+        }
+    });
+</script>

@@ -1,16 +1,38 @@
-<!-- resources/views/admin/brands/index.blade.php -->
 <div class="container">
-    <h1><b>BRANDS</b></h1>
+    <div class="row align-items-center mb-3">
+        <!-- Brands Title -->
+        <div class="col-12 col-md-6">
+            <h2><b>BRANDS</b></h2>
+        </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+        <!-- Buttons Section -->
+        <div class="col-12 col-md-6 text-md-end">
+            <a href="{{ route('brands.create') }}" class="btn btn-primary mb-2">Add New Brand</a>
+            <a href="/admin/products" class="btn btn-secondary mb-2">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </a>
+        </div>
+    </div>
 
-    <a href="{{ route('brands.create') }}" class="btn btn-primary mb-3">Add New Brand</a>
-    <!-- Back Button -->
-    <a href="/admin/products" class="btn btn-secondary mb-3">
-        <i class="bi bi-arrow-left-circle"></i> Back
-    </a>
+    <!-- Modal Notice -->
+    <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="noticeModalLabel">Notice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="noticeModalBody">
+                    <!-- The success message will be dynamically added here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brands Table -->
     <table class="table">
         <thead>
             <tr>
@@ -35,3 +57,20 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const successMessage = "{{ session('success') }}"; // Get the session success message
+
+        if (successMessage) {
+            const noticeModalBody = document.getElementById('noticeModalBody');
+            const noticeModal = new bootstrap.Modal(document.getElementById('noticeModal'));
+
+            // Set the success message in the modal body
+            noticeModalBody.textContent = successMessage;
+
+            // Show the modal
+            noticeModal.show();
+        }
+    });
+</script>

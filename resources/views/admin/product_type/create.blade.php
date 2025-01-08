@@ -2,7 +2,6 @@
     <!-- Title and Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Create New Product Type</h1>
-
     </div>
 
     <!-- Success Message -->
@@ -20,13 +19,13 @@
         </div>
 
         <!-- Buttons -->
-        <div class="d-flex justify-content-between">
-            <a href="{{ route('product_type.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left-circle"></i> Back
-            </a>
+        <div class="d-flex justify-content-between flex-column flex-sm-row">
             <button type="submit" class="btn btn-success">
                 Create Product Type
             </button>
+            <a href="{{ route('product_type.index') }}" class="btn btn-secondary mb-2 mb-sm-0">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </a>
         </div>
     </form>
 </div>
