@@ -501,22 +501,22 @@ class ShopController extends BasePageController
         return redirect("/shop/order/$order_insert->id/view");
     }
     public function searchItem(Request $request)
-{
-    $query = $request->get('query'); // Get the search query from the input field
+    {
+        $query = $request->get('query'); // Get the search query from the input field
 
-    if ($query) {
-        $shop_items = Products::where('name', 'like', '%' . $query . '%') // Filter by product name
-            ->orWhere('description', 'like', '%' . $query . '%') // Optional: Filter by description as well
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
-    } else {
-        // Default: Show all products if no search query
-        $shop_items = Products::orderBy('created_at', 'desc')->paginate(12);
+        if ($query) {
+            $shop_items = Products::where('name', 'like', '%' . $query . '%') // Filter by product name
+                ->orWhere('description', 'like', '%' . $query . '%') // Optional: Filter by description as well
+                ->orderBy('created_at', 'desc')
+                ->paginate(12);
+        } else {
+            // Default: Show all products if no search query
+            $shop_items = Products::orderBy('created_at', 'desc')->paginate(12);
+        }
+
+        return $this->view_basic_page($this->base_file_path . 'index', [
+            'items' => $shop_items,
+            'query' => $query,
+        ]);
     }
-
-    return $this->view_basic_page($this->base_file_path . 'index', [
-        'items' => $shop_items,
-        'query' => $query,
-    ]);
-}
 }

@@ -173,7 +173,7 @@
         <div class="home-banner d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none"><img
-                            src="{{ asset('storage/logo/logo.png') }}" style="max-width: 80px;" alt=""></a>
+                            src="{{ asset('assets/images/logo/logo.png') }}" style="max-width: 80px;" alt=""></a>
                 </div>
                 <div class="d-flex banner-items flex-wrap">
                     <a href="/elearning" class="set-banner mx-2"

@@ -66,6 +66,8 @@ Route::controller(AppointmentController::class)
 Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about-us', 'index');
 });
+//search the course
+Route::get('/elearning/category/{categoryId}/course/{courseId}', [ElearningController::class, 'showCourseDetails'])->name('course.search');
 
 Route::controller(ElearningController::class)
     ->prefix('elearning')
@@ -83,6 +85,8 @@ Route::controller(ElearningController::class)
                 Route::post('/quiz/{quiz_id}', 'quiz_submit')->middleware([Authenticate::class, Verification::class]);
                 Route::get('/overall', 'overall')->middleware([Authenticate::class, Verification::class]);
                 Route::post('/overall', 'retake')->middleware([Authenticate::class, Verification::class]);
+                
+                
             });
     });
 
