@@ -65,9 +65,11 @@
                 <h1 class="ms-3">JCS SHOP</h1>
             </span>
         </div>
-        <div id="search-container" class="input-group">
-            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
-            <input class="form-control" type="text" id="search-input" placeholder="Search instruments...">
+        <div id="search-container" class="input-group mb-3">
+            <form action="{{ route('shop.search') }}" method="GET" class="d-flex w-100">
+                <input type="text" name="query" class="form-control" placeholder="Search products..." value="{{ request()->query('query') }}" aria-label="Search products">
+                <button type="submit" class="btn btn-primary ms-2">Search</button>
+            </form>
         </div>
     </div>
 

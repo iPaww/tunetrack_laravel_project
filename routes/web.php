@@ -119,6 +119,7 @@ Route::controller(ShopController::class)
         Route::post('/cart/edit/{id}', 'cart_edit');
         Route::post('/cart/remove/{id}', 'cart_remove');
         Route::post('/cart/check_out', 'cart_checkout');
+        Route::get('/shop/search', 'searchItem')->name('shop.search');
     });
 
 Route::controller(LoginController::class)->group(function () {
