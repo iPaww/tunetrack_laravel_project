@@ -127,8 +127,8 @@ Route::controller(ShopController::class)
     });
 
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'index');
-    Route::post('/login', 'login');
+    Route::get('/login', 'index')->middleware(ForceMoveFromLogin::class);
+    Route::post('/login', 'login')->middleware(ForceMoveFromLogin::class);
     Route::get('/logout', 'logout');
     Route::get('/register', 'register');
     Route::post('/register', 'register_form');
