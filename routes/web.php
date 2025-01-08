@@ -129,6 +129,10 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/verification', 'verification')->middleware(Authenticate::class)->middleware(VerificationForm::class);
     Route::post('/verification', 'verification_form')->middleware(Authenticate::class)->middleware(VerificationForm::class);
     Route::get('/verification/re-send', 'verification_resend')->middleware(Authenticate::class)->middleware(VerificationForm::class);
+    Route::get('/forgot-password', 'forgot_password');
+    Route::post('/forgot-password', 'forgot_password_form');
+    Route::get('/password-reset', 'password_reset');
+    Route::post('/password-reset', 'password_reset_form');
 });
 
 Route::prefix('admin')->group(function() {

@@ -238,9 +238,13 @@
                     @endforeach
                 </ul>
             @endif
-            <div class="text-center mt-5">
-                <a href="/register" class="text-decoration-none toggle-link">Don’t have an account?<br>Create account
-                    here</a>
+            <div class="text-center mt-5 d-flex justify-content-around">
+                <div>
+                    <a href="/register" class="text-decoration-none toggle-link">Sign up</a>
+                </div>
+                <div>
+                    <a href="/forgot-password" class="text-decoration-none toggle-link">Forgot password</a>
+                </div>
             </div>
         </form>
     </div>

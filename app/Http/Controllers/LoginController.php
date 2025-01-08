@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use \DateTime;
 
+use App\Mail\UserForgotPassword;
 use App\Mail\UserVerification;
 
 use App\Models\User;
@@ -11,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -219,8 +221,6 @@ class LoginController extends BasePageController
                 'verification' => null,
                 'verified_at' => new DateTime()
             ]);
-        
-        session(['verified' => true]);
 
         return redirect('/');
     }
@@ -233,5 +233,127 @@ class LoginController extends BasePageController
         Mail::to(session('email'))->send( $verification_email );
 
         return redirect('/verification');
+    }
+
+    public function forgot_password()
+    {
+        return $this->view_basic_page('forgot_password');
+    }
+
+    public function forgot_password_form( Request $request ): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+        ]);
+
+        // Validate email and password
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $email = $request->post('email');
+
+        // Check if the email exists in the database
+        $user = User::select('id')->where('email', $email)
+            ->first();
+
+        if ( empty($user) ) {
+            return back()
+                ->withErrors('Email does not exists')
+                ->withInput();
+
+        }
+
+        $password_reset_email = new UserForgotPassword($user->id);
+        // Uncomment this line to view email
+        // return (new InvoicePaid($invoice))->render($verification_email);
+        Mail::to($email)->send( $password_reset_email );
+        
+        // Logout any logged in user
+        session()->forget(['id', 'fullname', 'email', 'role']);
+
+        return back()
+            ->with(['data' => [
+              'We have sent password reset link to your email.'  
+            ]]);
+    }
+
+    public function password_reset( Request $request )
+    {
+        $authentication = $request->get('authentication');
+        $user_id = $request->get('user');
+        if( empty( $user_id ) || empty( $authentication ) ) {
+            return abort(404);
+        }
+        $authentication = $request->get('authentication');
+        try {
+            $decrypted_authentication = Crypt::decryptString($authentication);
+        } catch (DecryptException $e) {
+            return abort(404);
+        }
+        
+        $user = User::where('id', $user_id)
+            ->where('verification', $decrypted_authentication)
+            ->first();
+        
+        if( empty( $user ) ) {
+            return abort(404);
+        }
+        return $this->view_basic_page('password_reset', compact('user', 'decrypted_authentication'));
+    }
+
+    public function password_reset_form( Request $request ): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'user' => 'required',
+            'verification_code' => 'required|alpha_num',
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ],
+            'confirm_password' => 'required'
+        ]);
+
+        // Validate email and password
+        if ($validator->stopOnFirstFailure()->fails()) {
+            return back()
+                ->withErrors($validator);
+        }
+        
+        $user_id = $request->post('user');
+        $verification_code = $request->post('verification_code');
+        $password = $request->post('password');
+        $confirm_password = $request->post('confirm_password');
+
+        if ($password !== $confirm_password) {
+            $validator->errors()->add('confirm_password', "Password and confirm password do not match");
+            return back()
+                ->withErrors($validator);
+        }
+
+        // Check if the email exists in the database
+        $user = User::where('id', $user_id)
+            ->where('verification', $verification_code)
+            ->first();
+
+        if ( empty($user) ) {
+            return back()
+                ->withErrors('User not found');
+        }
+        
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $user = User::where('id', $user_id)
+            ->where('verification', $verification_code)
+            ->update([
+                'password' => $hashed_password,
+                'verification' => null,
+            ]);
+
+        return redirect('/login');
     }
 }
