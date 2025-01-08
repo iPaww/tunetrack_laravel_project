@@ -3,12 +3,8 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
             <div class="card shadow-lg border-light">
-                <h4>Edit Color</h4>
-                <!-- Back Button -->
                 <div class="card-header bg-primary text-white text-center">
-                    <a href="{{ route('colors.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="bi bi-arrow-left-circle"></i> Back
-                    </a>
+                    <h4>Edit Color</h4>
                 </div>
 
                 <!-- Card Body -->
@@ -18,7 +14,7 @@
                         @method('PUT')
 
                         <!-- Color Name Field -->
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label for="name" class="font-weight-bold">Color Name</label>
                             <input type="text" id="name" name="name" class="form-control"
                                 value="{{ old('name', $color->name) }}" required>
@@ -27,8 +23,16 @@
                             @enderror
                         </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-success btn-block mt-3">Update Color</button>
+                        <!-- Button Row (Update and Back) -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Update Button -->
+                            <button type="submit" class="btn btn-success w-48">Update</button>
+
+                            <!-- Back Button -->
+                            <a href="{{ route('colors.index') }}" class="btn btn-secondary btn-sm w-48">
+                                <i class="bi bi-arrow-left-circle"></i> Back
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>

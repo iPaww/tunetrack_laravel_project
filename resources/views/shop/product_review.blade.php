@@ -1,44 +1,135 @@
 <style>
-.product-rating {
-    span {
-        cursor: pointer;
-        transition: 0.2s;
+    .product-rating {
+        span {
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 2rem;
+        }
+
+        span:hover {
+            filter: brightness(75%);
+            transform: scale(1.2);
+        }
+
+        span:has(~ span:hover) {
+            filter: brightness(75%);
+        }
     }
 
-    span:hover {
-        filter: brightness(50%);
+    .product-rating span {
+        transition: all 0.3s ease-in-out;
     }
-    
-    span:has(~ span:hover) {
-        filter: brightness(50%);
-    }
-}
 
+    .btn-tunetrack {
+        background-color: #6c757d;
+        color: #fff;
+        border-radius: 0.5rem;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-tunetrack:hover {
+        background-color: #495057;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body.row {
+        align-items: center;
+    }
+
+    .product-rating span,
+    .selected-product-rating span {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .selected-product-rating {
+        opacity: 0.8;
+        margin-bottom: 10px;
+    }
+
+    .selected-product-rating span {
+        color: #f39c12;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .alert-warning {
+        border-radius: 10px;
+    }
+
+    .list-group-item-danger {
+        background-color: #f8d7da;
+    }
+
+    .list-group-item-success {
+        background-color: #d4edda;
+    }
+
+    .text-warning-emphasis {
+        font-weight: bold;
+        color: #f39c12;
+    }
+
+    h1 a {
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    h1 a:hover {
+        text-decoration: underline;
+    }
+
+    .col-md-4 {
+        position: relative;
+    }
+
+    .card-body .img-fluid {
+        border-radius: 0.75rem;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card-body .img-fluid:hover {
+        transform: scale(1.05);
+    }
+
+    .alert-warning {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
 </style>
 
 <div class="container align-items-center min-vh-100 py-5">
-    <h1 class="text-center fs-1"><b>Write Review</b></h1>
+    <h1 class="text-center fs-1 mb-4"><b>Write Review</b></h1>
     @if (count($items) == 0)
-    <div class="alert alert-warning" role="alert">
-        Error occured no item(s) found.
-    </div>
+        <div class="alert alert-warning" role="alert">
+            Error occurred, no item(s) found.
+        </div>
     @else
         <form class="d-inline" action="/shop/order/{{ $order->id }}/product-review" method="POST">
-            @csrf <!-- {{ csrf_field() }} -->
+            @csrf
             <div>
                 @if ($errors->any())
-                <ul class="list-group my-2">
-                    @foreach ($errors->all() as $error)
-                        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
-                    @endforeach
-                </ul>
+                    <ul class="list-group my-2">
+                        @foreach ($errors->all() as $error)
+                            <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 @endif
                 @if (session()->get('data'))
-                <ul class="list-group my-2">
-                    @foreach (session()->get('data') as $data)
-                        <li class="list-group-item list-group-item-success">{{ $data }}</li>
-                    @endforeach
-                </ul>
+                    <ul class="list-group my-2">
+                        @foreach (session()->get('data') as $data)
+                            <li class="list-group-item list-group-item-success">{{ $data }}</li>
+                        @endforeach
+                    </ul>
                 @endif
             </div>
             <div class="row">

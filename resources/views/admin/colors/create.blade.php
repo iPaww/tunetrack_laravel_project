@@ -22,14 +22,14 @@
 
                         <!-- Buttons (Back and Create Color) -->
                         <div class="d-flex justify-content-between mt-3">
-                            <!-- Back Button -->
-                            <a href="{{ route('colors.index') }}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left-circle"></i> Back to Colors
-                            </a>
                             <!-- Submit Button -->
                             <button type="submit" class="btn btn-success">
-                                Create Color
+                                Create
                             </button>
+                            <!-- Back Button -->
+                            <a href="{{ route('colors.index') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left-circle"></i> Back
+                            </a>
                         </div>
 
                     </form>
