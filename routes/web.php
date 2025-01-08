@@ -231,7 +231,7 @@ Route::prefix('admin')->group(function() {
                 ->prefix('profile')
                 ->group(function () {
                     Route::get('/', 'index')->name('profile.index');
-                    Route::put('/update', 'update')->name('profile.update');
+                    Route::put('/update', 'update')->name('profile_admin.update');
                 });
 
 
