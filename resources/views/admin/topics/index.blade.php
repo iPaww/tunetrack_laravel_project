@@ -68,7 +68,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">No topics found for the search criteria.</td>
+                        <td colspan="6" class="text-center">No topics found.</td>
                     </tr>
                 @endforelse
             </tbody>

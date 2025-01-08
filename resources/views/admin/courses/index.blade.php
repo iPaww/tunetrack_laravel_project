@@ -49,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($courses as $course)
+                @forelse ($courses as $course)
                     <tr>
                         <td>{{ $course->name }}</td>
                         <td class="text-truncate" style="max-width: 5em">{{ $course->description }}</td>
@@ -69,7 +69,11 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No courses found.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
