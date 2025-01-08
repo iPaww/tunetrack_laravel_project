@@ -1,72 +1,112 @@
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="container mt-4">
     <!-- Dashboard Overview -->
     <div class="dashboard-overview">
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
+            <!-- Total Admin -->
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-lg border-light rounded-3">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Total Orders</h5>
-                        <p class="lead text-center">{{ $orders_data['total_orders'] }}</p>
+                        <h5 class="card-title text-center text-primary">Total Admin</h5>
+                        <p class="lead text-center text-muted">{{ $admin_data ?? 0 }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
+
+            <!-- Total Instruments -->
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-lg border-light rounded-3">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Total Sales</h5>
-                        <p class="lead text-center">${{ number_format($orders_data['total_sales'], 2) }}</p>
+                        <h5 class="card-title text-center text-success">Total Instruments</h5>
+                        <p class="lead text-center text-muted">{{ $inventory_data['total_instruments'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
+
+            <!-- Total Cart Items -->
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-lg border-light rounded-3">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Total Admin</h5>
-                        <p class="lead text-center">{{ $admin_data['total_admin'] }}</p>
+                        <h5 class="card-title text-center text-warning">Total Cart Items</h5>
+                        <p class="lead text-center text-muted">{{ $cart_data['total_cart_items'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Inventory Overview -->
-    <div class="inventory-overview">
+    <!-- Sales Report as Cards -->
+    <div class="sales-report mt-4">
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Total Instruments</h5>
-                        <p class="lead text-center">{{ $inventory_data['total_instruments'] }}</p>
+            @forelse($sales_data as $data)
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow-lg border-light rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-info">Date: {{ $data->order_date }}</h5>
+                            <p class="text-center">Total Orders: <strong
+                                    class="text-dark">{{ $data->total_orders }}</strong></p>
+                            <p class="text-center">Total Sales: <strong
+                                    class="text-success">P{{ number_format($data->total_sales, 2) }}</strong></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {{-- <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Total Supplies</h5>
-                        <p class="lead text-center">{{ $supply_data['total_supplies'] }}</p>
-                    </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-info text-center">No sales data available</div>
                 </div>
-            </div> --}}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Total Cart Items</h5>
-                        <p class="lead text-center">{{ $cart_data['total_cart_items'] }}</p>
-                    </div>
-                </div>
+            @endforelse
+        </div>
+    </div>
+
+    <!-- Bar Graph for Sales -->
+    <div class="bargraph mt-4">
+        <div class="row">
+            <div class="col-12">
+                <canvas id="salesBarGraph" width="500" height="250"></canvas>
+                <!-- Set specific width and height -->
             </div>
         </div>
     </div>
+
+    <script>
+        // Get data from the view
+        const labels = @json($labels);
+        const sales = @json($sales);
+
+        // Create the bar graph using Chart.js
+        const ctx = document.getElementById('salesBarGraph').getContext('2d');
+        const salesBarGraph = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels, // X-axis labels (Today vs Previous)
+                datasets: [{
+                    label: 'Sales',
+                    data: sales, // Y-axis data (Sales values)
+                    backgroundColor: ['#4caf50', '#2196f3'], // Different colors for each bar
+                    borderColor: ['#388e3c', '#1976d2'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Maintain aspect ratio
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 100
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
 </div>
-
-<script>
-    const toggleSidebar = document.getElementById('toggle-sidebar');
-    const sidebar = document.getElementById('sidebar');
-    const content = document.getElementById('content');
-
-    toggleSidebar.addEventListener('click', () => {
-        sidebar.classList.toggle('visible');
-        content.classList.toggle('expanded');
-    });
-</script>
