@@ -7,9 +7,11 @@
         <div class="form-group">
             <label for="courseSelect">Select Course</label>
             <select class="form-control" id="courseSelect" name="course_id" required>
-                <option value="" disabled selected>Select a course</option>
+                <option value="" disabled>Select a course</option>
                 @foreach ($courses as $course)
-                    <option value="{{ $course->id }}">{{ $course->name }}</option>
+                    <option value="{{ $course->id }}" {{ $quiz->course_id == $course->id ? 'selected' : '' }}>
+                        {{ $course->name }}
+                    </option>
                 @endforeach
             </select>
         </div>
