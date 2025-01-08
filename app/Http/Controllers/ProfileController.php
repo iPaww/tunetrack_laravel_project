@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Courses;
-use App\Models\Quiz;
-use App\Models\CourseUserHistory;
 
+use Illuminate\Http\Request;
+use App\Models\CourseUserHistory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BasePageController;
 
 class ProfileController extends BasePageController
@@ -77,45 +78,36 @@ class ProfileController extends BasePageController
     }
 
     public function update(Request $request)
-    {
-        $user = User::find(session('id'));
+{
+    $validated = $request->validate([
+        'fullname' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:20',
+        'address' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Validate the request
-        $request->validate([
-            'fullname' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'address' => 'required|string',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+    $profile = User::find(session('id'));
 
-        // Update profile picture if provided
-        if ($request->hasFile('profile_picture')) {
-            $profileImage = $request->file('profile_picture');
-            $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
+    if (!$profile) {
+        return redirect()->back()->with('error', 'User not found!');
+    }
 
-            // Store the image in public/user/{user_id}
-            $path = 'public/user/' . session('id');
-            $profileImage->storeAs($path, $imageName);  // Store the image in the correct folder
+    $profile->fullname = $validated['fullname'];
+    $profile->phone_number = $validated['phone_number'];
+    $profile->address = $validated['address'];
 
-            // $imageName = time() . '.' . $request->image->extension();
-            // $image = $request->file('image');
-            // $imagePath = $image->storeAs("adminprofile/$user->id",$imageName, 'public');
-            // $user->image = 'storage/' . $imagePath;
-            // session([ 'admin_user.profile_picture' => 'storage/' . $imagePath ]);
-
-            // Update the image field in the user table
-            $user->image = $imageName;
+    if ($request->hasFile('image')) {
+        if ($profile->image && file_exists(storage_path('app/public/' . $profile->image))) {
+            unlink(storage_path('app/public/' . $profile->image));
         }
 
-        // Update user details
-        $user->fullname = $request->fullname;
-        $user->phone_number = $request->phone_number;
-        $user->address = $request->address;
-        $user->save();
-
-        return response()->json([
-            'message' => 'Profile updated successfully!',
-            'profile' => $user,
-        ]);
+        $imagePath = $request->file('image')->store('userprofile/' . $profile->id, 'public');
+        $profile->image = 'storage/' . $imagePath;
+        session([ 'profile_picture' => 'storage/' . $imagePath ]);
     }
+
+    $profile->save();
+
+    return redirect()->back()->with('success', 'Profile updated successfully!');
+}
 }

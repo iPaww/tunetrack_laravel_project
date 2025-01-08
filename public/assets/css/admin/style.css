@@ -54,9 +54,7 @@ body {
 
 .sidebar .menu-item:last-child {
     position: relative;
-    /* Reset any conflicting position styles */
     z-index: 1;
-    /* Ensure visibility over any overlapping elements */
 }
 
 /* Scrollbar styling for Webkit browsers */
@@ -106,7 +104,6 @@ body {
     margin-left: 250px;
     padding: 20px;
     margin-top: 60px;
-    /* Ensures content starts below the header */
     transition: margin-left 0.3s ease-in-out;
 }
 
@@ -118,7 +115,6 @@ body {
         position: fixed;
         z-index: 9999;
         height: auto;
-        /* Ensure height is not fixed for smaller screens */
     }
 
     .sidebar.visible {

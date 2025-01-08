@@ -188,10 +188,12 @@
             <div class="profile-container pe-4">
                 @if (!empty(session('id')))
                     <a href="/{{ session('id') ? 'profile' : 'login' }}" class="text-white text-decoration-none">
-                        <img src="{{ !empty(session('profile_picture')) &&
-                        file_exists(public_path('assets/images/users/' . session('id') . '/' . session('profile_picture')))
-                            ? asset('assets/images/users/' . session('id') . '/' . session('profile_picture')) // TODO FIXME: This should use image of user
-                            : asset('assets/images/default/default_user.png') }}"
+
+
+
+                        <img src="{{ !empty(session('profile_picture')) && file_exists(public_path(session('profile_picture')))
+                            ? asset(session('profile_picture'))
+                            : asset('assets/images/default/admindp.jpg') }}"
                             alt="Profile Image" class="profile-image">
                         <span class="text-white ms-2 fw-bold">{{ session('id') ? session('fullname') : 'Guest' }}</span>
                     </a>
