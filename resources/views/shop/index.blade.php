@@ -60,14 +60,14 @@
         <div class="text-nowrap me-3">
             <span id="title-container">
                 <a href="/" style="width: 5rem;">
-                    <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
                 </a>
                 <h1 class="ms-3">JCS SHOP</h1>
             </span>
         </div>
         <div id="search-container" class="input-group mb-3">
             <form action="{{ route('shop.search') }}" method="GET" class="d-flex w-100">
-                <input type="text" name="query" class="form-control" placeholder="Search products..." value="{{ request()->query('query') }}" aria-label="Search products">
+                <input type="text" name="query" class="form-control" placeholder="Search products..."
+                    value="{{ request()->query('query') }}" aria-label="Search products">
                 <button type="submit" class="btn btn-primary ms-2">Search</button>
             </form>
         </div>
@@ -88,15 +88,17 @@
                             class="text-decoration-none text-dark">
                             <div class="card bg-light">
                                 @if (file_exists(public_path($product->image)))
-                                    <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                                    <img src="{{ asset($product->image) }}" class="card-img-top"
+                                        alt="{{ htmlspecialchars($product->name) }}" />
                                 @else
-                                    <img src="{{ asset("storage/assets/image/product_image/default.png") }}" class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                                    <img src="{{ asset('storage/assets/image/product_image/default.png') }}"
+                                        class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
                                 @endif
-                                
+
                                 <div class="card-body">
                                     <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}
                                     </h5>
-                                    <p class="card-text text-center color-orange">$
+                                    <p class="card-text text-center color-orange">₱
                                         {{ number_format($product->price, 2) }}</p>
                                 </div>
                             </div>

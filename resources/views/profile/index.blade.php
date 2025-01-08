@@ -30,7 +30,7 @@
             <h5>Update Profile</h5>
         </div>
         <div class="card-body">
-            <form id="userForm" class="mx-y" enctype="multipart/form-data" action="{{ url('profile/update') }}"
+            <form id="userForm" class="mx-y" enctype="multipart/form-data" action="{{ route('update') }}"
                 method="POST">
                 @csrf
                 <div class="mb-3">
