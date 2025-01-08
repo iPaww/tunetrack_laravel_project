@@ -104,7 +104,7 @@
 
             // Set the modal body content dynamically
             const modalBody = document.getElementById('crudModalBody');
-            modalBody.innerHTML = `<p class="text-${type}">${message}</p>`;
+            modalBody.innerHTML = `<p class="text-dark${type}">${message}</p>`;
 
             // Display the modal
             const crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
