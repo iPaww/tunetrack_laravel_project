@@ -2,9 +2,10 @@
     <h1 class="mb-4 text-center"><b>APPOINTMENT</b></h1>
 
     <!-- Filter Dropdown for Appointments -->
-    <div class="mb-4 d-flex justify-content-center">
-        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex w-50">
-            <div class="form-group w-75 me-2">
+    <div class="mb-4 d-flex justify-content-start">
+        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex align-items-end">
+            <!-- Dropdown for Appointment Status -->
+            <div class="form-group me-2">
                 <label for="status_filter" class="form-label">Filter by Appointment Status</label>
                 <select name="status_filter" id="status_filter" class="form-select">
                     <option value="">All Appointments</option>
@@ -13,7 +14,8 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary w-25">Filter</button>
+            <!-- Filter Button -->
+            <button type="submit" class="btn btn-primary">Filter</button>
         </form>
     </div>
 
@@ -41,7 +43,8 @@
                         <td>{{ $appointment->user->fullname }}</td>
                         <td>{{ \Carbon\Carbon::parse($appointment->selected_date)->format('F j, Y') }}</td>
                         <td>
-                            <span class="badge
+                            <span
+                                class="badge
                                 @switch($appointment->status)
                                     @case('accepted') badge-success text-dark font-weight-normal @break
                                     @case('declined') badge-danger text-dark font-weight-normal @break
@@ -54,7 +57,8 @@
                         </td>
                         <td>
                             <!-- Appointment Status Change Form (Inline) -->
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
+                                class="d-inline-block">
                                 @csrf
                                 @method('PUT') <!-- This line tells Laravel to treat the form as a PUT request -->
                                 <div class="form-group">
@@ -67,7 +71,6 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
                             </form>
-
                             {{-- <!-- Re-book Button (Visible only if status is 're-book') -->
                             @if ($appointment->status == 're-book')
                                 <form action="{{ route('appointments.rebook', $appointment->id) }}" method="POST" class="d-inline-block mt-2">

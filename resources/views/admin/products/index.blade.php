@@ -1,6 +1,6 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="title">PRODUCTS</h2>
+        <h4 class="title"><b>PRODUCTS</b></h4>
         <div>
             <a class="btn btn-outline-dark m-1" href="/admin/colors">Colors</a>
             <a class="btn btn-outline-dark m-1" href="/admin/brands">Brands</a>
@@ -9,8 +9,8 @@
         </div>
     </div>
 
-    <table class="table table-striped table-bordered table-hover">
-        <thead class="thead-dark">
+    <table class="table table-bordered table-striped table-hover text-center align-middle">
+        <thead class="table-light">
             <tr>
                 <th>Product Name</th>
                 <th>Price</th>
@@ -59,13 +59,12 @@
                     </td>
                     <td>
                         @if ($product->image)
-                            <div class="mt-2">
-                                <img src="{{ asset($product->image) }}" alt="Product Image" width="100">
-                            </div>
+                            <img src="{{ asset($product->image) }}" alt="Product Image" class="img-fluid"
+                                style="max-width: 100px;">
                         @endif
                     </td>
-                    <td class="text-center">
-                        <div class="btn-group" role="group">
+                    <td>
+                        <div class="btn-group">
                             <a class="btn btn-warning btn-sm"
                                 href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
@@ -82,50 +81,3 @@
     </table>
     {{ $products->links() }}
 </div>
-
-<!-- Custom Styling -->
-<style>
-    .table th,
-    .table td {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .table img {
-        max-width: 100px;
-        max-height: 100px;
-        object-fit: cover;
-    }
-
-    .title {
-        font-size: 2rem;
-        font-weight: bold;
-    }
-
-    .btn-outline-dark,
-    .btn-success {
-        font-weight: bold;
-    }
-
-    .btn-outline-dark:hover {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: #f8f9fa;
-    }
-
-    .thead-dark th {
-        background-color: #343a40;
-        color: white;
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f2f2f2;
-    }
-
-    .btn-group .btn {
-        margin-right: 0.5rem;
-    }
-</style>
