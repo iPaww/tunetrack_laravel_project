@@ -20,9 +20,6 @@ class CourseController extends BasePageController
             $courses = courses::where('name', 'like', "%{$search}%")
                               ->orWhere('description', 'like', "%{$search}%")
                               ->paginate(10);
-        } else {
-            // If no search query, fetch all courses
-            $courses = courses::paginate(10);
         }
 
         // Pass the $courses data to the view

@@ -91,7 +91,7 @@
                                     <img src="{{ asset($product->image) }}" class="card-img-top"
                                         alt="{{ htmlspecialchars($product->name) }}" />
                                 @else
-                                    <img src="{{ asset('storage/assets/image/product_image/default.png') }}"
+                                    <img src="{{ asset('/assets/images/products/default_product.png') }}"
                                         class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
                                 @endif
 

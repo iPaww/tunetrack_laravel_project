@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use \DateTime;
 
-use App\Mail\UserForgotPassword;
+use App\Models\User;
+use Illuminate\Http\Request;
+
 use App\Mail\UserVerification;
 
-use App\Models\User;
-
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use App\Mail\UserForgotPassword;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use App\Http\Controllers\BasePageController;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class LoginController extends BasePageController
 {
@@ -37,7 +38,7 @@ class LoginController extends BasePageController
             'email' => 'required',
             'password' => 'required',
         ]);
-    
+
         // Validate email and password
         if ($validator->fails()) {
             return redirect('/login')
@@ -72,7 +73,7 @@ class LoginController extends BasePageController
                 'fullname' => $user['fullname'],
                 'email' => $user['email'],
                 'role' => $user['role'], // Store user role in session
-                'profile_picture' => $user['profile_picture']
+                'profile_picture' => $user['image']
             ]); // Set session variable
             return redirect('/admin');
         }
@@ -85,7 +86,7 @@ class LoginController extends BasePageController
             'role' => $user->role, // Store user role in session
             'profile_picture' => $user->image,
             'verified' => !empty($user->verified_at),
-        
+
         ]); // Set session variable
 
         return redirect('/');
@@ -94,12 +95,12 @@ class LoginController extends BasePageController
     public function logout(Request $request): RedirectResponse
     {
         session()->forget(['id', 'fullname', 'email', 'role', ]);
-        
+
         // Prevent caching of the page to avoid "back" button issues
         header("Cache-Control: no-cache, no-store, must-revalidate");
         header("Pragma: no-cache");
         header("Expires: 0");
-        
+
         return redirect('/login');
     }
 
@@ -157,7 +158,7 @@ class LoginController extends BasePageController
                 ->withErrors($validator)
                 ->withInput();
         }
-        
+
         # Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -270,13 +271,13 @@ class LoginController extends BasePageController
         // Uncomment this line to view email
         // return (new InvoicePaid($invoice))->render($verification_email);
         Mail::to($email)->send( $password_reset_email );
-        
+
         // Logout any logged in user
         session()->forget(['id', 'fullname', 'email', 'role']);
 
         return back()
             ->with(['data' => [
-              'We have sent password reset link to your email.'  
+              'We have sent password reset link to your email.'
             ]]);
     }
 
@@ -293,11 +294,11 @@ class LoginController extends BasePageController
         } catch (DecryptException $e) {
             return abort(404);
         }
-        
+
         $user = User::where('id', $user_id)
             ->where('verification', $decrypted_authentication)
             ->first();
-        
+
         if( empty( $user ) ) {
             return abort(404);
         }
@@ -324,7 +325,7 @@ class LoginController extends BasePageController
             return back()
                 ->withErrors($validator);
         }
-        
+
         $user_id = $request->post('user');
         $verification_code = $request->post('verification_code');
         $password = $request->post('password');
@@ -345,7 +346,7 @@ class LoginController extends BasePageController
             return back()
                 ->withErrors('User not found');
         }
-        
+
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $user = User::where('id', $user_id)
             ->where('verification', $verification_code)

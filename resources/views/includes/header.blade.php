@@ -31,34 +31,12 @@
             justify-content: space-between;
             align-items: center;
             height: 80px;
-            /* Set the header's height */
-        }
-
-        /* Logo */
-        .home-banner .title-banner img {
-            height: 100%;
-            /* Makes the logo fill the header's height */
-            object-fit: contain;
-            /* Ensures the logo keeps its aspect ratio */
         }
 
         .nav-bar {
             background-color: #000;
             padding: 5px 5px;
             color: white;
-        }
-
-        .title-banner {
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            transform: translateY(-3px);
-        }
-
-        .title-banner:hover {
-            background-color: #333;
         }
 
         .centered-content {
@@ -93,20 +71,6 @@
             font-size: 16px;
         }
 
-        /* Hover effect for .set-banner */
-        .set-banner {
-            font-size: 16px;
-            cursor: pointer;
-            position: relative;
-            font-weight: bold;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .set-banner:hover {
-            color: black;
-            transform: translateY(-3px);
-        }
-
         /* Optional underline animation */
         .set-banner::after {
             content: '';
@@ -119,9 +83,7 @@
             transition: width 0.3s ease;
         }
 
-        .set-banner:hover::after {
-            width: 100%;
-        }
+
 
         @media (max-width: 768px) {
 
@@ -173,14 +135,15 @@
         <div class="home-banner d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <div class="title-banner me-4"><a href="/" class="text-white text-decoration-none"><img
-                            src="{{ asset('assets/images/logo/logo.png') }}" style="max-width: 80px;" alt=""></a>
+                            src="{{ asset('assets/images/logo/logo.png') }}" style="max-width: 80px;"
+                            alt=""></a>
                 </div>
                 <div class="d-flex banner-items flex-wrap">
                     <a href="/elearning" class="set-banner mx-2"
                         style="text-decoration:none; color:white;">E-Learning</a>
                     <a href="/shop" class="set-banner mx-2" style="text-decoration:none; color:white;">Shop</a>
-                    <a href="/appointment" class="set-banner mx-2"
-                        style="text-decoration:none; color:white;">Book Tutorial</a>
+                    <a href="/appointment" class="set-banner mx-2" style="text-decoration:none; color:white;">Book
+                        Tutorial</a>
                     <a href="/about-us" class="set-banner mx-2" style="text-decoration:none; color:white;">About Us</a>
                 </div>
             </div>

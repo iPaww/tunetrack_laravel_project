@@ -67,8 +67,6 @@ Route::controller(AppointmentController::class)
 Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about-us', 'index');
 });
-//search the course
-Route::get('/elearning/category/{categoryId}/course/{courseId}', [ElearningController::class, 'showCourseDetails'])->name('course.search');
 
 Route::controller(ElearningController::class)
     ->prefix('elearning')
