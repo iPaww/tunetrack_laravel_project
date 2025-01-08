@@ -47,3 +47,15 @@
         @endforeach
     </tbody>
 </table>
+<script>
+    const toggleSidebar = document.getElementById('toggle-sidebar');
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+
+    if (toggleSidebar) {
+        toggleSidebar.addEventListener('click', () => {
+            sidebar.classList.toggle('visible');
+            content.classList.toggle('expanded');
+        });
+    }
+</script>

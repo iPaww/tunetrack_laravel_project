@@ -55,6 +55,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $colors->links() }}
 </div>
 
 <!-- JavaScript to handle the modal -->

@@ -12,7 +12,9 @@
     <h1>Topics</h1>
     <ul class="row">
         @foreach ($topics as $topic)
-            <div class="col-4"><a href="/elearning/category/{{ request()->route('id') }}/course/{{ $course->id }}/topic/{{ $topic->id }}" class="text-decoration-none">{{ $topic->title }}</a></div>
+            <div class="col-4"><a
+                    href="/elearning/category/{{ request()->route('id') }}/course/{{ $course->id }}/topic/{{ $topic->id }}"
+                    class="text-decoration-none">{{ $topic->title }}</a></div>
         @endforeach
     </ul>
 </div>

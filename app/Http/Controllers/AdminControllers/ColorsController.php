@@ -11,7 +11,7 @@ class ColorsController extends BasePageController
     // Display all colors
     public function index()
     {
-        $colors = Colors::all();
+        $colors = Colors::paginate(10);
         return $this->view_basic_page($this->base_file_path . 'index', compact('colors'));
     }
 

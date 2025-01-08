@@ -23,22 +23,21 @@ class MainCategoryController extends BasePageController
 
     public function add(Request $request)
     {
-        // Use $request->input() to access form data
-        // Validate the request (ensure the image is an image file and optional)
+
     $validated = $request->validate([
         'name' => 'required|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Validate the image
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);
 
     $imagePath = null;
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('main_category_images', 'public'); // Store the image
+        $imagePath = $request->file('image')->store('main_category_images', 'public');
     }
 
     // Create the main category
     MainCategory::create([
         'name' => $validated['name'],
-        'image' => $imagePath, // Save the image path
+        'image' => $imagePath,
     ]);
 
     return redirect('/admin/main-category');
@@ -55,7 +54,7 @@ class MainCategoryController extends BasePageController
     $category = MainCategory::findOrFail($id);
 
     // Handle the image upload
-    $imagePath = $category->image; // Retain the old image path by default
+    $imagePath = $category->image;
     if ($request->hasFile('image')) {
         // Delete the old image if it exists
         if ($category->image && file_exists(storage_path('app/public/' . $category->image))) {
@@ -63,13 +62,13 @@ class MainCategoryController extends BasePageController
         }
 
         // Store the new image
-        $imagePath = $request->file('image')->store('main_category_images', 'public');
+        $imagePath = $request->file('image')->store('maincategory', 'public');
     }
 
     // Update the category
     $category->update([
         'name' => $validated['name'],
-        'image' => $imagePath, // Save the updated image path
+        'image' => $imagePath,
     ]);
 
     return redirect('/admin/main-category')->with('success', 'Category updated successfully!');
@@ -77,7 +76,7 @@ class MainCategoryController extends BasePageController
 
     public function editMain($id)
     {
-        $category = MainCategory::findOrFail($id); // Fetch the category
+        $category = MainCategory::findOrFail($id);
         return $this->view_basic_page($this->base_file_path . 'edit', compact('category'));
     }
 
