@@ -1,12 +1,11 @@
 <div class="container">
-    <h3 class="mb-4 text-center"><b>Appoinment</b></h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><b>Appointment</b></h2>
 
-    <!-- Filter Dropdown for Appointments -->
-    <div class="mb-4 d-flex justify-content-end">
-        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex align-items-end">
+        <!-- Filter Dropdown for Appointments -->
+        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex">
             <!-- Dropdown for Appointment Status -->
             <div class="form-group me-2">
-                <label for="status_filter" class="form-label">Filter by Appointment Status</label>
                 <select name="status_filter" id="status_filter" class="form-select">
                     <option value="">All Appointments</option>
                     @foreach (['pending', 'accepted', 'rejected', 're-book'] as $status)
