@@ -1,7 +1,6 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    padding-top: 60px;
 }
 
 /* Header */
@@ -42,10 +41,10 @@ body {
     background-color: #333;
     color: white;
     height: 100vh;
-    margin: 0;
     padding: 20px;
     position: fixed;
-    top: 0;
+    top: 60px;
+    /* Adjust to start the sidebar below the fixed header */
     left: 0;
     width: 250px;
     overflow-y: auto;
@@ -55,6 +54,7 @@ body {
     scrollbar-color: #888 #333;
 }
 
+/* Scrollbar styling for Webkit browsers */
 .sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -100,7 +100,8 @@ body {
 .content {
     margin-left: 250px;
     padding: 20px;
-    margin-top: 10px;
+    margin-top: 60px;
+    /* Ensures content starts below the header */
     transition: margin-left 0.3s ease-in-out;
 }
 
