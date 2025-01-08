@@ -1,14 +1,17 @@
-<h2>User List</h2>
-<a href="/admin/users/add"class="btn btn-primary">Add Users</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><b>User List</b></h2>
+    <a href="/admin/users/add" class="btn btn-primary">Add Users</a>
+</div>
+
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>address</th>
+            <th>Address</th>
             <th>Role</th>
-            <th>PhoneNumber</th>
+            <th>Phone Number</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -39,6 +42,7 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
+                </td>
             </tr>
         @endforeach
     </tbody>

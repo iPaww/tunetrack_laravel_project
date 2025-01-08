@@ -1,6 +1,6 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="title"><b>PRODUCTS</b></h4>
+        <h2 class="title"><b>Products</b></h2>
         <div>
             <a class="btn btn-outline-dark m-1" href="/admin/colors">Colors</a>
             <a class="btn btn-outline-dark m-1" href="/admin/brands">Brands</a>

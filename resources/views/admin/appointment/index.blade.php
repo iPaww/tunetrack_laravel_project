@@ -1,8 +1,8 @@
 <div class="container">
-    <h1 class="mb-4 text-center"><b>APPOINTMENT</b></h1>
+    <h3 class="mb-4 text-center"><b>Appoinment</b></h3>
 
     <!-- Filter Dropdown for Appointments -->
-    <div class="mb-4 d-flex justify-content-start">
+    <div class="mb-4 d-flex justify-content-end">
         <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex align-items-end">
             <!-- Dropdown for Appointment Status -->
             <div class="form-group me-2">

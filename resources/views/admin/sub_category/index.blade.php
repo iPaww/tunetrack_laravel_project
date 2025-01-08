@@ -1,9 +1,11 @@
 <div class="container">
-    <h1>SUB CATEGORY</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0"><b>Sub Category</b></h2>
+        <button class="btn btn-primary">
+            <a href="/admin/sub-category/add" style="text-decoration: none; color: white;">Add</a>
+        </button>
+    </div>
 
-    <button class="btn btn-primary">
-        <a href="/admin/sub-category/add" style="text-decoration: none; color: white;">Add</a>
-    </button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,7 +23,6 @@
                     <td>{{ $category->name }}</td>
                     <td>
                         <a href="/admin/sub-category/edit/{{ $category->id }}" class="btn btn-primary btn-sm">Edit</a>
-                        <!-- Ensure the delete form is pointing to /admin/sub-category/{id} -->
                         <form action="/admin/sub-category/{{ $category->id }}" method="POST"
                             style="display:inline-block;">
                             @csrf

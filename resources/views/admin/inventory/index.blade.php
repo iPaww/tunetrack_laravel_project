@@ -1,11 +1,12 @@
 <?php
 use Illuminate\Support\Collection;
 ?>
-<div class="title col-sm-3">
-    <h2><b>INVENTORY</b></h2>
+<div class="d-flex justify-content-between mb-3">
+    <div class="title">
+        <h2><b>Inventory</b></h2>
+    </div>
+    <a class="btn btn-primary" href="/admin/inventory/add">Add</a>
 </div>
-
-<a class="btn btn-primary m-1" href="/admin/inventory/add">Add</a>
 
 <div>
     @if ($errors->any())
@@ -23,6 +24,7 @@ use Illuminate\Support\Collection;
         </ul>
     @endif
 </div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -78,4 +80,5 @@ use Illuminate\Support\Collection;
         @endforeach
     </tbody>
 </table>
+
 {{ $products->links() }}

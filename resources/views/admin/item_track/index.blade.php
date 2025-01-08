@@ -1,19 +1,18 @@
 <div class="container">
-    <h2 class="text-center mb-4">Manage Orders</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Heading -->
+        <h2 class="text-center mb-0"><b>Manage Orders</b></h2>
 
-    <!-- Filter Form -->
-    <form action="{{ route('itemTrack.index') }}" method="GET" class="mb-3">
-        <div class="row">
-            <div class="col-md-3">
-                <select name="status" class="form-select" onchange="this.form.submit()">
-                    <option value="">All Status</option>
-                    <option value="1" {{ request()->status == '1' ? 'selected' : '' }}>Pending</option>
-                    <option value="2" {{ request()->status == '2' ? 'selected' : '' }}>Processing</option>
-                    <option value="3" {{ request()->status == '3' ? 'selected' : '' }}>Ready to Pickup</option>
-                </select>
-            </div>
-        </div>
-    </form>
+        <!-- Filter Dropdown (Align Right) -->
+        <form action="{{ route('itemTrack.index') }}" method="GET" class="mb-0">
+            <select name="status" class="form-select" onchange="this.form.submit()">
+                <option value="">All Status</option>
+                <option value="1" {{ request()->status == '1' ? 'selected' : '' }}>Pending</option>
+                <option value="2" {{ request()->status == '2' ? 'selected' : '' }}>Processing</option>
+                <option value="3" {{ request()->status == '3' ? 'selected' : '' }}>Ready to Pickup</option>
+            </select>
+        </form>
+    </div>
 
     <!-- Display Orders Table -->
     <table class="table table-bordered">
