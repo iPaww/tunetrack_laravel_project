@@ -18,12 +18,12 @@ class TopicsController extends BasePageController
 
         // Query topics and filter by title if search term exists
         $topics = Topics::with('courses')
-        ->when($search, function ($query, $search) {
-            return $query->where('title', 'like', '%' . $search . '%');
-        })
-        ->paginate(10);
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%');
+            })
+            ->paginate(10);
 
-    return $this->view_basic_page($this->base_file_path . 'index', compact('topics'));
+        return $this->view_basic_page($this->base_file_path . 'index', compact('topics'));
 
     }
 
@@ -32,7 +32,7 @@ class TopicsController extends BasePageController
     public function create()
     {
         $courses = Courses::all();
-        return $this->view_basic_page($this->base_file_path . 'create', compact( 'courses'));
+        return $this->view_basic_page($this->base_file_path . 'create', compact('courses'));
     }
 
     //Edit
@@ -71,7 +71,10 @@ class TopicsController extends BasePageController
 
         $topic->save();
 
-        return redirect()->route('topics.index')->with('success', 'Topic created successfully.');
+        return redirect()->route('topics.index')->with([
+            'message' => 'Topic created successfully.',
+            'type' => 'success',
+        ]);
     }
 
     // Update an existing topic
@@ -109,7 +112,10 @@ class TopicsController extends BasePageController
 
         $topic->save();
 
-        return redirect()->route('topics.index')->with('success', 'Topic updated successfully.');
+        return redirect()->route('topics.index')->with([
+            'message' => 'Topic updated successfully.',
+            'type' => 'success',
+        ]);
     }
 
     // Delete a topic
@@ -122,8 +128,9 @@ class TopicsController extends BasePageController
 
         $topic->delete();
 
-        return redirect()->route('topics.index')->with('success', 'Topic deleted successfully.')
-            ->with('message', 'Topic deleted successfully.')
-            ->with('type', 'success');
+        return redirect()->route('topics.index')->with([
+            'message' => 'Topic deleted successfully.',
+            'type' => 'success',
+        ]);
     }
 }

@@ -21,7 +21,8 @@
     background-color: #2e2d2d;
 }
 
-.course-sidenav, .topic-sidenav {
+.course-sidenav,
+.topic-sidenav {
     color: white;
     padding-left: 3em;
     padding-right: 0.8em;
@@ -30,12 +31,14 @@
     font-size: 0.8em;
 }
 
-.course-sidenav:not(.active):hover, .topic-sidenav:not(.active):hover {
+.course-sidenav:not(.active):hover,
+.topic-sidenav:not(.active):hover {
     background-color: #808080;
     filter: brightness(80%);
 }
 
-.course-sidenav.active, .topic-sidenav.active {
+.course-sidenav.active,
+.topic-sidenav.active {
     cursor: default;
     background-color: #424242;
 }
@@ -70,12 +73,14 @@
     font-size: 0.9em;
 }
 
-.topic-list.active, .sub-topic-list.active {
+.topic-list.active,
+.sub-topic-list.active {
     cursor: default;
     background-color: #707070;
 }
 
-.topic-list:not(.active):hover, .sub-topic-list:not(.active):hover {
+.topic-list:not(.active):hover,
+.sub-topic-list:not(.active):hover {
     background-color: #555;
     filter: brightness(80%);
 }

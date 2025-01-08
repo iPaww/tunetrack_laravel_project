@@ -232,18 +232,21 @@ img {
     color: white;
 }
 
-button.btn-tunetrack, a.btn-tunetrack {
+button.btn-tunetrack,
+a.btn-tunetrack {
     color: white;
     background-color: #FC6A03;
     border-color: #FC6A03;
 }
 
-button.btn-tunetrack:hover, a.btn-tunetrack:hover {
+button.btn-tunetrack:hover,
+a.btn-tunetrack:hover {
     background-color: #bd4f02;
     border-color: #bd4f02;
 }
 
-button.btn-tunetrack:active, a.btn-tunetrack:active {
+button.btn-tunetrack:active,
+a.btn-tunetrack:active {
     background-color: #853700 !important;
     border-color: #853700 !important;
 }

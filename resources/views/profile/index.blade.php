@@ -8,7 +8,7 @@
             <!-- Left: Profile Picture -->
             <div class="me-4">
                 <!-- Updated image tag with id 'profileImage' -->
-                <img id="profileImage" src="{{ asset('storage/userprofile' . session('id') . '/' . $profile->image) }}"
+                <img id="profileImage" src="{{ asset('storage/user/' . session('id') . '/' . $profile->image) }}"
                     alt="Profile Picture" class="rounded-circle mb-3" style="width: 300px; height: 300px;">
             </div>
             <!-- Right: User Information -->

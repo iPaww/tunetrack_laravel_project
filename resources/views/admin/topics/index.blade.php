@@ -85,10 +85,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="crudModalBody">
-                    <!-- Dynamic content here -->
-                    @if ($topics->isEmpty() && request('search'))
-                        <p>No results found. Please try again with different keywords.</p>
-                    @endif
+                    <!-- Dynamic content will be added here -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -100,22 +97,17 @@
 <!-- JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Check if session has 'message'
         @if (session('message'))
-            var message = '{{ session('message') }}';
-            var type = '{{ session('type', 'success') }}';
-            var modalBody = document.getElementById('crudModalBody');
-            modalBody.innerHTML = message;
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type', 'info') }}'; // Default type is 'info'
 
-            // Show modal
-            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
-            crudModal.show();
-        @elseif ($topics->isEmpty() && request('search'))
-            var modalBody = document.getElementById('crudModalBody');
-            modalBody.innerHTML =
-                "No results found for your search query. Please try again with different keywords.";
+            // Set the modal body content dynamically
+            const modalBody = document.getElementById('crudModalBody');
+            modalBody.innerHTML = `<p class="text-${type}">${message}</p>`;
 
-            // Show modal
-            var crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
+            // Display the modal
+            const crudModal = new bootstrap.Modal(document.getElementById('crudModal'));
             crudModal.show();
         @endif
     });
