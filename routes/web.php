@@ -2,6 +2,7 @@
 
 use App\Http\Controllers;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\ForceMoveFromLogin;
 use App\Http\Middleware\Verification;
 use Illuminate\Support\Facades\Route;
 
