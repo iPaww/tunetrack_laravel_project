@@ -159,6 +159,7 @@ Route::prefix('admin')->group(function() {
             Route::prefix('appointment')->controller(AdminAppointmentController::class)->group(function () {
                 Route::get('/', 'index')->name('admin.appointment.index');
                 Route::put('update/{id}', 'update')->name('admin.appointment.update');
+                Route::get('/admin/sales-report', 'salesReport')->name('admin.sales_report');
             });
 
 

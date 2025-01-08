@@ -45,10 +45,8 @@
                     <div class="card shadow-lg border-light rounded-3">
                         <div class="card-body">
                             <h5 class="card-title text-center text-info">Date: {{ $data->order_date }}</h5>
-                            <p class="text-center">Total Orders: <strong
-                                    class="text-dark">{{ $data->total_orders }}</strong></p>
-                            <p class="text-center">Total Sales: <strong
-                                    class="text-success">P{{ number_format($data->total_sales, 2) }}</strong></p>
+                            <p class="text-center">Total Orders: <strong class="text-dark">{{ $data->total_orders }}</strong></p>
+                            <p class="text-center">Total Sales: <strong class="text-success">P{{ number_format($data->total_sales, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -64,8 +62,7 @@
     <div class="bargraph mt-4">
         <div class="row">
             <div class="col-12">
-                <canvas id="salesBarGraph" width="500" height="250"></canvas>
-                <!-- Set specific width and height -->
+                <canvas id="salesBarGraph" width="500" height="250"></canvas> <!-- Set specific width and height -->
             </div>
         </div>
     </div>

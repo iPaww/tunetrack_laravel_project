@@ -71,4 +71,20 @@ class ElearningController extends BasePageController
 
         return $this->view_basic_page($this->base_file_path . 'category', compact('category'));
     }
+    public function showCourseDetails($categoryId, $courseId)
+{
+    $course = Courses::findOrFail($courseId);
+    $query = request()->query('query');
+
+    if ($query) {
+        // Filter topics based on the search query
+        $topics = $course->topics()->where('title', 'LIKE', "%{$query}%")->get();
+    } else {
+        // Return all topics if no search query is provided
+        $topics = $course->topics;
+    }
+
+    // Return the view with the filtered topics
+    return view('elearning.course.details', compact('course', 'topics'));
+}
 }

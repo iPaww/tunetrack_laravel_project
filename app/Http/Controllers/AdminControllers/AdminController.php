@@ -101,7 +101,7 @@ class AdminController extends BasePageController
             'admin_data' => $admin_data,
             'inventory_data' => $inventory_data,
             'cart_data' => $cart_data,
-            'sales_data' => $sales_data, // Pass sales data to the view
+            'sales_data' => $sales_data, // PSass sales data to the view
             'previous_month_sales' => [
                 'total_orders' => $previous_month_sales->total_orders ?? 0,
                 'total_sales' => $previous_month_sales->total_sales ?? 0,
@@ -114,5 +114,5 @@ class AdminController extends BasePageController
             'monthly_sales' => $monthly_sales_values, // Correct variable for monthly sales
         ]);
     }
-
+    
 }
