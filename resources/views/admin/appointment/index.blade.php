@@ -18,13 +18,14 @@
         </form>
     </div>
 
-    <!-- Appointment Table -->
+    <!-- Success Message -->
     @if (session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
         </div>
     @endif
 
+    <!-- Appointment Table -->
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead class="table-light">
@@ -33,6 +34,7 @@
                     <th>User</th>
                     <th>Appointment Date</th>
                     <th>Appointment Status</th>
+                    <th>Assign User (Role 2)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -55,10 +57,27 @@
                                 {{ ucfirst($appointment->status) }}
                             </span>
                         </td>
+                        <!-- Assign User (Role 2) -->
                         <td>
-                            <!-- Appointment Status Change Form (Inline) -->
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
-                                class="d-inline-block">
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <select name="selected_teacher" class="form-select">
+                                        <option value="">Select Teacher</option>
+                                        @foreach ($teachers as $teacher)
+                                            <option value="{{ $teacher->id }}" @selected($appointment->user_id == $teacher->id)>
+                                                {{ $teacher->fullname }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Assign</button>
+                            </form>
+                        </td>
+                        <!-- Appointment Actions -->
+                        <td>
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
@@ -71,13 +90,6 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
                             </form>
-                            {{-- <!-- Re-book Button (Visible only if status is 're-book') -->
-                            @if ($appointment->status == 're-book')
-                                <form action="{{ route('appointments.rebook', $appointment->id) }}" method="POST" class="d-inline-block mt-2">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning btn-sm">Re-book</button>
-                                </form>
-                            @endif --}}
                         </td>
                     </tr>
                 @endforeach
@@ -85,6 +97,7 @@
         </table>
     </div>
 </div>
+
 <script>
     const toggleSidebar = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('sidebar');

@@ -63,4 +63,8 @@ class Appointment extends Model
             'id' // Local key on orders table
         );
     }
+    public function users()
+{
+    return $this->belongsTo(User::class);
+}
 }
