@@ -49,6 +49,13 @@ class AdminController extends BasePageController
             ->orderBy('order_date', 'desc')
             ->get();
 
+        // Fetch Sales Data (Last year - this year)
+        $previous_years_sales = Orders::selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as order_date, SUM(total) as total_sales')
+            ->whereBetween('created_at', [now()->startOfYear(), now()->subWeeks(1)])
+            ->groupBy('order_date')
+            ->orderBy('order_date', 'desc')
+            ->get();
+
         // Fetch Sales Data (Current month)
         $monthly_sales = Orders::selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as order_date, SUM(total) as total_sales')
             ->whereMonth('created_at', '=', now()->month)
@@ -135,7 +142,8 @@ class AdminController extends BasePageController
             'labels' => ['Today\'s Sales', 'Previous Sales (7 Days)'],
             'sales' => [$today_sales_value, $previous_sales_value],
             'previous_weeks_labels' => $previous_weeks_dates,
-            'previous_weeks_sales' => $previous_weeks_sales_values,
+            'previous_weeks_sales' => $previous_weeks_sales,
+            'previous_years_sales' => $previous_years_sales,
             'monthly_labels' => $monthly_dates,
             'monthly_sales' => $monthly_sales_values,
             'order_items_data' => $order_items_data,

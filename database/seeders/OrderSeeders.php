@@ -34,6 +34,7 @@ class OrderSeeders extends Seeder
             'status' => rand(1, 4),
             'total' => rand(200, 50000),
             'user_id' => 3,
+            'created_at' => fake()->dateTimeBetween($startDate = '-1 year', $endDate = 'now'),
         ]);
     }
 

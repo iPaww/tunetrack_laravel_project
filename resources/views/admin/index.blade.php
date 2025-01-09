@@ -42,8 +42,35 @@
         <div class="col-md-4">
             <div class="card shadow-lg border-light rounded-3">
                 <div class="card-body">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                                Weekly
+                            </button>
+                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                Monthly
+                            </button>
+                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                                Yearly
+                            </button>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                            <canvas id="salesChartWeek"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                            <canvas id="salesChartMonth"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                            <canvas id="salesChartYear"></canvas>
+                        </div>
+                    </div>
                     <h5 class="card-title text-center text-primary">Daily Sales Overview</h5>
-                    <canvas id="salesChart"></canvas>
+                    
+                    
+                    
+                    
                 </div>
             </div>
         </div>
@@ -135,54 +162,56 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const salesData = @json($sales_data);//week
-        const salesDataMonth = @json($sales_data);//month
-        const salesDataYear = @json($sales_data);//year
+        const salesDataWeek = @json($sales_data); //week
+        const salesDataMonth = @json($previous_weeks_sales); //month
+        const salesDataYear = @json($previous_years_sales); //year
 
-        const dates = salesData.map(item => item.order_date);
-        const sales = salesData.map(item => item.total_sales);
-
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'Daily Sales (PHP)',
-                    data: sales,
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                aspectRatio: 2,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '₱' + value.toLocaleString();
-                            }
-                        },
-                        min: 0,
-                        suggestedMax: Math.max(...sales) * 1.1,
-                        grace: '5%'
-                    }
+        for ( const [TimeType, salesData] of [['Week', salesDataWeek], ['Month', salesDataMonth], ['Year', salesDataYear]] ) {
+            const dates = salesData.map(item => item.order_date);
+            const sales = salesData.map(item => item.total_sales);
+            console.log(TimeType, salesData)
+            const ctx = document.getElementById('salesChart' + TimeType).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: TimeType + ' Sales (PHP)',
+                        data: sales,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
                 },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '₱' + context.raw.toLocaleString();
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                }
+                            },
+                            min: 0,
+                            suggestedMax: Math.max(...sales) * 1.1,
+                            grace: '5%'
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '₱' + context.raw.toLocaleString();
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
         // Initialize tooltips
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
