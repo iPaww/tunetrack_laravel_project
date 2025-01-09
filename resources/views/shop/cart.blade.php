@@ -70,7 +70,7 @@
                                         <img src="{{ asset($item->image) }}" class="img-fluid border rounded"
                                             alt="{{ htmlspecialchars($item->name) }}" />
                                     @else
-                                        <img src="{{ asset('storage/assets/image/product_image/default.png') }}"
+                                        <img src="{{ asset('/assets/images/products/default_product.png') }}"
                                             class="img-fluid border rounded"
                                             alt="{{ htmlspecialchars($item->name) }}" />
                                     @endif

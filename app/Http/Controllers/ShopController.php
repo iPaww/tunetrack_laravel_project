@@ -53,7 +53,7 @@ class ShopController extends BasePageController
             ->orderBy('status', 'asc')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
-        
+
         return $this->view_basic_page( $this->base_file_path . 'orders', [
             'orders' => $orders,
             'statuses' => $this->order_statuses,
@@ -64,7 +64,7 @@ class ShopController extends BasePageController
     {
         $order = Orders::where('id', $order_id)
             ->first();
-        
+
         $order_item = OrderItems::select(
                 'orders_item.*',
                 OrderItems::raw('COUNT(inventory_products.id) as product_quantity'),
@@ -89,8 +89,8 @@ class ShopController extends BasePageController
             ->orderBy('products.name')
             ->orderBy('products.product_type_id')
             ->get();
-    
-        
+
+
         return $this->view_basic_page( $this->base_file_path . 'order_view', [
             'order' => $order,
             'items' => $order_item,
@@ -102,7 +102,7 @@ class ShopController extends BasePageController
     {
         $order = Orders::where('id', $order_id)
             ->first();
-        
+
         $items = OrderItems::select(
                 'orders_item.*',
                 OrderItems::raw('COUNT(inventory_products.id) as product_quantity'),
@@ -126,11 +126,11 @@ class ShopController extends BasePageController
             ->orderBy('products.name')
             ->orderBy('products.product_type_id')
             ->get();
-        
+
         $review_count = ProductReview::where('order_id', $order_id)
             ->join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
             ->count();
-        
+
         return $this->view_basic_page( $this->base_file_path . 'product_review', compact(
             'order',
             'items',
@@ -181,7 +181,7 @@ class ShopController extends BasePageController
                     ->withInput();
             }
         }
-        
+
         $order_item_id_arr = $request->post('order_item_id');
         $review_arr = $request->post('review');
         $created = 0;
@@ -229,7 +229,7 @@ class ShopController extends BasePageController
         $total_price = Cart::where('user_id', session('id'))
             ->join('products', 'cart.product_id', '=', 'products.id')
             ->sum(Cart::raw('quantity * price'));
-        
+
         return $this->view_basic_page( $this->base_file_path . 'cart', [
             'items' => $cart_items,
             'total_price' => $total_price
@@ -319,7 +319,7 @@ class ShopController extends BasePageController
         Cart::where('user_id', session('id'))
             ->where('id', $cart_id)
             ->delete();
-        
+
         return redirect("/shop/cart")
             ->with(['data' => ['Cart item successfully removed!']]);
     }
@@ -349,7 +349,7 @@ class ShopController extends BasePageController
             'assets/images/inventory/uploads/' . $product['image']:
             'assets/images/inventory/uploads/default.png'
         );
-        
+
         $multiplier = 5;
         $total_rating_count = ProductReview::join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
             ->where('product_id', $item_id)
@@ -365,7 +365,7 @@ class ShopController extends BasePageController
             $rating_arr->push( $rating_count * $rating );
             $rating_count_arr->push( $rating_count );
         }
-        
+
         $modified_rating_arr = $rating_arr->map(function (int $item, int $key) use (&$multiplier) {
             return $item * $multiplier;
         });
@@ -376,14 +376,14 @@ class ShopController extends BasePageController
         $score_rating = $modified_rating_arr->sum();
         $total_rating = $total_rating_count * $multiplier;
         $product_rating = round($score_rating / ($total_rating > 0 ? $total_rating : 1), 1);
-        
+
         $reviews = ProductReview::select('product_review.*')
             ->join('orders_item', 'orders_item.id', '=', 'product_review.order_item_id')
             ->where('product_id', $item_id)
             ->orderBy('rating', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        
+
         return $this->view_basic_page( $this->base_file_path . 'view_product', [
             'product' => $product,
             'productImage' => $productImage,
@@ -402,7 +402,7 @@ class ShopController extends BasePageController
             'payment_method.required' => 'You must select payment method'
         ]);
         $form_payment_method = $request->post('payment_method');
-        
+
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator);
@@ -412,7 +412,7 @@ class ShopController extends BasePageController
         $product_inventory_batch = collect([]);
         $order_validation_error = collect([]);
         $user_id = session('id');
-        
+
         if( empty( $user_id ) ) {
             $order_validation_error->push('Could not find user logged in!');
         }
@@ -458,7 +458,7 @@ class ShopController extends BasePageController
                         if( $card_item->quantity > $supplyInventory->quantity ) {
                             $order_validation_error->push("Sorry, item \"$card_item->name\" with variant of \"$card_item->color_name\" only has $supplyInventory->quantity stock(s) left.");
                             return false;
-                        }             
+                        }
                         $order_item_batch->push([
                             'product_id' => $card_item->product_id,
                             'inventory_id' => $supplyInventory->id,
@@ -474,7 +474,7 @@ class ShopController extends BasePageController
             return back()
                 ->withErrors($order_validation_error->all());
         }
-        
+
         $total_price = Cart::where('user_id', $user_id)
             ->join('products', 'cart.product_id', '=', 'products.id')
             ->sum(Cart::raw('quantity * price'));
@@ -487,7 +487,7 @@ class ShopController extends BasePageController
         ]);
 
         foreach ( $order_item_batch as $order_item ) {
-            OrderItems::create([ 
+            OrderItems::create([
                 ...$order_item,
                 'order_id' => $order_insert->id,
             ]);

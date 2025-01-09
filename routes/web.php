@@ -85,7 +85,6 @@ Route::controller(ElearningController::class)
                 Route::get('/overall', 'overall')->middleware([Authenticate::class, Verification::class]);
                 Route::post('/overall', 'retake')->middleware([Authenticate::class, Verification::class]);
 
-
             });
     });
 

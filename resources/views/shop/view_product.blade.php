@@ -12,8 +12,8 @@
                 <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="min-width: 100%"
                     alt="{{ $product->name }}" />
             @else
-                <img src="{{ asset('storage/assets/image/product_image/default.png') }}"
-                    class="img-fluid border rounded" style="min-width: 100%" alt="{{ $product->name }}" />
+                <img src="{{ asset('/assets/images/products/default_product.png') }}" class="img-fluid border rounded"
+                    style="min-width: 100%" alt="{{ $product->name }}" />
             @endif
 
 
