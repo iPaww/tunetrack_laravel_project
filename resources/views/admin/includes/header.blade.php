@@ -37,12 +37,19 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <h3>Menu</h3>
+
+        @if (session('admin_user.role')==1)
         <div class="menu-item">
             <a href="/admin" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         </div>
-        <div class="menu-item">
-            <a href="/admin/appointment"><i class="fas fa-calendar-check"></i> Appointment</a>
-        </div>
+        @endif
+
+        @if (session('admin_user.role')==2)
+            <div class="menu-item">
+                <a href="/admin/appointment"><i class="fas fa-calendar-check"></i> Appointment</a>
+            </div>
+        @endif
+
         <div class="menu-item">
             <a href="/admin/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
         </div>
