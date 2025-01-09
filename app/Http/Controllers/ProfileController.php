@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use App\Models\User;
-use App\Models\Courses;
+use App\Models\Orders;
 
+use App\Models\Courses;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Models\CourseUserHistory;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BasePageController;
 
@@ -57,6 +59,20 @@ class ProfileController extends BasePageController
             ->groupBy('quiz.course_id')
             ->paginate(10);
         return $this->view_basic_page($this->base_file_path . 'exam', compact('courses'));
+    }
+
+    public function showBook(){
+        $appointments = Appointment::where('user_id', session("id"))
+        ->with(['orderItems.product', 'orderItems.order']) // Load the order items and related products
+        ->paginate(9);
+
+    // Fetch orders for the authenticated user
+    $orders = Orders::with(['orderItems.product'])
+        ->where('user_id', session("id"))
+        ->where('status', 3)
+        ->get();
+
+    return $this->view_basic_page($this->base_file_path . 'appointment', compact('appointments', 'orders'));
     }
 
     public function certificate()

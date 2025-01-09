@@ -101,6 +101,7 @@ Route::controller(ProfileController::class)
         Route::get('/exam', 'exam');
         Route::get('/certificate', 'certificate');
         Route::get('/orders', 'orders');
+        Route::get('/appointment', 'showBook')->name('appointment.index');
         Route::post('/update', [ProfileController::class, 'update'])->name('update');
     });
 

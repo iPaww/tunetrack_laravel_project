@@ -13,14 +13,19 @@ class AppointmentController extends BasePageController
     public string $base_file_path = 'appointment.';
 
     public function index()
-    {
+{
         $appointments = Appointment::where('user_id', session("id"))
             ->with(['orderItems.product', 'orderItems.order']) // Load the order items and related products
             ->paginate(9);
 
-        return $this->view_basic_page($this->base_file_path . 'index', compact('appointments'));
-    }
-    
+        // Fetch orders for the authenticated user
+        $orders = Orders::with(['orderItems.product'])
+            ->where('user_id', session("id"))
+            ->where('status', 3)
+            ->get();
+
+        return $this->view_basic_page($this->base_file_path . 'index', compact('appointments', 'orders'));
+}
 
     public function book()
     {
@@ -70,7 +75,7 @@ class AppointmentController extends BasePageController
         return redirect()->route('appointment.index')->with('success', 'Appointment successfully created!');
     }
 
-   
+
     public function edit($id)
     {
         // Fetch the appointment to be updated
@@ -107,7 +112,7 @@ class AppointmentController extends BasePageController
 
         return redirect()->route('appointment.index')->with('success', 'Appointment successfully re-booked!');
     }
-    
+
     public function rebook($id)
     {
         $appointment = Appointment::findOrFail($id);
