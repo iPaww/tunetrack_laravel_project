@@ -469,10 +469,15 @@ class ShopController extends BasePageController
                 }
             });
 
-        // Check if quantity is valid
         if( count( $order_validation_error ) > 0 ) {
             return back()
                 ->withErrors($order_validation_error->all());
+        }
+
+        // Check if quantity is valid
+        if( count( $order_item_batch ) < 1 ) {
+            return back()
+                ->withErrors('You do not have an item in your cart.');
         }
 
         $total_price = Cart::where('user_id', $user_id)
