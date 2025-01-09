@@ -37,6 +37,81 @@
         </div>
     </div>
 
+    <!-- Sales Bar Graph and Charts Row -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card shadow-lg border-light rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-primary">Daily Sales Overview</h5>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg border-light rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-primary">Top 10 Sales</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Product</th>
+                                    <th class="text-end">Units</th>
+                                    <th class="text-end">Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($top_selling_items as $index => $item)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td>
+                                            {{ Str::limit($item->product_name, 20) }}
+                                            @if(strlen($item->product_name) > 20)
+                                                <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="{{ $item->product_name }}">
+                                                    <i class="fas fa-info-circle text-info"></i>
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="badge bg-primary">
+                                                {{ number_format($item->total_quantity) }}
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="@if($item->total_sales > 10000) text-success @endif">
+                                                ₱{{ number_format($item->total_sales, 2) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">
+                                            <i class="fas fa-box-open me-2"></i>No sales data available
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                            @if($top_selling_items->isNotEmpty())
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="2" class="text-end fw-bold">Total:</td>
+                                        <td class="text-end fw-bold">
+                                            {{ number_format($top_selling_items->sum('total_quantity')) }}
+                                        </td>
+                                        <td class="text-end fw-bold">
+                                            ₱{{ number_format($top_selling_items->sum('total_sales'), 2) }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            @endif
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Sales Report as Cards -->
     <div class="sales-report mt-4">
         <div class="row">
@@ -57,53 +132,62 @@
             @endforelse
         </div>
     </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const salesData = @json($sales_data);//week
+        const salesDataMonth = @json($sales_data);//month
+        const salesDataYear = @json($sales_data);//year
 
-    <!-- Bar Graph for Sales -->
-    <div class="bargraph mt-4">
-        <div class="row">
-            <div class="col-12">
-                <canvas id="salesBarGraph" width="500" height="250"></canvas> <!-- Set specific width and height -->
-            </div>
-        </div>
-    </div>
+        const dates = salesData.map(item => item.order_date);
+        const sales = salesData.map(item => item.total_sales);
 
-    <script>
-        // Get data from the view
-        const labels = @json($labels);
-        const sales = @json($sales);
-
-        // Create the bar graph using Chart.js
-        const ctx = document.getElementById('salesBarGraph').getContext('2d');
-        const salesBarGraph = new Chart(ctx, {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels, // X-axis labels (Today vs Previous)
+                labels: dates,
                 datasets: [{
-                    label: 'Sales',
-                    data: sales, // Y-axis data (Sales values)
-                    backgroundColor: ['#4caf50', '#2196f3'], // Different colors for each bar
-                    borderColor: ['#388e3c', '#1976d2'],
+                    label: 'Daily Sales (PHP)',
+                    data: sales,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true, // Maintain aspect ratio
+                maintainAspectRatio: true,
+                aspectRatio: 2,
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            beginAtZero: true,
-                            stepSize: 100
-                        }
+                            callback: function(value) {
+                                return '₱' + value.toLocaleString();
+                            }
+                        },
+                        min: 0,
+                        suggestedMax: Math.max(...sales) * 1.1,
+                        grace: '5%'
                     }
                 },
                 plugins: {
-                    legend: {
-                        display: false
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '₱' + context.raw.toLocaleString();
+                            }
+                        }
                     }
                 }
             }
         });
-    </script>
-</div>
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>

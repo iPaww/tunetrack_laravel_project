@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\Cart;
-use App\Models\Products;
-use App\Models\Orders;
-use App\Models\Supplies;
 use App\Models\User;
+use App\Models\Orders;
+use App\Models\Products;
+use App\Models\Supplies;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdminControllers\BasePageController;
 
 class AdminController extends BasePageController
@@ -95,23 +96,50 @@ class AdminController extends BasePageController
         // Prepare monthly sales
         $monthly_dates = $monthly_sales->pluck('order_date')->toArray();
         $monthly_sales_values = $monthly_sales->pluck('total_sales')->toArray();
+        $order_items_data = DB::table('orders_item')
+            ->select('products.name as product_name', DB::raw('SUM(orders_item.quantity) as quantity'))
+            ->join('products', 'products.id', '=', 'orders_item.product_id')
+            ->join('orders', 'orders.id', '=', 'orders_item.order_id')
+            ->whereIn('orders.status', ['Ready to Pickup', 'processing', 'pending'])
+            ->groupBy('products.name')
+            ->get();
+
+        // Add this query before the return statement
+        $top_selling_items = DB::table('orders_item')
+            ->select(
+                'products.name as product_name',
+                DB::raw('SUM(orders_item.quantity) as total_quantity'),
+                DB::raw('SUM(orders_item.quantity * orders_item.price) as total_sales')
+            )
+            ->join('products', 'products.id', '=', 'orders_item.product_id')
+            ->join('orders', 'orders.id', '=', 'orders_item.order_id')
+            ->where('orders.status', 3)
+            ->groupBy('products.name')
+            ->orderBy('total_quantity', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Add this before the return statement to check the actual data
+        
 
         return $this->view_basic_page('index', [
             'orders_data' => $orders_data,
             'admin_data' => $admin_data,
             'inventory_data' => $inventory_data,
             'cart_data' => $cart_data,
-            'sales_data' => $sales_data, // PSass sales data to the view
+            'sales_data' => $sales_data,
             'previous_month_sales' => [
                 'total_orders' => $previous_month_sales->total_orders ?? 0,
                 'total_sales' => $previous_month_sales->total_sales ?? 0,
-            ], // Pass previous month sales data
-            'labels' => ['Today\'s Sales', 'Previous Sales (7 Days)'], // Bar labels
-            'sales' => [$today_sales_value, $previous_sales_value], // Bar values (sales for today and last 7 days)
-            'previous_weeks_labels' => $previous_weeks_dates, // Correct variable for previous weeks
-            'previous_weeks_sales' => $previous_weeks_sales_values, // Correct variable for previous weeks
-            'monthly_labels' => $monthly_dates, // Correct variable for monthly sales
-            'monthly_sales' => $monthly_sales_values, // Correct variable for monthly sales
+            ],
+            'labels' => ['Today\'s Sales', 'Previous Sales (7 Days)'],
+            'sales' => [$today_sales_value, $previous_sales_value],
+            'previous_weeks_labels' => $previous_weeks_dates,
+            'previous_weeks_sales' => $previous_weeks_sales_values,
+            'monthly_labels' => $monthly_dates,
+            'monthly_sales' => $monthly_sales_values,
+            'order_items_data' => $order_items_data,
+            'top_selling_items' => $top_selling_items,
         ]);
     }
     

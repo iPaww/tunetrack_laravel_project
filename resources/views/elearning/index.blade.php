@@ -24,6 +24,9 @@
                 <div class="card">
                     <img src="{{ asset('storage/' . $category->image) }}" class="card-img-top" alt="{{ $category->name }}"
                         style="min-height: 6em;">
+
+                        {{-- <img src="{{ asset('storage/app/public/' . $category->image) }}" class="card-img-top" alt="{{ $category->name }}"
+                        style="min-height: 6em;"> --}}
                     <div class="card-body">
                     </div>
                 </div>

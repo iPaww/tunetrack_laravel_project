@@ -1,119 +1,158 @@
-
-/* Dashboard Overview Section */
-.dashboard-overview {
-    margin-top: 10px;
+/* Dashboard Container */
+.container {
+    padding: 2rem;
 }
 
-.dashboard-overview .card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+/* Card Styling */
+.card {
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(145deg, #ffffff, #f5f7fa);
 }
 
-.dashboard-overview .card:hover {
+.card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard Overview Cards */
+.dashboard-overview .card {
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 1rem;
 }
 
 .dashboard-overview .card-body {
-    padding: 20px;
-    text-align: center;
+    padding: 1.5rem;
 }
 
-.dashboard-overview h5 {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 10px;
+.dashboard-overview .card-title {
+    font-size: 1.1rem;
     font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 .dashboard-overview .lead {
-    font-size: 24px;
-    font-weight: bold;
-    color: #007bff;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
-.dashboard-overview .row {
-    margin-bottom: 20px;
+/* Sales Report Cards */
+.sales-report .card {
+    border-radius: 15px;
+    background: #ffffff;
 }
 
-.dashboard-overview .col-md-4 {
-    margin-bottom: 20px;
-}
-
-/* Inventory Overview Section */
-.inventory-overview {
-    margin-top: 40px;
-}
-
-.inventory-overview .card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.inventory-overview .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.inventory-overview .card-body {
-    padding: 20px;
-    text-align: center;
-}
-
-.inventory-overview h5 {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 10px;
+.sales-report .card-title {
+    color: #2c3e50;
+    font-size: 1rem;
     font-weight: 600;
 }
 
-.inventory-overview .lead {
-    font-size: 24px;
-    font-weight: bold;
-    color: #28a745;
+.sales-report .text-success {
+    color: #00a389 !important;
 }
 
-.inventory-overview .row {
-    margin-bottom: 20px;
+/* Graphs Container */
+.graphs-container {
+    margin-top: 2rem;
 }
 
-.inventory-overview .col-md-4 {
-    margin-bottom: 20px;
+.graphs-container .col-md-6 > div {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
 }
 
-/* Responsive Design */
+.graphs-container .col-md-6 > div:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Colors */
+.text-primary {
+    color: #4361ee !important;
+}
+
+.text-success {
+    color: #2ec272 !important;
+}
+
+.text-warning {
+    color: #ff9f43 !important;
+}
+
+.text-info {
+    color: #3f8cff !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .dashboard-overview .row,
-    .inventory-overview .row {
-        flex-direction: column;
-        align-items: center;
+    .container {
+        padding: 1rem;
     }
 
-    .dashboard-overview .col-md-4,
-    .inventory-overview .col-md-4 {
-        width: 100%;
-        margin-bottom: 15px;
+    .dashboard-overview .card-body {
+        padding: 1rem;
+    }
+
+    .dashboard-overview .lead {
+        font-size: 1.5rem;
+    }
+
+    .graphs-container .col-md-6 > div {
+        margin-bottom: 1rem;
     }
 }
 
+/* Animation for cards */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-/* Chart for sales*/
-.chart-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
+.dashboard-overview .card,
+.sales-report .card,
+.graphs-container .col-md-6 > div {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Loading animation for graphs */
+.graphs-container canvas {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.graphs-container canvas.loaded {
+    opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 40px;
 }
 
-canvas {
-    width: 100%;
-    height: auto;
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
