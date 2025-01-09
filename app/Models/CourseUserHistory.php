@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CourseUserHistory extends BaseModel
 {
@@ -27,6 +28,7 @@ class CourseUserHistory extends BaseModel
      * @var string
      */
     protected $primaryKey = 'id';
+    use SoftDeletes;
 
     /**
      * Indicates if the model's ID is auto-incrementing.

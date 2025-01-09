@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quiz extends BaseModel
 {
@@ -35,6 +36,7 @@ class Quiz extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+    use SoftDeletes;
 
     public function course()
     {

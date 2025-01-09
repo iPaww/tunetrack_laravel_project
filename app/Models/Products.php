@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Products extends Model
 {
@@ -27,6 +28,7 @@ class Products extends Model
     protected $primaryKey = 'id';
 
     public $incrementing = true;
+    use SoftDeletes;
 
     // Relationship with categories (make sure it's singular "category")
     public function category(): BelongsTo
@@ -59,7 +61,7 @@ class Products extends Model
     {
         return $this->hasOne(ProductType::class, 'id', 'product_type_id');
     }
-    public function orderItems() 
+    public function orderItems()
     {
         return $this->hasMany(OrderItems::class, 'product_id');
     }

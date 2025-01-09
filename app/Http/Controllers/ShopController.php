@@ -346,7 +346,7 @@ class ShopController extends BasePageController
 
         $productImage = asset(
             !empty($product['image']) ?
-            'assets/images/inventory/uploads/' . $product['image']:
+            'storage/app/public/shop' . $product['image']:
             'assets/images/inventory/uploads/default.png'
         );
 

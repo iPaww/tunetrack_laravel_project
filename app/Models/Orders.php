@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Orders extends BaseModel
 {
@@ -26,6 +27,7 @@ class Orders extends BaseModel
      * @var bool
      */
     public $incrementing = true;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -50,5 +52,5 @@ public function product()
     {
         return $this->belongsTo(Products::class);
     }
-    
+
 }

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
 use App\Models\BaseModel;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class QuizUserHistory extends BaseModel
 {
@@ -33,7 +34,8 @@ class QuizUserHistory extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-    
+    use SoftDeletes;
+
     public function quiz(): HasOne
     {
         return $this->belongsTo(\App\Models\Quiz::class, 'id', 'quiz_id');

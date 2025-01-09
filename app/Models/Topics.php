@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Topics extends BaseModel
 {
@@ -20,7 +21,7 @@ class Topics extends BaseModel
         'course_id',
         'sub_category_id',
     ];
-    
+
     /**
      * The primary key associated with the table.
      *
@@ -34,7 +35,7 @@ class Topics extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-
+    use SoftDeletes;
     /**
      * Define the relationship between Topics and SubCategory.
      *

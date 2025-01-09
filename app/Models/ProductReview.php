@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductReview extends Model
 {
@@ -12,7 +13,7 @@ class ProductReview extends Model
      * @var string
      */
     protected $table = 'product_review';
-    
+
     /**
      * The primary key associated with the table.
      *
@@ -26,6 +27,7 @@ class ProductReview extends Model
      * @var bool
      */
     public $incrementing = true;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +40,7 @@ class ProductReview extends Model
         'user_id',
         'order_item_id',
     ];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
