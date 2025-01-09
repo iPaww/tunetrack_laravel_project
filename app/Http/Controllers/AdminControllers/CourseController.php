@@ -12,19 +12,22 @@ class CourseController extends BasePageController
 
     // Display all courses
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
 
-        if ($search) {
-            // If there's a search query, filter courses based on name or description
-            $courses = courses::where('name', 'like', "%{$search}%")
-                              ->orWhere('description', 'like', "%{$search}%")
-                              ->paginate(10);
-        }
-
-        // Pass the $courses data to the view
-        return $this->view_basic_page($this->base_file_path . 'index', compact('courses'));
+    if ($search) {
+        // If there's a search query, filter courses based on name or description
+        $courses = courses::where('name', 'like', "%{$search}%")
+                          ->orWhere('description', 'like', "%{$search}%")
+                          ->paginate(10);
+    } else {
+        // Fetch all courses when there's no search query
+        $courses = courses::paginate(10);
     }
+
+    // Pass the $courses data to the view
+    return $this->view_basic_page($this->base_file_path . 'index', compact('courses'));
+}
 
     // Show the form to create a new course
     public function create()
