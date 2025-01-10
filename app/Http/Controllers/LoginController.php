@@ -222,7 +222,7 @@ class LoginController extends BasePageController
                 'verification' => null,
                 'verified_at' => new DateTime()
             ]);
-
+        session(['verified'=>true]);
         return redirect('/');
     }
 

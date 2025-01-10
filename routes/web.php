@@ -109,7 +109,6 @@ Route::controller(ProfileController::class)
 
 Route::controller(ShopController::class)
     ->middleware([Authenticate::class, Verification::class])
-    ->middleware(Verification::class)
     ->prefix('shop')
     ->group(function () {
         Route::get('/', 'index')->withoutMiddleware([Authenticate::class, Verification::class]);
