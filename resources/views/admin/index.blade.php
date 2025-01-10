@@ -223,12 +223,12 @@
 
         <!-- Top 10 Sales -->
         <div class="col-md-4 mb-4">
-            <div class="card shadow-lg border-light rounded-3 h-100">
+            <div class="card shadow-lg border-light rounded-3">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary mb-4"><b>Top 10 Sales</b></h5>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover">
-                            <thead class="table-light">
+                            <thead class="table-light sticky-top">
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th>Product</th>
@@ -236,7 +236,7 @@
                                     <th class="text-end">Sales</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="overflow-y: auto;">
                                 @forelse($top_selling_items as $index => $item)
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
