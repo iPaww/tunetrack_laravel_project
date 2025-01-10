@@ -22,7 +22,6 @@
         }
 
         /* Banner */
-
         .home-banner {
             background-color: #FC6A03;
             color: white;
@@ -31,12 +30,6 @@
             justify-content: space-between;
             align-items: center;
             height: 80px;
-        }
-
-        .nav-bar {
-            background-color: #000;
-            padding: 5px 5px;
-            color: white;
         }
 
         .centered-content {
@@ -61,30 +54,6 @@
             margin-bottom: 1rem;
         }
 
-        .search-bar {
-            width: 100%;
-            max-width: 500px;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            outline: none;
-            font-size: 16px;
-        }
-
-        /* Optional underline animation */
-        .set-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: black;
-            transition: width 0.3s ease;
-        }
-
-
-
         @media (max-width: 768px) {
 
             .home-banner,
@@ -99,30 +68,6 @@
             .title-home-2 {
                 font-size: 1.2rem;
             }
-        }
-
-        .toggle-container {
-            display: inline-flex;
-            border: 2px solid black;
-            border-radius: 30px;
-            overflow: hidden;
-            background-color: #555;
-        }
-
-        /* Profile Image inside header */
-        .profile-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .profile-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            margin-left: 15px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>

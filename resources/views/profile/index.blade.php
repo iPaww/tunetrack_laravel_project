@@ -64,3 +64,9 @@
         </div>
     </div>
 </div>
+<script>
+    function toggleSidebar() {
+        var sidebar = document.querySelector('.side-bar');
+        sidebar.classList.toggle('open'); // Toggles the 'open' class on the sidebar
+    }
+</script>
