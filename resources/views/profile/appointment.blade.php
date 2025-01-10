@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">My Booked Tutorials:</h2>
 </div>
-
+<p class="text-danger">*note: please select Instruments to avoid rejection.</p>
 <div class="row mb-4">
     @foreach ($appointments as $appointment)
         <div class="col-md-4 mb-4">
@@ -28,19 +28,24 @@
                             <span class="badge bg-warning">Pending</span>
                         @elseif ($appointment->status == 'accepted')
                             <span class="badge bg-success">Accepted</span>
-                        @elseif ($appointment->status == 'declined')
+                        @elseif ($appointment->status == 'declined' || $appointment->status == 'rejected')
                             <span class="badge bg-danger">Declined</span>
-                        @elseif ($appointment->status == 'rejected')
-                            <span class="badge bg-danger">Rejected</span>
                         @endif
                     </p>
 
-                    <!-- Display order items if they exist -->
-                    @foreach ($appointment->orderItems as $orderItem)
-                        @if ($orderItem->product)
-                            <h6><strong>Product:</strong> {{ $orderItem->product->name }}</h6>
+                    <!-- Display the product for the appointment -->
+                    @if ($appointment->orderItems->isNotEmpty())
+                        @php
+                            $selectedProduct = $appointment->orderItems->first()->product;
+                        @endphp
+                        @if ($selectedProduct)
+                            <h6><strong>Product:</strong> {{ $selectedProduct->name }}</h6>
+                        @else
+                            <h6><strong>Product:</strong> Not available</h6>
                         @endif
-                    @endforeach
+                    @else
+                        <h6><strong>Product:</strong> Not linked to an order item</h6>
+                    @endif
                 </div>
             </div>
         </div>

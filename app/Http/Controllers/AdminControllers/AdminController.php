@@ -17,7 +17,7 @@ class AdminController extends BasePageController
     {
         $this->page_title = 'TuneTrack | Admin Dashboard';
 
-        if('user_role' == 1){
+        
         
             // Get order data
             $orders_data = Orders::select(Orders::raw('COUNT(*) as total_orders, SUM(total) AS total_sales'))
@@ -152,17 +152,6 @@ class AdminController extends BasePageController
                 'order_items_data' => $order_items_data,
                 'top_selling_items' => $top_selling_items,
             ]);}
-            else{
-                $status_filter = $request->query('status_filter');
-
-                    $appointments = Appointment::when($status_filter, function ($query) use ($status_filter) {
-                        return $query->where('status', $status_filter);
-                    })->with('user')->get();
-
-                    // Fetch users with role == 2 (teachers)
-                    $teachers = User::where('role', 2)->get();
-                return $this->view_basic_page($this->base_file_path . 'appointment.index', compact('appointments', 'teachers'));
-            }
+            
     }
-    
-}
+

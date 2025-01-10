@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BasePageController;
 use App\Models\OrderItems;
+use App\Models\Products;
 
 class AppointmentController extends BasePageController
 {
@@ -29,17 +30,19 @@ class AppointmentController extends BasePageController
 
     public function book()
     {
-        // Fetch orders for the authenticated user with order items and products
-        $orders = Orders::with(['orderItems.product'])
-            ->where('user_id', session("id")) // Filter by authenticated user
-            ->where('status', 3) // Include orders with status 3
-            ->get();
+        // Fetch orders for the authenticated user
+        $orders = Orders::with(['orderItems.product' => function ($query) {
+            $query->where('type_id', 1); // Filter products to include only instruments (type_id = 1)
+        }])
+        ->where('user_id', session("id")) // Filter by authenticated user
+        ->where('status', 3) // Include only orders with status 3
+        ->get();
 
         // Filter out order items with an accepted appointment
         foreach ($orders as $order) {
             $order->orderItems = $order->orderItems->filter(function ($item) {
-                $appointment = $item->appointment; // Assuming you defined the relationship in OrderItems
-                return !$appointment || $appointment->status !== 'accepted';
+                $appointment = $item->appointment; 
+                return $item->product && !$appointment || $appointment->status !== 'accepted'; // Exclude accepted appointments
             });
         }
 
@@ -138,7 +141,5 @@ class AppointmentController extends BasePageController
 
         return redirect()->route('appointment.index')->with('success', 'Appointment successfully deleted!');
     }
-
-
 
 }
