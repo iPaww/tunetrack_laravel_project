@@ -3,6 +3,7 @@
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
+            <a href="{{ url('profile/appointment') }}">View Appointments</a>
         </div>
     @endif
 
