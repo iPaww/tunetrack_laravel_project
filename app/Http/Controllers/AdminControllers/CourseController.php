@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
-use App\Models\courses;
+use App\Models\Courses;
 use App\Models\MainCategory;
 use Illuminate\Http\Request;
 
@@ -17,18 +17,18 @@ class CourseController extends BasePageController
 
         if ($search) {
             // If there's a search query, filter courses based on name or description
-            $courses = courses::where('name', 'like', "%{$search}%")
+            $courses = Courses::where('name', 'like', "%{$search}%")
                 ->orWhere('description', 'like', "%{$search}%")
                 ->paginate(10);
         } else {
             // Fetch all courses when there's no search query
-            $courses = courses::paginate(10);
+            $courses = Courses::paginate(10);
         }
 
         // Pass the $courses data to the view
         return $this->view_basic_page($this->base_file_path . 'index', compact('courses'));
 
-        
+
     }
 
     // Show the form to create a new course
