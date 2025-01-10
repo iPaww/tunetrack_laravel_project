@@ -27,7 +27,7 @@ class Cart extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
