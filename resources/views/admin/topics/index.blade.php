@@ -31,7 +31,9 @@
                 @forelse ($topics as $topic)
                     <tr>
                         <td class="text-truncate" style="max-width: 10em;">{{ $topic->title }}</td>
-                        <td class="text-truncate" style="max-width: 8em;">{{ $topic->courses->name }}</td>
+                        <td class="text-truncate" style="max-width: 8em;">
+                            {{ $topic->courses ? $topic->courses->name : 'No Course' }}
+                        </td>
                         <td class="text-truncate" style="max-width: 12em;">{{ $topic->description }}</td>
                         <td>
                             @if ($topic->image)

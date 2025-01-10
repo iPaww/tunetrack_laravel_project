@@ -38,7 +38,7 @@
                 @enderror
             </div>
 
-            {{-- <!-- Product Category -->
+            <!-- Product Category -->
             <div class="form-group">
                 <label for="category_id">Category</label>
                 <select class="form-control @error('category_id') is-invalid @enderror" id="category_id"
@@ -53,21 +53,24 @@
                 @error('category_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div> --}}
+            </div>
 
             <!-- Product Subcategory -->
-            {{-- <div class="form-group">
+            <div class="form-group">
                 <label for="sub_category_id">Subcategory</label>
-                <select class="form-control @error('sub_category_id') is-invalid @enderror" id="sub_category_id" name="sub_category_id">
+                <select class="form-control @error('sub_category_id') is-invalid @enderror" id="sub_category_id"
+                    name="sub_category_id">
                     <option value="">Select Subcategory</option>
                     @foreach ($subCategories as $subCategory)
-                        <option value="{{ $subCategory->id }}" {{ old('sub_category_id', $product->sub_category_id) == $subCategory->id ? 'selected' : '' }}>{{ $subCategory->name }}</option>
+                        <option value="{{ $subCategory->id }}"
+                            {{ old('sub_category_id', $product->sub_category_id) == $subCategory->id ? 'selected' : '' }}>
+                            {{ $subCategory->name }}</option>
                     @endforeach
                 </select>
                 @error('sub_category_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div> --}}
+            </div>
 
             <!-- Product Type -->
             <div class="form-group">

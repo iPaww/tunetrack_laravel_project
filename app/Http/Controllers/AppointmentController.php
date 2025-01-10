@@ -41,7 +41,7 @@ class AppointmentController extends BasePageController
         // Filter out order items with an accepted appointment
         foreach ($orders as $order) {
             $order->orderItems = $order->orderItems->filter(function ($item) {
-                $appointment = $item->appointment; 
+                $appointment = $item->appointment;
                 return $item->product && !$appointment || $appointment->status !== 'accepted'; // Exclude accepted appointments
             });
         }

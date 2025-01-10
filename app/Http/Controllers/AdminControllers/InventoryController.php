@@ -139,7 +139,7 @@ class InventoryController extends BasePageController
                     'color_id' => $color_arr[$index],
                 ]);
             }
-            
+
         } else if ( $request->post('product_type') == 2 ) {
             $color_id = $request->post('color');
             $quantity = $request->post('quantity');
@@ -155,7 +155,7 @@ class InventoryController extends BasePageController
                 'quantity' => $quantity,
             ]);
         }
-        
+
         return redirect('/admin/inventory');
     }
 
@@ -260,7 +260,7 @@ class InventoryController extends BasePageController
         $quantity_txt = $request->post('quantity');
 
         if(
-            $color_id_txt != $color_id && 
+            $color_id_txt != $color_id &&
             InventorySupplies::where('product_id', $product_id)
                 ->where('color_id', $color_id_txt)
                 ->exists()
@@ -276,7 +276,7 @@ class InventoryController extends BasePageController
                 'color_id' => $color_id_txt,
                 'quantity' => $quantity_txt,
             ]);
-        
+
         return redirect('/admin/inventory');
     }
 
@@ -290,7 +290,7 @@ class InventoryController extends BasePageController
                 ->where('color_id', $color_id)
                 ->delete();
         }
-        
+
         return back()
             ->with(['data' => ['Inventory item successfully removed!']]);
     }

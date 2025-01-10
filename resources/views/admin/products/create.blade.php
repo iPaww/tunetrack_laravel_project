@@ -32,28 +32,28 @@
         <small class="form-text text-muted">Optional: Upload an image of the product.</small>
     </div>
 
-    {{-- <!-- Category -->
-            <div class="form-group mb-3">
-                <label for="category_id">Category <span class="text-danger">*</span></label>
-                <select class="form-control" id="category_id" name="category_id" required>
-                    <option value="" selected>Select a category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+    <!-- Category -->
+    <div class="form-group mb-3">
+        <label for="category_id">Category <span class="text-danger">*</span></label>
+        <select class="form-control" id="category_id" name="category_id" required>
+            <option value="" selected>Select a category</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-            <!-- Sub-Category -->
-            <div class="form-group mb-3">
-                <label for="sub_category_id">Sub-Category</label>
-                <select class="form-control" id="sub_category_id" name="sub_category_id">
-                    <option value="" selected>Select a sub-category</option>
-                    @foreach ($subCategories as $subCategory)
-                        <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
-                    @endforeach
-                </select>
-                <small class="form-text text-muted">Choose a sub-category if applicable.</small>
-            </div> --}}
+    <!-- Sub-Category -->
+    <div class="form-group mb-3">
+        <label for="sub_category_id">Sub-Category</label>
+        <select class="form-control" id="sub_category_id" name="sub_category_id">
+            <option value="" selected>Select a sub-category</option>
+            @foreach ($subCategories as $subCategory)
+                <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
+            @endforeach
+        </select>
+        <small class="form-text text-muted">Choose a sub-category if applicable.</small>
+    </div>
 
     <!-- Product Type -->
     <div class="form-group mb-3">
