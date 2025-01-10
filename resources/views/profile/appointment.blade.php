@@ -37,9 +37,12 @@
 
                         @if ($appointment->orderItems->isNotEmpty())
                             <h6><strong>Product:</strong> {{ $appointment->orderItems->first()->product->name ?? 'Not available' }}</h6>
+                            <h6><strong>Product Type:</strong> {{ $appointment->orderItems->first()->product->productType->name ?? 'Not available' }}</h6>
                         @else
                             <h6><strong>Product:</strong> Not linked to an order item</h6>
                         @endif
+
+                        <h6><strong>Assigned Tutor:</strong> {{ $appointment->assignedUser->fullname ?? 'Not assigned' }}</h6>
                     </div>
                 </div>
             </div>
