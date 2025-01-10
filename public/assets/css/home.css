@@ -75,8 +75,10 @@ body,
     transition: background-color 0.3s ease;
 }
 
-.title-banner:hover {
-    background-color: #333;
+.title-banner img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Adds a shadow */
 }
 
 /* Sidebar styling */

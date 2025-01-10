@@ -62,7 +62,6 @@
     align-items: center;
     gap: 10px;
     font-size: 1rem;
-    font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -75,6 +74,12 @@
     background-color: #FC6A03;
     transform: translateY(-2px);
     cursor: pointer;
+}
+
+.side-bar .instruments-ctgry span {
+    font-size: 1rem;
+    /* Make sure the text size matches your design */
+    color: white;
 }
 
 

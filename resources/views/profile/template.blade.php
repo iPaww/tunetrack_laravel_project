@@ -5,22 +5,22 @@
     <aside class="side-bar">
         <nav class="menu-ctgry">
             <a class="text-reset text-decoration-none" href="/profile/learning">
-                <div class="instruments-ctgry"><i class="fas fa-book"></i> My Courses</div>
+                <div class="instruments-ctgry"><i class="fas fa-book"></i><span> My Courses </span></div>
             </a>
             <a class="text-reset text-decoration-none" href="/profile/exam">
-                <div class="instruments-ctgry"><i class="fas fa-pen-alt"></i> Assesments</div>
+                <div class="instruments-ctgry"><i class="fas fa-pen-alt"></i><span> Assesments </span></div>
             </a>
             <a class="text-reset text-decoration-none" href= "/profile/appointment">
-                <div class="instruments-ctgry"><i class="fas fa-calendar"></i> My Booking </div>
+                <div class="instruments-ctgry"><i class="fas fa-calendar"></i><span> My Booking </span></div>
             </a>
             <a class="text-reset text-decoration-none" href="/shop/orders">
-                <div class="instruments-ctgry"><i class="fas fa-truck"></i> Track My Order</div>
+                <div class="instruments-ctgry"><i class="fas fa-truck"></i><span> Track My Order </span></div>
             </a>
             <a class="text-reset text-decoration-none" href="/profile">
-                <div class="instruments-ctgry"><i class="fas fa-user"></i> Profile</div>
+                <div class="instruments-ctgry"><i class="fas fa-user"></i><span> Profile </span></div>
             </a>
             <a class="text-reset text-decoration-none" href="/logout">
-                <div class="instruments-ctgry"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                <div class="instruments-ctgry"><i class="fas fa-sign-out-alt"></i><span> Logout </span></div>
             </a>
         </nav>
     </aside>
