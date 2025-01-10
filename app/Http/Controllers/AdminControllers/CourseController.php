@@ -27,6 +27,8 @@ class CourseController extends BasePageController
 
         // Pass the $courses data to the view
         return $this->view_basic_page($this->base_file_path . 'index', compact('courses'));
+
+        
     }
 
     // Show the form to create a new course
