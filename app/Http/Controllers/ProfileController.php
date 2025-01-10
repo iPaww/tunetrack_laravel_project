@@ -64,17 +64,17 @@ class ProfileController extends BasePageController
     public function showBook()
     {
         $appointments = Appointment::where('user_id', session("id"))
-            ->with(['orderItems.product', 'orderItems.order'])
-            ->paginate(9);
+        ->with(['orderItems.product', 'orderItems.order']) // Load the order items and related products
+        ->paginate(9);
 
-        // Fetch orders for the authenticated user
-        $orders = Orders::with(['orderItems.product'])
-            ->where('user_id', session("id"))
-            ->where('status', 3)
-            ->get();
+    // Fetch orders for the authenticated user
+    $orders = Orders::with(['orderItems.product'])
+        ->where('user_id', session("id"))
+        ->where('status', 3)
+        ->get();
 
-        // Pass the first appointment or modify as needed
-        $appointment = $appointments->first();
+    return $this->view_basic_page($this->base_file_path . 'appointment', compact('appointments', 'orders'));
+    }
 
         return $this->view_basic_page($this->base_file_path . 'appointment', compact('appointments', 'orders', 'appointment'));
     }

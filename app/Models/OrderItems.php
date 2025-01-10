@@ -29,7 +29,7 @@ class OrderItems extends BaseModel
      * @var bool
      */
     public $incrementing = true;
-    
+
     /**
       * Disable the created_at and updated_at column
       */
@@ -50,7 +50,7 @@ class OrderItems extends BaseModel
 
     public function product(): HasOne
     {
-        return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');
+        return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');  // This is correct
     }
 
     public function product_review(): HasOne
@@ -82,6 +82,4 @@ class OrderItems extends BaseModel
 {
     return $this->belongsTo(Orders::class, 'order_id', 'id'); // Assuming 'order_id' is the foreign key in 'orders_item' table
 }
-
-   
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cart extends BaseModel
 {
@@ -28,7 +27,6 @@ class Cart extends BaseModel
      */
     public $incrementing = true;
     // use SoftDeletes;
-
     /**
      * The attributes that are mass assignable.
      *

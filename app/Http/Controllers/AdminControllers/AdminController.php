@@ -17,8 +17,6 @@ class AdminController extends BasePageController
     {
         $this->page_title = 'TuneTrack | Admin Dashboard';
 
-        
-        
             // Get order data
             $orders_data = Orders::select(Orders::raw('COUNT(*) as total_orders, SUM(total) AS total_sales'))
                 ->whereIn('status', ['Ready to Pickup', 'processing', 'pending'])
@@ -130,7 +128,7 @@ class AdminController extends BasePageController
                 ->get();
 
             // Add this before the return statement to check the actual data
-            
+
 
             return $this->view_basic_page('index', [
                 'orders_data' => $orders_data,
@@ -152,6 +150,5 @@ class AdminController extends BasePageController
                 'order_items_data' => $order_items_data,
                 'top_selling_items' => $top_selling_items,
             ]);}
-            
-    }
 
+    }

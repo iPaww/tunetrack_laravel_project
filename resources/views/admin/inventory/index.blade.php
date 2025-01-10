@@ -39,7 +39,7 @@ use Illuminate\Support\Collection;
         @foreach ($products as $product)
             <tr>
                 <td class="text-start">
-                    <a href="/admin/products/edit/{{ $product->id }}" class="text-decoration-none">
+                    <a href="/storage/app/public/inventory{{ $product->id }}" class="text-decoration-none">
                         <img class="img-thumbnail"
                             src="{{ asset('assets/images/inventory/uploads/' . $product->image) }}"
                             alt="inventory Image" width="100">

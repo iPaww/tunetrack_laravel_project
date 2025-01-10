@@ -14,6 +14,24 @@
         background-color: #853700 !important;
         border-color: #853700 !important;
     }
+
+    .card-img-top {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Card styling */
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover effect */
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 </style>
 
 <h1 class="fw-bold text-center my-5">Courses</h1>
@@ -25,7 +43,7 @@
                     <img src="{{ asset('storage/' . $category->image) }}" class="card-img-top" alt="{{ $category->name }}"
                         style="min-height: 6em;">
 
-                        {{-- <img src="{{ asset('storage/app/public/' . $category->image) }}" class="card-img-top" alt="{{ $category->name }}"
+                    {{-- <img src="{{ asset('storage/app/public/' . $category->image) }}" class="card-img-top" alt="{{ $category->name }}"
                         style="min-height: 6em;"> --}}
                     <div class="card-body">
                     </div>
