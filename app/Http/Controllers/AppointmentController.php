@@ -6,6 +6,7 @@ use App\Models\Orders;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BasePageController;
+use Illuminate\Support\Facades\Validator;
 use App\Models\OrderItems;
 
 class AppointmentController extends BasePageController
@@ -13,9 +14,9 @@ class AppointmentController extends BasePageController
     public string $base_file_path = 'appointment.';
 
     public function index()
-{
+    {
         $appointments = Appointment::where('user_id', session("id"))
-            ->with(['orderItems.product', 'orderItems.order']) // Load the order items and related products
+            ->with(['orderItems.product', 'orderItems.order', 'assignedUser']) // Ensure this relationship is correct
             ->paginate(9);
 
         // Fetch orders for the authenticated user
@@ -25,23 +26,22 @@ class AppointmentController extends BasePageController
             ->get();
 
         return $this->view_basic_page($this->base_file_path . 'index', compact('appointments', 'orders'));
-}
+    }
 
     public function book()
     {
         // Fetch orders for the authenticated user with order items and products
-        $orders = Orders::with(['orderItems.product'])
-            ->where('user_id', session("id")) // Filter by authenticated user
-            ->where('status', 3) // Include orders with status 3
+        $orders = Appointment::where('user_id', session("id")) // Filter by authenticated user
+            // ->where('status', 3) // Include orders with status 3
             ->get();
 
         // Filter out order items with an accepted appointment
-        foreach ($orders as $order) {
-            $order->orderItems = $order->orderItems->filter(function ($item) {
-                $appointment = $item->appointment; // Assuming you defined the relationship in OrderItems
-                return !$appointment || $appointment->status !== 'accepted';
-            });
-        }
+        // foreach ($orders as $order) {
+        //     $order->orderItems = $order->orderItems->filter(function ($item) {
+        //         $appointment = $item->appointment; // Assuming you defined the relationship in OrderItems
+        //         return !$appointment || $appointment->status !== 'accepted';
+        //     });
+        // }
 
         return $this->view_basic_page($this->base_file_path . 'book', compact('orders'));
     }
@@ -49,30 +49,41 @@ class AppointmentController extends BasePageController
     public function store(Request $request)
     {
         // Validation for creating appointment
-        $validated = $request->validate([
-            'order_id' => 'required|exists:orders_item,product_id',
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required|exists:orders_item,product_id',
+            'order_id' => 'required|exists:orders_item,order_id',
             'date' => 'required|date',
         ]);
+        $product_id = $request->post('product_id');
 
-        // Fetch the order item based on the selected product_id
-        $orderItem = OrderItems::where('product_id', $validated['order_id'])->first();
+        $order_id = $request->post('order_id');
 
-        if (!$orderItem) {
-            return redirect()->back()->with('error', 'Invalid product selection.');
+        $date = $request->post('date');
+        
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator);
         }
 
-        // Assuming sub_category_id is part of the product details
-        $subCategoryId = $orderItem->product ? $orderItem->product->sub_category_id : null;
+        // Fetch the order item based on the selected product_id
+        $orderItem = OrderItems::where('product_id', $product_id)
+        ->where('order_id',$order_id)
+        ->first();
+
+        if (empty($orderItem)) {
+            return back()->with('error', 'Invalid product selection.');
+        }
 
         // Create the appointment
         Appointment::create([
-            'selected_date' => $validated['date'],
+            'selected_date' => $date,
             'user_id' => session("id"),
-            'sub_category_id' => $subCategoryId,
+            'order_id' => $order_id,
             'status' => 'pending',
+            'product_id' => $product_id
         ]);
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment successfully created!');
+        return back()->with('success', 'Appointment successfully created!');
     }
 
 

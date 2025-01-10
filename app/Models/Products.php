@@ -23,6 +23,7 @@ class Products extends Model
         'sub_category_id',
         'product_type_id',
         'brand_id',
+        'products_type',
     ];
 
     protected $primaryKey = 'id';
@@ -30,6 +31,10 @@ class Products extends Model
     public $incrementing = true;
     use SoftDeletes;
 
+    public function product()
+        {
+            return $this->belongsTo(Products::class);
+        }
     // Relationship with categories (make sure it's singular "category")
     public function category(): BelongsTo
     {

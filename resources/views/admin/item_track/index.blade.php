@@ -21,6 +21,7 @@
                 <th>Order ID</th>
                 <th>User</th>
                 <th>Order Date</th>
+                <th>Products</th>
                 <th>Payment Method</th>
                 <th>Status</th>
                 <th>Total Price</th>
@@ -33,6 +34,19 @@
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->user ? $order->user->fullname : 'N/A' }}</td>
                     <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
+                    <td>
+                        <!-- Display Order Items -->
+                        @if($order->orderItems)
+                            <ul>
+                                @foreach ($order->orderItems as $item)
+                                    <li>
+                                        {{ $item->product->name ?? 'No Name' }} - Quantity: {{ $item->quantity }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        
+                        @endif
+                    </td>
                     <td>{{ $order->payment_method }}</td>
                     <td>{{ $statusMap[$order->status] ?? 'Unknown' }}</td>
                     <td>{{ $order->total }}</td>
@@ -43,8 +57,7 @@
                             <select name="status" class="form-select" required>
                                 <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Pending</option>
                                 <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Processing</option>
-                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup
-                                </option>
+                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup</option>
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                         </form>

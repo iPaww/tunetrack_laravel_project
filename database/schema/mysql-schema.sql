@@ -11,14 +11,18 @@ CREATE TABLE `appointment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `selected_date` date NOT NULL,
   `user_id` int DEFAULT NULL,
-  `sub_category_id` int DEFAULT NULL,
   `status` enum('pending','declined','accepted') CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `product_id` bigint unsigned DEFAULT NULL,
+  `teacher_id` bigint unsigned DEFAULT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `sub_category_id` (`sub_category_id`)
+  KEY `appointment_product_id_foreign` (`product_id`),
+  KEY `appointment_teacher_id_foreign` (`teacher_id`),
+  KEY `order_id` (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `brands`;
@@ -57,7 +61,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `image` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -163,8 +167,10 @@ CREATE TABLE `orders` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `appointment_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `orders_appointment_id_foreign` (`appointment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `orders_item`;
@@ -336,3 +342,6 @@ CREATE TABLE `users` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'2025_01_03_165342_image',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (2,'2025_01_07_233938_add_appointment_id_to_orders_table',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (3,'2025_01_10_141232_add_product_id_to_appointments_table',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (5,'2025_01_10_194142_add_selected_teacher_to_appointment_table',3);

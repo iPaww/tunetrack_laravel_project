@@ -48,9 +48,8 @@ class Orders extends BaseModel
 {
     return $this->hasMany(OrderItems::class, 'order_id', 'id'); // Assuming the order_id field is the foreign key
 }
-public function product()
+    public function product()
     {
         return $this->belongsTo(Products::class);
     }
-
 }

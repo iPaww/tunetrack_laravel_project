@@ -15,8 +15,10 @@ class Appointment extends Model
     protected $fillable = [
         'selected_date',
         'user_id',
-        'sub_category_id',
+        'order_id',
         'status',
+        'product_id',
+        'teacher_id',
     ];
 
     protected $dates = [
@@ -24,7 +26,10 @@ class Appointment extends Model
         'updated_at',
         'deleted_at',
     ];
-
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -35,7 +40,7 @@ class Appointment extends Model
         return $this->belongsTo(SubCategory::class);
     }
 
-    // Define the relationship to the Order model (assuming you have an Order model)
+    // Define the relationship to the Order model (assuming you have san Order model)
     public function order()
     {
         return $this->belongsTo(Orders::class, 'order_id', 'id');

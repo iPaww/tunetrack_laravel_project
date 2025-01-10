@@ -16,10 +16,11 @@ class AppointmentController extends BasePageController
 
     $appointments = Appointment::when($status_filter, function ($query) use ($status_filter) {
         return $query->where('status', $status_filter);
-    })->with('user')->get();
+    })->with(['user', 'assignedUser', 'orderItems.product', 'orderItems.product.productType'])->paginate(10);
 
     // Fetch users with role == 2 (teachers)
     $teachers = User::where('role', 2)->get();
+
     return $this->view_basic_page($this->base_file_path . 'index', compact('appointments', 'teachers'));
 }
 
@@ -35,15 +36,16 @@ class AppointmentController extends BasePageController
         $appointment->status = $status;
     }
 
-    // Handle assigning a teacher (User with role == 2)
+    // Handle assigning a teacher (teacher_id)
     $selected_teacher = $request->input('selected_teacher');
     if ($selected_teacher) {
-        $appointment->user_id = $selected_teacher; // Update the user_id field to the selected teacher
+        $appointment->teacher_id = $selected_teacher;  // Assign the teacher to the appointment
     }
 
     $appointment->save();
 
-    return redirect()->route('admin.appointment.index')->with('success', 'Appointment updated successfully.');
+    // Redirect back to the previous page instead of the index
+    return redirect()->back()->with('success', 'Appointment updated successfully.');
 }
 
     public function salesReport()

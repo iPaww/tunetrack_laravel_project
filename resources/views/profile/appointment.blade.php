@@ -4,7 +4,7 @@
     </div>
     <p class="text-danger">*note: please select Instruments to avoid rejection.</p>
     <div class="row mb-4">
-        @foreach ($appointments as $appointment)
+        @forelse ($appointments as $appointment)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow position-relative">
                     <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" class="position-absolute top-0 end-0 p-2">
@@ -35,18 +35,20 @@
                             @endif
                         </p>
 
-                        @if ($appointment->orderItems->isNotEmpty())
-                            <h6><strong>Product:</strong> {{ $appointment->orderItems->first()->product->name ?? 'Not available' }}</h6>
-                            <h6><strong>Product Type:</strong> {{ $appointment->orderItems->first()->product->productType->name ?? 'Not available' }}</h6>
+                        @if ($appointment->product)
+                            <h6><strong>Product:</strong> {{ $appointment->product->name ?? 'Not available' }}</h6>
+                            <h6><strong>Product Type:</strong> {{ $appointment->product->productType->name ?? 'Not available' }}</h6>
                         @else
                             <h6><strong>Product:</strong> Not linked to an order item</h6>
                         @endif
 
-                        <h6><strong>Assigned Tutor:</strong> {{ $appointment->assignedUser->fullname ?? 'Not assigned' }}</h6>
+                        <h6><strong>Assigned Tutor:</strong> {{ $appointment->assignedUser?->fullname ?? 'Not assigned' }}</h6>
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <p>No appointments found.</p>
+        @endforelse
     </div>
     {{ $appointments->links() }}
 </div>

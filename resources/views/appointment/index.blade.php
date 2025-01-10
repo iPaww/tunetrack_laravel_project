@@ -3,24 +3,32 @@
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
-            <a href="{{ url('profile/appointment') }}">View Appointments</a>
+            <a href="{{ url('profile/appointment') }}">View Booked Appointments</a>
         </div>
     @endif
-
+    @if ($errors->any())
+        <ul class="list-group my-2">
+            @foreach ($errors->all() as $error)
+                <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
     <!-- Booking form directly on the page -->
     <div class="booking-form-container">
         <h3 class="mb-3">Book a New Tutorial</h3>
         <form action="{{ route('appointment.store') }}" method="POST">
             @csrf
+            <input type="hidden" name="order_id">
+            <input type="hidden" name="product_id">
             <div class="mb-3">
-                <label for="order_id" class="form-label">Select Order:</label>
-                <select id="order_id" name="order_id" class="form-select">
+                <label for="product_id" class="form-label">Select Order:</label>
+                <select id="product_id" class="form-select">
                     <option value="">Select Order</option>
                     @foreach ($orders as $order)
                         <optgroup label="Order ID: {{ $order->id }}">
                             @foreach ($order->orderItems as $orderItem)
                                 @if ($orderItem->product)
-                                    <option value="{{ $orderItem->product->id }}">
+                                    <option value="{{ $order->id }}:::{{ $orderItem->product->id  }}" >
                                         {{ $orderItem->product->name }}
                                     </option>
                                 @endif
@@ -37,7 +45,6 @@
         </form>
     </div>
 
-    {{ $appointments->links() }}
 </div>
 
 <style>
@@ -79,3 +86,19 @@
         background-color: #45a049;
     }
 </style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#product_id").change(function(e){
+        
+        const target = $(e.target)
+        const order_id_inp = $("input[name='order_id']")
+        const product_id_inp = $("input[name='product_id']")
+
+        const target_value = target.val()
+        const [order_id,product_id] =target_value.split(":::")
+        order_id_inp.val(order_id)
+        product_id_inp.val(product_id)
+    })
+})
+</script>

@@ -25,6 +25,24 @@
         </div>
     @endif
 
+    <!-- Error Message -->
+    @if (session('error'))
+        <div class="alert alert-danger mt-3">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Validation Errors -->
+    @if ($errors->any())
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Appointment Table -->
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -32,17 +50,26 @@
                 <tr>
                     <th>#</th>
                     <th>User</th>
+                    <th>Product(Tutoring)</th>
                     <th>Appointment Date</th>
                     <th>Appointment Status</th>
+                    <th>Assigned User</th>
                     <th>Assign User (Role 2)</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $count = ($appointments->currentPage() - 1) * $appointments->perPage() + 1; // Adjust counter for pagination
+                @endphp
                 @foreach ($appointments as $appointment)
                     <tr>
-                        <td>{{ $appointment->id }}</td>
+                        <td>{{ $count++ }}</td>
                         <td>{{ $appointment->user->fullname }}</td>
+                        <td>
+                            @if($appointment->product)
+                            <h6><strong>Product:</strong> {{ $appointment->product->name ?? 'Not available' }}</h6>
+                            @endif
+                        </td>
                         <td>{{ \Carbon\Carbon::parse($appointment->selected_date)->format('F j, Y') }}</td>
                         <td>
                             <span
@@ -57,8 +84,9 @@
                                 {{ ucfirst($appointment->status) }}
                             </span>
                         </td>
-                        <!-- Assign User (Role 2) -->
-                        <td>
+                        <td>{{ $appointment->assignedUser->fullname ?? 'Not Assigned' }}</td>
+                        <!-- Combined Form for Assign User and Update Status -->
+                        <td colspan="2">
                             <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
                                 @csrf
                                 @method('PUT')
@@ -72,15 +100,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-sm mt-2">Assign</button>
-                            </form>
-                        </td>
-                        <!-- Appointment Actions -->
-                        <td>
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
-                                @csrf
-                                @method('PUT')
-                                <div class="form-group">
+                                <div class="form-group mt-2">
                                     <select name="status" class="form-select">
                                         <option value="pending" @selected($appointment->status == 'pending')>Pending</option>
                                         <option value="accepted" @selected($appointment->status == 'accepted')>Accept</option>
@@ -88,13 +108,15 @@
                                         <option value="re-book" @selected($appointment->status == 're-book')>Re-book</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Submit</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <!-- Pagination Links -->
+        {{ $appointments->links() }}
     </div>
 </div>
 
