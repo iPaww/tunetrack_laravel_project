@@ -45,4 +45,5 @@
             </div>
         @endforeach
     </div>
+    {{ $appointments->links() }}
 </div>
