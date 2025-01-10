@@ -5,7 +5,7 @@
 
 <form action="/admin/sub-category/add" method="POST">
     @csrf <!-- {{ csrf_field() }} -->
-    
+
     <!-- Sub-Category Name Input -->
     <label for="name">Sub-Category Name</label>
     <input type="text" name="name" id="name" required>
