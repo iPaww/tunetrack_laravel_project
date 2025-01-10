@@ -59,8 +59,9 @@ Route::controller(AppointmentController::class)
         Route::get('/appointment/book', 'book')->name('appointment.book');
         Route::post('/appointment', 'store')->name('appointment.store');
         Route::get('/appointment/edit/{id}', 'edit')->name('appointment.edit');
-        Route::post('/appointment/update/{id}', 'update')->name('appointment.update');
-        Route::delete('/appointment/{id}',  'destroy')->name('appointment.destroy');
+        // Change the update route to PUT instead of POST
+        Route::put('/appointment/update/{id}', 'update')->name('appointment.update');
+        Route::delete('/appointment/{id}', 'destroy')->name('appointment.destroy');
     });
 
 

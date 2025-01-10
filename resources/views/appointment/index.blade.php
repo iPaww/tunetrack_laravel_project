@@ -1,4 +1,11 @@
 <div class="container mt-5">
+    <!-- Display success message -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <!-- Booking form directly on the page -->
     <div class="booking-form-container">
         <h3 class="mb-3">Book a New Tutorial</h3>

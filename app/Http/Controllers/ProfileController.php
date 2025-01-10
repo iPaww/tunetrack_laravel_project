@@ -61,23 +61,22 @@ class ProfileController extends BasePageController
         return $this->view_basic_page($this->base_file_path . 'exam', compact('courses'));
     }
 
-    public function showBook(){
-        $appointments = Appointment::where('user_id', session("id"))
-        ->with(['orderItems.product', 'orderItems.order']) // Load the order items and related products
-        ->paginate(9);
-
-    // Fetch orders for the authenticated user
-    $orders = Orders::with(['orderItems.product'])
-        ->where('user_id', session("id"))
-        ->where('status', 3)
-        ->get();
-
-    return $this->view_basic_page($this->base_file_path . 'appointment', compact('appointments', 'orders'));
-    }
-
-    public function certificate()
+    public function showBook()
     {
-        return $this->view_basic_page($this->base_file_path . 'certificate');
+        $appointments = Appointment::where('user_id', session("id"))
+            ->with(['orderItems.product', 'orderItems.order'])
+            ->paginate(9);
+
+        // Fetch orders for the authenticated user
+        $orders = Orders::with(['orderItems.product'])
+            ->where('user_id', session("id"))
+            ->where('status', 3)
+            ->get();
+
+        // Pass the first appointment or modify as needed
+        $appointment = $appointments->first();
+
+        return $this->view_basic_page($this->base_file_path . 'appointment', compact('appointments', 'orders', 'appointment'));
     }
 
     public function orders()
@@ -94,36 +93,80 @@ class ProfileController extends BasePageController
     }
 
     public function update(Request $request)
-{
-    $validated = $request->validate([
-        'fullname' => 'required|string|max:255',
-        'phone_number' => 'required|string|max:20',
-        'address' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'address' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $profile = User::find(session('id'));
+        $profile = User::find(session('id'));
 
-    if (!$profile) {
-        return redirect()->back()->with('error', 'User not found!');
-    }
-
-    $profile->fullname = $validated['fullname'];
-    $profile->phone_number = $validated['phone_number'];
-    $profile->address = $validated['address'];
-
-    if ($request->hasFile('image')) {
-        if ($profile->image && file_exists(storage_path('app/public/' . $profile->image))) {
-            unlink(storage_path('app/public/' . $profile->image));
+        if (!$profile) {
+            return redirect()->back()->with('error', 'User not found!');
         }
 
-        $imagePath = $request->file('image')->store('userprofile/' . $profile->id, 'public');
-        $profile->image = 'storage/' . $imagePath;
-        session([ 'profile_picture' => 'storage/' . $imagePath ]);
+        $profile->fullname = $validated['fullname'];
+        $profile->phone_number = $validated['phone_number'];
+        $profile->address = $validated['address'];
+
+        if ($request->hasFile('image')) {
+            if ($profile->image && file_exists(storage_path('app/public/' . $profile->image))) {
+                unlink(storage_path('app/public/' . $profile->image));
+            }
+
+            $imagePath = $request->file('image')->store('userprofile/' . $profile->id, 'public');
+            $profile->image = 'storage/' . $imagePath;
+            session([ 'profile_picture' => 'storage/' . $imagePath ]);
+        }
+
+        $profile->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
-    $profile->save();
+    public function rebook($id)
+    {
+        $appointment = Appointment::findOrFail($id);
 
-    return redirect()->back()->with('success', 'Profile updated successfully!');
-}
+        // Assuming the status is 're-book', update the status or change any necessary fields
+        $appointment->status = 'pending'; // Reset the status to pending after rebooking
+        $appointment->save();
+
+        return redirect()->route('profile.appointment')->with('success', 'Appointment successfully re-booked!');
+    }
+
+    public function updateAppointment(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'date' => 'required|date|after:today',
+        ]);
+
+        $appointment = Appointment::where('id', $id)
+            ->where('user_id', session('id'))
+            ->first();
+
+        if (!$appointment) {
+            return redirect()->back()->with('error', 'Appointment not found!');
+        }
+
+        $appointment->selected_date = $validated['date'];
+        $appointment->save();
+
+        return redirect()->back()->with('success', 'Appointment updated successfully!');
+    }
+
+    public function editAppointment($id)
+    {
+        $appointment = Appointment::where('id', $id)
+            ->where('user_id', session('id'))
+            ->first();
+
+        if (!$appointment) {
+            return redirect()->back()->with('error', 'Appointment not found!');
+        }
+
+        return view('profile.edit', compact('appointment'));
+    }
 }
