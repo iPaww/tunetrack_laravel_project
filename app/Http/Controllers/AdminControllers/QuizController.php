@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\Quiz;
-use App\Models\Topics;
 use App\Models\Courses;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminControllers\BasePageController;
