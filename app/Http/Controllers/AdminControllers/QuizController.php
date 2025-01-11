@@ -15,8 +15,9 @@ class QuizController extends BasePageController
     {
         $quizzes = Quiz::with('course')->paginate(10); // Eager load the course relationship
         $courses = Courses::all(); // Fetch all courses
+        $correctAnswerMap = [1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D']; // Mapping integers to letters
 
-        return $this->view_basic_page($this->base_file_path . 'index', compact('quizzes', 'courses'));
+        return $this->view_basic_page($this->base_file_path . 'index', compact('quizzes', 'courses','correctAnswerMap'));
     }
 
     // Show the form to add a new quiz
@@ -36,11 +37,10 @@ class QuizController extends BasePageController
             'b_answer' => 'required|string',
             'c_answer' => 'required|string',
             'd_answer' => 'required|string',
-            'correct_answer' => 'required|string|in:a,b,c,d',
+            'correct_answer' => 'required|integer|in:1,2,3,4',  // Store as integer (1, 2, 3, 4)
             'question_order' => 'required|string',
         ]);
 
-        $correctAnswerMap = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4];
 
         Quiz::create([
             'course_id' => $validated['course_id'],
@@ -49,7 +49,7 @@ class QuizController extends BasePageController
             'b_answer' => $validated['b_answer'],
             'c_answer' => $validated['c_answer'],
             'd_answer' => $validated['d_answer'],
-            'correct_answer' => $correctAnswerMap[$validated['correct_answer']],
+            'correct_answer' => (int)$validated['correct_answer'], // Ensure it’s an integer
             'question_order' => $validated['question_order'],
         ]);
 
@@ -69,14 +69,14 @@ class QuizController extends BasePageController
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'course_id' => 'required|exists:courses,id',
+            'course_id' => 'required|integer|exists:courses,id',
             'question' => 'required|string',
             'a_answer' => 'required|string',
             'b_answer' => 'required|string',
             'c_answer' => 'required|string',
             'd_answer' => 'required|string',
             'correct_answer' => 'required|string|in:a,b,c,d',
-            'question_order' => 'required|string',
+            'question_order' => 'required|int',
         ]);
 
         $correctAnswerMap = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4];
@@ -89,7 +89,7 @@ class QuizController extends BasePageController
             'b_answer' => $validated['b_answer'],
             'c_answer' => $validated['c_answer'],
             'd_answer' => $validated['d_answer'],
-            'correct_answer' => $correctAnswerMap[$validated['correct_answer']],
+            'correct_answer' => (int)$correctAnswerMap[$validated['correct_answer']],  // Ensure it's an integer
             'question_order' => $validated['question_order'],
         ]);
 

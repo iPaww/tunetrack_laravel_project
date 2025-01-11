@@ -1,5 +1,15 @@
 <div class="container-fluid mt-5">
     <h1>Edit Quiz</h1>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('quiz.update', $quiz->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -55,7 +65,11 @@
                 <option value="d" {{ $quiz->correct_answer == 4 ? 'selected' : '' }}>D</option>
             </select>
         </div>
-
+        <div class="form-group">
+            <label for="question_order">Question Order</label>
+            <input type="number" class="form-control" name="question_order" id="question_order"
+                value="{{ $quiz->question_order }}" required>
+        </div>
         <div class="d-flex flex-column flex-sm-row justify-content-between mt-3">
             <button type="submit" class="btn btn-primary mb-3 mb-sm-0">Update Quiz</button>
             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
