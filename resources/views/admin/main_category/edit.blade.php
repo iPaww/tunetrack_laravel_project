@@ -1,20 +1,37 @@
-<h1>Edit here</h1>
-<button class="btn btn-secondary mb-3">
-    <a href="/admin/main-category" style="text-decoration:none; color:white;">Back</a>
-</button>
+<h2 class="mb-4"><b>Edit Main Category</b></h2>
 
-<form action="/admin/main-category/edit/{{ $category->id }}" method="POST" enctype="multipart/form-data">
+<form action="/admin/main-category/edit/{{ $category->id }}" method="POST" enctype="multipart/form-data"
+    class="shadow p-4 rounded-lg bg-light">
     @csrf
-    <div class="form-group">
-        <label for="name">Category Name</label>
-        <input type="text" class="form-control" name="name" id="name" value="{{ old('name', $category->name) }}" required>
+
+    <!-- Category Name Input -->
+    <div class="mb-3">
+        <label for="name" class="form-label">Category Name</label>
+        <input type="text" class="form-control" name="name" id="name"
+            value="{{ old('name', $category->name) }}" placeholder="Enter category name" required>
     </div>
-    <div class="form-group">
-        <label for="image">Category Image</label>
+
+    <!-- Category Image Input -->
+    <div class="mb-3">
+        <label for="image" class="form-label">Category Image</label>
         <input type="file" class="form-control" name="image" id="image">
         @if ($category->image)
-            <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" width="100">
+            <div class="mt-3">
+                <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" class="img-thumbnail"
+                    width="100">
+            </div>
         @endif
     </div>
-    <button class="btn btn-primary" type="submit">Update</button>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-end align-items-center mt-4">
+        <!-- Update Button -->
+        <button class="btn btn-primary px-3 d-inline-flex align-items-center me-2" type="submit">
+            <i class="fas fa-save me-2"></i> Update
+        </button>
+        <!-- Back Button -->
+        <a href="/admin/main-category" class="btn btn-secondary px-3 d-inline-flex align-items-center">
+            <i class="fas fa-arrow-left me-2"></i> Back
+        </a>
+    </div>
 </form>

@@ -1,9 +1,12 @@
+<h2 class="mb-4"><b>Create Main Category</b></h2>
+
 <form action="/admin/main-category/add" method="POST" class="shadow p-4 rounded-lg bg-light">
     @csrf <!-- {{ csrf_field() }} -->
 
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
-        <input type="text" name="name" id="name" class="form-control" placeholder="Enter category name" required>
+        <input type="text" name="name" id="name" class="form-control" placeholder="Enter category name"
+            required>
     </div>
 
     <div class="form-group mb-3">
