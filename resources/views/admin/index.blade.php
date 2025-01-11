@@ -240,7 +240,7 @@
                                     <th class="text-end">Sales</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="overflow-y: auto;">
                                 @forelse($top_selling_items as $index => $item)
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
@@ -272,6 +272,22 @@
                                     </tr>
                                 @endforelse
                             </tbody>
+<<<<<<< Updated upstream
+=======
+                            @if($top_selling_items->isNotEmpty())
+                                <tfoot class="table-light position-sticky bottom-0">
+                                    <tr>
+                                        <td colspan="2" class="text-end fw-bold">Total:</td>
+                                        <td class="text-end fw-bold">
+                                            {{ number_format($top_selling_items->sum('total_quantity')) }}
+                                        </td>
+                                        <td class="text-end fw-bold">
+                                            ₱{{ number_format($top_selling_items->sum('total_sales'), 2) }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            @endif
+>>>>>>> Stashed changes
                         </table>
                     </div>
                 </div>

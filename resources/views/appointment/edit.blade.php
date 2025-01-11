@@ -11,7 +11,7 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="order_id" class="form-label"><strong>Current Product:</strong></label>
-                            <input type="text" class="form-control" value="{{ $appointment->orderItems->first()->product->name ?? 'Not available' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $appointment->product->name ?? 'Not available' }}" disabled>
                             <input type="hidden" name="order_id" value="{{ $appointment->order_id }}">
                         </div>
                         <div class="mb-3">
