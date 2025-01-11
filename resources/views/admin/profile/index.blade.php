@@ -1,3 +1,18 @@
+<!-- Success or Error Alert -->
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <!-- Admin Profile Section -->
 <div class="card mb-4 shadow-lg border-0 rounded-3">
     <div class="card-header bg-primary text-white">
@@ -32,14 +47,6 @@
         </div>
     </div>
 </div>
-
-<!-- Success Alert -->
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
 
 <!-- Update Admin Details Form -->
 <div class="card shadow-lg border-0 rounded-3">

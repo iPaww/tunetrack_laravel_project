@@ -12,7 +12,7 @@ class UserController extends BasePageController
 
     public function index()
     {
-        $users = User::get();
+        $users = User::paginate(10);
         return $this->view_basic_page($this->base_file_path . 'index', ['users' => $users]);
     }
     public function add()
