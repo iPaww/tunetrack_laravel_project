@@ -40,7 +40,7 @@ class MainCategoryController extends BasePageController
         'image' => $imagePath,
     ]);
 
-    return redirect('/admin/main-category');
+    return redirect('/admin/main-category')->with('success', 'Category added successfully!');
     }
 
     public function edit($id, Request $request)
@@ -83,7 +83,7 @@ class MainCategoryController extends BasePageController
     public function destroy($id){
         $category = MainCategory::findOrFail($id);
         $category->delete();
-        return redirect(('/admin/main-category'));
+        return redirect(('/admin/main-category'))->with('success', 'Category deleted successfully!');
     }
 
 }
