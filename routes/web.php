@@ -321,4 +321,4 @@ Route::prefix('/mailable')
         });
     });
 
-    
+

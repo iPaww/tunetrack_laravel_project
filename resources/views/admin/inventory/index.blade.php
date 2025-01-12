@@ -1,20 +1,20 @@
 <?php
 use Illuminate\Support\Collection;
 ?>
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between mb-3">
     <div class="title">
         <h2><b>Inventory</b></h2>
     </div>
     <div class="d-flex">
         <form action="{{ route('admin.inventory.index') }}" method="GET" class="d-flex me-2">
-            <input type="text" name="query" class="form-control me-2" placeholder="Search products..." value="{{ request('query') }}">
+            <input type="text" name="query" class="form-control me-2" placeholder="Search products..."
+                value="{{ request('query') }}">
             <button type="submit" class="btn btn-outline-primary">Search</button>
-            {{-- asfas --}}
         </form>
         <a class="btn btn-primary" href="/admin/inventory/add">Add</a>
     </div>
 </div>
-
+{{-- sfvsw --}}
 <div>
     @if ($errors->any())
         <ul class="list-group my-2">
@@ -46,7 +46,8 @@ use Illuminate\Support\Collection;
         @foreach ($products as $product)
             <tr>
                 <td class="text-start">
-                    <a href="/admin/inventory/edit/{{ $product->id }}/product-type/{{ $product->product_type_id }}/color/{{ $product->color_id }}" class="text-decoration-none">
+                    <a href="/admin/inventory/edit/{{ $product->id }}/product-type/{{ $product->product_type_id }}/color/{{ $product->color_id }}"
+                        class="text-decoration-none">
                         <img class="img-thumbnail"
                             src="{{ asset('assets/images/inventory/uploads/' . $product->image) }}"
                             alt="inventory Image" width="100">
