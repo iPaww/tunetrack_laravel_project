@@ -21,8 +21,10 @@ class InventoryController extends BasePageController
 {
     public string $base_file_path = 'inventory.';
 
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('query');
+
         $products = Products::select(
                 'products.*',
                 'inv_sup.quantity',
@@ -37,6 +39,12 @@ class InventoryController extends BasePageController
             ->leftJoin('colors', function (JoinClause $join) {
                 $join->on('colors.id', '=', 'inv_sup.color_id')
                     ->orOn('colors.id', '=', 'inv_prod.color_id');
+            })
+            ->where(function (EBuilder $queryBuilder) use ($query) {
+                if ($query) {
+                    $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%'])
+                        ->orWhereRaw('LOWER(colors.name) LIKE ?', ['%' . strtolower($query) . '%']);
+                }
             })
             ->where(function (EBuilder $query) {
                 return $query->where(function (QBuilder $query) {
@@ -55,7 +63,8 @@ class InventoryController extends BasePageController
             ->orderBy('products.product_type_id')
             ->orderBy('products.name')
             ->paginate(10);
-        return $this->view_basic_page( $this->base_file_path . 'index', compact( 'products' ));
+
+        return $this->view_basic_page($this->base_file_path . 'index', compact('products'));
     }
 
     public function add()

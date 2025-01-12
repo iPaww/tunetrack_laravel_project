@@ -209,7 +209,7 @@ Route::prefix('admin')->group(function() {
         Route::controller(InventoryController::class)
             ->prefix('inventory')
             ->group(function () {
-                Route::get('/', 'index');
+                Route::get('/', 'index')->name('admin.inventory.index');
                 Route::get('/add', 'add');
                 Route::post('/add', 'add_form');
                 Route::get('/edit/{product_id}/product-type/1/color/{color_id}', 'edit_products');
@@ -320,3 +320,5 @@ Route::prefix('/mailable')
             return new App\Mail\UserVerification($user->id);
         });
     });
+
+    

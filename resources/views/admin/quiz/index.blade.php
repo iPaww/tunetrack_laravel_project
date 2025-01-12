@@ -1,7 +1,13 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="text-left flex-grow-1 mb-0"><b>Quiz</b></h2>
-            <a href="/admin/quiz/add" class="btn btn-primary text-white">Add</a>
+            <div class="d-flex">
+                <form action="{{ route('quiz.index') }}" method="GET" class="d-flex me-2">
+                    <input type="text" name="query" class="form-control me-2" placeholder="Search by course name..." value="{{ request('query') }}">
+                    <button type="submit" class="btn btn-outline-primary">Search</button>
+                </form>
+                <a href="/admin/quiz/add" class="btn btn-primary text-white">Add</a>
+            </div>
         </div>
 
         <!-- Table Section with Bootstrap Responsiveness -->

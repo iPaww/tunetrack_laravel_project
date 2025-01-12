@@ -26,10 +26,16 @@ class ProductsController extends BasePageController
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('query');
+
         $products = Products::with(['category', 'subCategory', 'productType', 'brand'])
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']);
+            })
             ->paginate(10);
+
         $commonData = $this->getCommonData();
         return $this->view_basic_page($this->base_file_path . 'index', array_merge(['products' => $products], $commonData));
     }

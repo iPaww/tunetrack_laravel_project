@@ -11,13 +11,22 @@ class QuizController extends BasePageController
 {
     public string $base_file_path = 'quiz.';
 
-    public function index()
+    public function index(Request $request)
     {
-        $quizzes = Quiz::with('course')->paginate(10); // Eager load the course relationship
-        $courses = Courses::all(); // Fetch all courses
-        $correctAnswerMap = [1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D']; // Mapping integers to letters
+        $query = $request->input('query');
 
-        return $this->view_basic_page($this->base_file_path . 'index', compact('quizzes', 'courses','correctAnswerMap'));
+        $quizzes = Quiz::with('course')
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->whereHas('course', function ($courseQuery) use ($query) {
+                    $courseQuery->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']);
+                });
+            })
+            ->paginate(10);
+
+        $courses = Courses::all();
+        $correctAnswerMap = [1 => 'A', 2 => 'B', 3 => 'C', 4 => 'D'];
+
+        return $this->view_basic_page($this->base_file_path . 'index', compact('quizzes', 'courses', 'correctAnswerMap'));
     }
 
     // Show the form to add a new quiz
