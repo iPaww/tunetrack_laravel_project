@@ -154,7 +154,7 @@
                                 <div class="row g-0">
                                     <div class="col-md-1 col-sm-12" style="min-height: 5em">
                                         <div class="position-relative my-1" style="min-height: 100%">
-                                            @if ($review->image && file_exists(public_path($review->user->image)))
+                                            @if ($review->user->image && Storage::disk('public')->exists(str_replace('storage/', '', $review->user->image)))
                                                 <img src="{{ asset($review->user->image) }}"
                                                     class="position-absolute top-50 start-50 translate-middle img-fluid border rounded-circle"
                                                     style="max-height: 5rem;" />

@@ -147,7 +147,7 @@
                         ])>
                             <div class="card-body row">
                                 <div class="col-12 col-md-4">
-                                    @if ($item->image && file_exists(public_path($item->product->image)))
+                                    @if ($item->product->image && file_exists(public_path($item->product->image)))
                                         <img src="{{ asset($item->product->image) }}" class="img-fluid border rounded"
                                             style="min-width: 100%" />
                                     @else

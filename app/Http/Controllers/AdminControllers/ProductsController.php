@@ -72,6 +72,7 @@ class ProductsController extends BasePageController
             $image = $request->file('image');
             $imagePath = $image->storeAs("/products/$product->id", $image->getClientOriginalName(), 'public');
             $product->image = 'storage/' . $imagePath;
+            $product->save(); // Save again after setting the image
         }
 
         $product->save();
@@ -87,41 +88,42 @@ class ProductsController extends BasePageController
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:category,id',
-            'sub_category_id' => 'nullable|exists:sub_category,id',
-            'product_type_id' => 'nullable|exists:product_type,id',
-            'brand_id' => 'nullable|exists:brands,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric',
+        'description' => 'nullable|string',
+        'category_id' => 'required|exists:category,id',
+        'sub_category_id' => 'nullable|exists:sub_category,id',
+        'product_type_id' => 'nullable|exists:product_type,id',
+        'brand_id' => 'nullable|exists:brands,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $product = Products::findOrFail($id);
+    $product = Products::findOrFail($id);
 
-        $product->name = $request->name;
-        $product->price = $request->price;
-        $product->description = $request->description;
-        $product->category_id = $request->category_id;
-        $product->sub_category_id = $request->sub_category_id;
-        $product->product_type_id = $request->product_type_id;
-        $product->brand_id = $request->brand_id;
+    $product->name = $request->name;
+    $product->price = $request->price;
+    $product->description = $request->description;
+    $product->category_id = $request->category_id;
+    $product->sub_category_id = $request->sub_category_id;
+    $product->product_type_id = $request->product_type_id;
+    $product->brand_id = $request->brand_id;
 
-        if ($request->hasFile('image')) {
-            if ($product->image && Storage::exists($product->image)) {
-                Storage::delete($product->image);
-            }
-
-            $image = $request->file('image');
-            $imagePath = $image->storeAs("/products/$product->id", $image->getClientOriginalName(), 'public');
-            $product->image = 'storage/' . $imagePath;
+    if ($request->hasFile('image')) {
+        if ($product->image && Storage::exists(str_replace('storage/', '', $product->image))) {
+            Storage::delete(str_replace('storage/', '', $product->image));
         }
 
-        $product->save();
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
+        $image = $request->file('image');
+        $imagePath = $image->storeAs("products/$product->id", $image->getClientOriginalName(), 'public');
+        $product->image = 'storage/' . $imagePath;
     }
+
+    $product->save();
+    return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
+}
+
 
 
     public function destroy($id)
