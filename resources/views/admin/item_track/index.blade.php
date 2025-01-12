@@ -36,7 +36,7 @@
                     <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
                     <td>
                         <!-- Display Order Items -->
-                        @if($order->orderItems)
+                        @if ($order->orderItems)
                             <ul>
                                 @foreach ($order->orderItems as $item)
                                     <li>
@@ -44,7 +44,6 @@
                                     </li>
                                 @endforeach
                             </ul>
-                        
                         @endif
                     </td>
                     <td>{{ $order->payment_method }}</td>
@@ -57,7 +56,8 @@
                             <select name="status" class="form-select" required>
                                 <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Pending</option>
                                 <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Processing</option>
-                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup</option>
+                                <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup
+                                </option>
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                         </form>
@@ -69,11 +69,35 @@
     {{ $orders->links() }}
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success mt-3">
-        {{ session('success') }}
+<!-- Success Notice Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ session('success') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
+</div>
+
+@if (session('success'))
+    <script>
+        window.onload = function() {
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        }
+    </script>
 @endif
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     const toggleSidebar = document.getElementById('toggle-sidebar');
