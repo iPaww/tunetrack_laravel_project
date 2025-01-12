@@ -14,7 +14,6 @@ use Illuminate\Support\Collection;
         <a class="btn btn-primary" href="/admin/inventory/add">Add</a>
     </div>
 </div>
-{{-- sfvsw --}}
 <div>
     @if ($errors->any())
         <ul class="list-group my-2">
@@ -48,9 +47,8 @@ use Illuminate\Support\Collection;
                 <td class="text-start">
                     <a href="/admin/inventory/edit/{{ $product->id }}/product-type/{{ $product->product_type_id }}/color/{{ $product->color_id }}"
                         class="text-decoration-none">
-                        <img class="img-thumbnail"
-                            src="{{ asset('assets/images/inventory/uploads/' . $product->image) }}"
-                            alt="inventory Image" width="100">
+                        <img class="img-thumbnail" src="{{ asset($product->image) }}" alt="inventory Image"
+                            width="100">
                         <span class="ms-2">{{ $product->name }}</span>
                     </a>
                 </td>
