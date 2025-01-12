@@ -79,8 +79,9 @@
         <small class="form-text text-muted">Select the brand of the product.</small>
     </div>
 
-    <!-- Submit Button -->
-    <div class="text-center">
+    <!-- Submit and Back Button in Same Row -->
+    <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-success mt-3">Add Product</button>
+        <a href="{{ route('admin.products.index') }}" class="btn btn-secondary mt-3">Back</a>
     </div>
 </form>
