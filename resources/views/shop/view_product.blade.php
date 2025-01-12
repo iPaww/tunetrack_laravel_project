@@ -114,7 +114,7 @@
                             <div class="row mb-md-0 mb-2">
                                 <div class="col-md-2 col-6 order-md-1 order-1">
                                     <span class="float-md-end selected-product-rating d-flex"
-                                        data-star="{{ 5 - $index }}">
+                                        data-star="{{ 1 + $index }}">
                                         <span class="text-warning user-select-none">☆</span>
                                         <span class="text-warning user-select-none">☆</span>
                                         <span class="text-warning user-select-none">☆</span>
