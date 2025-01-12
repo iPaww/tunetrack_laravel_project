@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
         <form action="{{ route('admin.inventory.index') }}" method="GET" class="d-flex me-2">
             <input type="text" name="query" class="form-control me-2" placeholder="Search products..." value="{{ request('query') }}">
             <button type="submit" class="btn btn-outline-primary">Search</button>
+            {{-- asfas --}}
         </form>
         <a class="btn btn-primary" href="/admin/inventory/add">Add</a>
     </div>
