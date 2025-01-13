@@ -26,21 +26,21 @@ class ELearningCourseController extends ElearningController
         $courses = [];
         $topics = [];
         $quizes = [];
-        
+
         if( !empty(request()->route('id')) ) {
             $categories = MainCategory::orderBy('name')
                 ->get();
-            
+
             $courses =  Courses::select('id', 'name')
                 ->where('category_id', request()->route('id'))
                 ->orderBy('name')
                 ->orderBy('created_at', 'desc')
                 ->get();
-            
+
             $topics = Topics::select('id', 'title')
                 ->where('course_id', request()->route('course_id'))
                 ->get();
-            
+
             if( !empty(request()->route('quiz_id')) ) {
                 $quizes = Quiz::select('id', 'question_order')
                     ->where('course_id', request()->route('course_id'))
@@ -48,17 +48,17 @@ class ELearningCourseController extends ElearningController
                     ->get();
             }
         }
-        
+
         $template = 'basic_page';
-        if( view()->exists($this->base_file_path . 'template') ) 
+        if( view()->exists($this->base_file_path . 'template') )
             $template = $this->base_file_path . 'template';
 
         $cart_count = 0;
         if( !empty(session('id')) ) {
             $cart_count = Cart::where('user_id', session('id'))->count();
         }
-        
-        return view( $template, [ 
+
+        return view( $template, [
             'page_title' => $this->page_title,
             'page' => $page,
             'cart_count' => $cart_count,
@@ -69,7 +69,7 @@ class ELearningCourseController extends ElearningController
             ...$params
         ], ...$args );
     }
-    
+
     public function index()
     {
         $category_id = request()->route('id');
@@ -77,7 +77,7 @@ class ELearningCourseController extends ElearningController
         $course = Courses::where('id', $course_id )
             ->where('category_id', $category_id)
             ->first();
-        
+
         if( empty( $course ) ) {
             return abort(404);
         }
@@ -90,15 +90,15 @@ class ELearningCourseController extends ElearningController
         $course = Courses::where('id', $course_id )
             ->where('category_id', $category_id)
             ->first();
-        
+
         if( empty( $course ) ) {
             return abort(404);
         }
-        
+
         $topic = Topics::where('id', $topic_id)
             ->where('course_id', $course_id )
             ->first();
-        
+
         if( empty( $topic ) ) {
             return abort(404);
         }
@@ -111,22 +111,22 @@ class ELearningCourseController extends ElearningController
         $course = Courses::where('id', $course_id )
             ->where('category_id', $category_id)
             ->first();
-        
+
         if( empty( $course ) ) {
             return abort(404);
         }
-        
+
         $quizes = Quiz::select('id', 'question_order')
             ->where('course_id', $course_id)
             ->orderBy('question_order')
             ->get();
-        
+
         $answer = Quiz::select('quiz.id')
             ->join('quiz_user_history', 'quiz.id', '=', 'quiz_user_history.quiz_id')
             ->where('course_id', $course_id)
             ->where('user_id', session('id'))
             ->first();
-        
+
         $started = !empty( $answer );
 
         return $this->view_basic_page( $this->base_file_path . 'quiz', compact('course', 'quizes', 'started'));
@@ -138,19 +138,19 @@ class ELearningCourseController extends ElearningController
         $course = Courses::where('id', $course_id )
             ->where('category_id', $category_id)
             ->first();
-        
+
         if( empty( $course ) ) {
             return abort(404);
         }
-        
+
         $quiz = Quiz::where('id', $quiz_id)
             ->where('course_id', $course_id )
             ->first();
-        
+
         if( empty( $quiz ) ) {
             return abort(404);
         }
-        
+
         $prevAnswerRes = QuizUserHistory::select('answer')
             ->where('user_id', session('id'))
             ->where('quiz_id', $quiz_id)
@@ -161,18 +161,18 @@ class ELearningCourseController extends ElearningController
         }
 
         $finsihed = $this->has_answered_all();
-        
+
         return $this->view_basic_page( $this->base_file_path . 'quiz_question', compact('course', 'quiz', 'finsihed', 'previousAnswer'));
     }
 
     public function quiz_submit($category_id, $course_id, $quiz_id, Request $request): RedirectResponse
-    {   
+    {
         // Do not allow modification of exam when finished
         if( $this->has_answered_all() ) {
             return redirect("/elearning/category/$category_id/course/$course_id/quiz/$quiz_id")
                 ->withErrors('You are not allowed to answer this question, Please retake the exam in the overall page.');
         }
-        
+
         $form_answer = $request->post('answer');
         $validator = Validator::make($request->all(), [
             'answer' => 'required',
@@ -188,7 +188,7 @@ class ELearningCourseController extends ElearningController
         QuizUserHistory::updateOrCreate(['quiz_id' => $quiz_id, 'user_id' => session('id')], [
             'answer' => $form_answer
         ]);
-        
+
         $last_questions = Quiz::select('id')->orderBy('question_order', 'desc')->first('id');
 
         if ( $this->has_answered_all() && $last_questions ) {
@@ -201,7 +201,7 @@ class ELearningCourseController extends ElearningController
             ->orderBy('question_order')
             ->where('course_id', $course_id)
             ->first('id');
-        
+
         if( !empty( $move_to_next_unanswered_question ) ) {
             return redirect("/elearning/category/$category_id/course/$course_id/quiz/$move_to_next_unanswered_question->id");
         }
@@ -214,7 +214,7 @@ class ELearningCourseController extends ElearningController
         $course = Courses::where('id', $course_id )
             ->where('category_id', $category_id)
             ->first();
-        
+
         if( empty( $course ) ) {
             return abort(404);
         }
@@ -226,20 +226,20 @@ class ELearningCourseController extends ElearningController
             ->where(['course_id' => $course_id, 'user_id' => session('id')])
             ->where('quiz.id', QuizUserHistory::raw('`quiz_user_history`.`quiz_id`'))
             ->count('quiz.id');
-        
+
         $passed = $score >= $questions;
 
         return $this->view_basic_page( $this->base_file_path . 'overall', compact('course', 'finished', 'score', 'questions', 'passed'));
     }
 
     public function retake($category_id, $course_id, Request $request): RedirectResponse
-    {   
+    {
         // Do not allow modification of exam when finished
         if( !$this->has_answered_all() ) {
             return redirect("/elearning/category/$category_id/course/$course_id/overall")
                 ->withErrors('You have not finished the exam yet');
         }
-        
+
         if( $this->has_passed() ) {
             return redirect("/elearning/category/$category_id/course/$course_id/overall")
                 ->withErrors('You already passed the exam you don\'t have to retake');
@@ -247,8 +247,8 @@ class ELearningCourseController extends ElearningController
 
         QuizUserHistory::join('quiz', 'quiz_user_history.quiz_id', '=', 'quiz.id')
             ->where(['user_id' => session('id'), 'course_id' => $course_id])
-            ->forceDelete();
-        
+            ->delete();
+
         return redirect("/elearning/category/$category_id/course/$course_id/quiz");
     }
 
@@ -259,7 +259,7 @@ class ELearningCourseController extends ElearningController
             ->where(['course_id' => $course_id, 'user_id' => session('id')])
             ->where('quiz.id', QuizUserHistory::raw('`quiz_user_history`.`quiz_id`'))
             ->count('quiz.id');
-        
+
         return $score >= $questions;
     }
 
@@ -269,7 +269,7 @@ class ELearningCourseController extends ElearningController
         $answered = QuizUserHistory::join('quiz', 'quiz.id', '=', 'quiz_user_history.quiz_id')
             ->where(['course_id' => $course_id, 'user_id' => session('id')])
             ->count('quiz_user_history.id');
-        
+
         return $answered >= $questions;
     }
 }
