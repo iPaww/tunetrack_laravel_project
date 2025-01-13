@@ -47,6 +47,6 @@ class ItemTrackController extends BasePageController
 
     return redirect()->route('itemTrack.index')->with('success', 'Order status updated successfully!');
 }
-    
+
 
 }
