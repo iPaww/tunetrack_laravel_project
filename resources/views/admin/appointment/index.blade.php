@@ -1,10 +1,10 @@
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><b>Appointment</b></h2>
+    <!-- Header with Filter -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+        <h2 class="mb-3 mb-md-0"><b>Appointments</b></h2>
 
         <!-- Filter Dropdown for Appointments -->
-        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex">
-            <!-- Dropdown for Appointment Status -->
+        <form action="{{ route('admin.appointment.index') }}" method="GET" class="d-flex flex-column flex-md-row">
             <div class="form-group me-2">
                 <select name="status_filter" id="status_filter" class="form-select">
                     <option value="">All Appointments</option>
@@ -13,29 +13,24 @@
                     @endforeach
                 </select>
             </div>
-            <!-- Filter Button -->
-            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="submit" class="btn btn-primary mt-2 mt-md-0">Filter</button>
         </form>
     </div>
 
-    <!-- Success Message -->
+    <!-- Notifications -->
     @if (session('success'))
         <div class="alert alert-success mt-3">
             {{ session('success') }}
         </div>
     @endif
-
-    <!-- Error Message -->
     @if (session('error'))
         <div class="alert alert-danger mt-3">
             {{ session('error') }}
         </div>
     @endif
-
-    <!-- Validation Errors -->
     @if ($errors->any())
         <div class="alert alert-danger mt-3">
-            <ul>
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -46,51 +41,56 @@
     <!-- Appointment Table -->
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="table-light">
+            <thead class="table-light text-center">
                 <tr>
                     <th>#</th>
                     <th>User</th>
-                    <th>Product(Tutoring)</th>
+                    <th>Email</th>
+                    <th>Contact #</th>
+                    <th>Product (Tutoring)</th>
                     <th>Appointment Date</th>
                     <th>Appointment Status</th>
                     <th>Assigned User</th>
-                    <th>Assign User (Role 2)</th>
+                    <th>Manage</th>
                 </tr>
             </thead>
             <tbody>
                 @php
-                    $count = ($appointments->currentPage() - 1) * $appointments->perPage() + 1; // Adjust counter for pagination
+                    $count = ($appointments->currentPage() - 1) * $appointments->perPage() + 1;
                 @endphp
                 @foreach ($appointments as $appointment)
                     <tr>
                         <td>{{ $count++ }}</td>
                         <td>{{ $appointment->user->fullname }}</td>
+                        <td>{{ $appointment->user->email }}</td>
+                        <td>{{ $appointment->user->phone_number }}</td>
                         <td>
-                            @if($appointment->product)
-                            <h6><strong>Product:</strong> {{ $appointment->product->name ?? 'Not available' }}</h6>
+                            @if ($appointment->product)
+                                <strong>{{ $appointment->product->name ?? 'Not available' }}</strong>
                             @endif
                         </td>
                         <td>{{ \Carbon\Carbon::parse($appointment->selected_date)->format('F j, Y') }}</td>
-                        <td>
+                        <td class="text-center">
                             <span
                                 class="badge
                                 @switch($appointment->status)
-                                    @case('accepted') badge-success text-dark font-weight-normal @break
-                                    @case('declined') badge-danger text-dark font-weight-normal @break
-                                    @case('pending') badge-warning text-dark font-weight-normal @break
-                                    @case('re-book') badge-secondary text-dark font-weight-normal @break
-                                    @default badge-secondary text-dark font-weight-normal @break
+                                    @case('accepted') bg-success text-white @break
+                                    @case('declined') bg-danger text-white @break
+                                    @case('pending') bg-warning text-dark @break
+                                    @case('re-book') bg-secondary text-white @break
+                                    @default bg-light text-dark @break
                                 @endswitch">
                                 {{ ucfirst($appointment->status) }}
                             </span>
                         </td>
                         <td>{{ $appointment->assignedUser->fullname ?? 'Not Assigned' }}</td>
-                        <!-- Combined Form for Assign User and Update Status -->
-                        <td colspan="2">
-                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST" class="d-inline-block">
+                        <!-- Manage Actions -->
+                        <td>
+                            <form action="{{ route('admin.appointment.update', $appointment->id) }}" method="POST"
+                                class="d-inline">
                                 @csrf
                                 @method('PUT')
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <select name="selected_teacher" class="form-select">
                                         <option value="">Select Teacher</option>
                                         @foreach ($teachers as $teacher)
@@ -100,7 +100,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group mt-2">
+                                <div class="mb-2">
                                     <select name="status" class="form-select">
                                         <option value="pending" @selected($appointment->status == 'pending')>Pending</option>
                                         <option value="accepted" @selected($appointment->status == 'accepted')>Accept</option>
@@ -108,15 +108,17 @@
                                         <option value="re-book" @selected($appointment->status == 're-book')>Re-book</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-sm mt-2">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-sm w-100">Submit</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <!-- Pagination Links -->
-        {{ $appointments->links() }}
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-3">
+            {{ $appointments->links() }}
+        </div>
     </div>
 </div>
 
