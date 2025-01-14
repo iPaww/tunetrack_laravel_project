@@ -1,5 +1,5 @@
 <div class="container">
-    <h4>My Learning</h4>
+    <h1>My Learning</h1>
     <div class="row">
         @if (count($courses_history) > 0)
             @foreach ($courses_history as $course_history)
