@@ -247,7 +247,7 @@ class ELearningCourseController extends ElearningController
 
         QuizUserHistory::join('quiz', 'quiz_user_history.quiz_id', '=', 'quiz.id')
             ->where(['user_id' => session('id'), 'course_id' => $course_id])
-            ->delete();
+            ->forceDelete();
 
         return redirect("/elearning/category/$category_id/course/$course_id/quiz");
     }
