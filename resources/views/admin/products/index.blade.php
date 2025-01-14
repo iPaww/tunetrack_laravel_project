@@ -3,7 +3,8 @@
         <h2 class="title"><b>Products</b></h2>
         <div class="d-flex flex-wrap gap-2">
             <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex me-2">
-                <input type="text" name="query" class="form-control me-2" placeholder="Search products..." value="{{ request('query') }}">
+                <input type="text" name="query" class="form-control me-2" placeholder="Search products..."
+                    value="{{ request('query') }}">
                 <button type="submit" class="btn btn-outline-primary">Search</button>
             </form>
             <a class="btn btn-outline-dark" href="/admin/colors">Colors</a>
