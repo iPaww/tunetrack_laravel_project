@@ -1,13 +1,14 @@
-<div class="container mt-5">
+<div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">My Booked Tutorials:</h2>
+        <h1 class="mb-0">Appointments:</h1>
     </div>
     <p class="text-danger">*note: please select Instruments to avoid rejection.</p>
     <div class="row mb-4">
         @forelse ($appointments as $appointment)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow position-relative">
-                    <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" class="position-absolute top-0 end-0 p-2">
+                    <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST"
+                        class="position-absolute top-0 end-0 p-2">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger"
@@ -23,7 +24,8 @@
                         <p><strong>Status:</strong>
                             @if ($appointment->status == 're-book')
                                 <span class="badge bg-secondary">Re-book</span>
-                                <a href="{{ route('appointment.edit', $appointment->id) }}" class="btn btn-primary btn-sm mt-2">
+                                <a href="{{ route('appointment.edit', $appointment->id) }}"
+                                    class="btn btn-primary btn-sm mt-2">
                                     Re-schedule Appointment
                                 </a>
                             @elseif ($appointment->status == 'pending')
@@ -37,12 +39,14 @@
 
                         @if ($appointment->product)
                             <h6><strong>Product:</strong> {{ $appointment->product->name ?? 'Not available' }}</h6>
-                            <h6><strong>Product Type:</strong> {{ $appointment->product->productType->name ?? 'Not available' }}</h6>
+                            <h6><strong>Product Type:</strong>
+                                {{ $appointment->product->productType->name ?? 'Not available' }}</h6>
                         @else
                             <h6><strong>Product:</strong> Not linked to an order item</h6>
                         @endif
 
-                        <h6><strong>Assigned Tutor:</strong> {{ $appointment->assignedUser?->fullname ?? 'Not assigned' }}</h6>
+                        <h6><strong>Assigned Tutor:</strong>
+                            {{ $appointment->assignedUser?->fullname ?? 'Not assigned' }}</h6>
                     </div>
                 </div>
             </div>

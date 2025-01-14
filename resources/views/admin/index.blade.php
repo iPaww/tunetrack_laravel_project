@@ -132,7 +132,8 @@
     }
 
     .table-responsive::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+        display: none;
+        /* Hide scrollbar for Chrome, Safari, and Opera */
     }
 </style>
 <div class="container mt-4">
@@ -142,7 +143,7 @@
         <div class="col-md-3">
             <div class="card shadow-lg border-light rounded-3 h-100">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary"><b>Total Admin</b></h5>
+                    <h5 class="card-title text-center text-primary"><b>Total Employee</b></h5>
                     <p class="display-6 text-center text-muted mb-0">{{ $admin_data ?? 0 }}</p>
                 </div>
             </div>
@@ -230,7 +231,8 @@
             <div class="card shadow-lg border-light rounded-3">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary mb-4"><b>Top 10 Sales</b></h5>
-                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto; overflow-x: hidden; width: 100%; scrollbar-width: none; -ms-overflow-style: none;">
+                    <div class="table-responsive"
+                        style="max-height: 400px; overflow-y: auto; overflow-x: hidden; width: 100%; scrollbar-width: none; -ms-overflow-style: none;">
                         <table class="table table-sm table-hover">
                             <thead class="table-light sticky-top">
                                 <tr>
@@ -278,35 +280,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Sales Report Cards - Third Row -->
-    {{-- <div class="row">
-        <div class="col-12">
-            <h5 class="text-primary mb-3"><b> Sales Report</b></h5>
-        </div>
-        @forelse($sales_data as $data)
-            <div class="col-md-3 mb-4">
-                <div class="card shadow-sm border-light rounded-3">
-                    <div class="card-body">
-                        <h6 class="card-title text-center text-info">
-                            {{ \Carbon\Carbon::parse($data->order_date)->format('M d, Y') }}</h6>
-                        <div class="d-flex justify-content-between mt-3">
-                            <span>Orders:</span>
-                            <strong class="text-dark">{{ $data->total_orders }}</strong>
-                        </div>
-                        <div class="d-flex justify-content-between mt-2">
-                            <span>Sales:</span>
-                            <strong class="text-success">₱{{ number_format($data->total_sales, 2) }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @empty
-            <div class="col-12">
-                <div class="alert alert-info text-center">No sales data available</div>
-            </div>
-        @endforelse
-    </div> --}}
 </div>
 
 <script>
@@ -371,5 +344,20 @@
         tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
+    });
+    // Remove this when something went wrong with the sales overview
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSidebar = document.getElementById('toggle-sidebar'); // Sidebar toggle button
+        const sidebar = document.getElementById('sidebar'); // Sidebar container
+        const content = document.getElementById('content'); // Main content container
+
+        if (toggleSidebar && sidebar && content) {
+            toggleSidebar.addEventListener('click', () => {
+                sidebar.classList.toggle('visible'); // Toggle 'visible' class
+                content.classList.toggle('expanded'); // Adjust content width
+            });
+        } else {
+            console.warn('Sidebar elements not found. Ensure IDs are correctly set.');
+        }
     });
 </script>

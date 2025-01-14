@@ -24,7 +24,7 @@ class AdminController extends BasePageController
 
             // Get total admin count using selectRaw to get the count
             $admin_data = User::selectRaw('COUNT(*) as total_admin')
-                ->where('role', 1) // Ensure role is checked as 1 for admin
+                ->where('role', 2) // Ensure role is checked as 1 for admin
                 ->first();
 
             // Get inventory data

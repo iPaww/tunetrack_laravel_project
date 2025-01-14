@@ -1,5 +1,5 @@
 <div class="container">
-    <h4>My Learning</h4>
+    <h1>My Learning</h1>
     <div class="row">
         @if (count($courses_history) > 0)
             @foreach ($courses_history as $course_history)
@@ -30,8 +30,8 @@
                                 </div>
                                 {{-- {{ $course_history->course->topics->count() }}
                                 {{ $course_history->topics_viewed }}
-                                {{ $course_history->course->topics->count() || 1 }}
-                                <?= $course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1) ?> --}}
+                                {{ $course_history->course->topics->count() || 1 }} --}}
+                                <?= $course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1) ?>
                                 @if ($course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1))
                                     <div class="text-center">
                                         <small>

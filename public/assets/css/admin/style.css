@@ -111,10 +111,9 @@ body {
 @media (max-width: 768px) {
     .sidebar {
         width: 250px;
-        transform: translateX(-250px);
-        position: fixed;
-        z-index: 9999;
+        top: 0;
         height: auto;
+        transform: translateX(-250px);
     }
 
     .sidebar.visible {
