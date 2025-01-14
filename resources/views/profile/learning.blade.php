@@ -28,10 +28,11 @@
                                         style="width: {{ ceil(($course_history->topics_viewed / ($course_history->course->topics->count() ?? 1)) * 100) }}%">
                                     </div>
                                 </div>
+                                {{-- this comments is for debugging}}
                                 {{-- {{ $course_history->course->topics->count() }}
                                 {{ $course_history->topics_viewed }}
                                 {{ $course_history->course->topics->count() || 1 }} --}}
-                                <?= $course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1) ?>
+                                {{-- <?= $course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1) ?> --}}
                                 @if ($course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1))
                                     <div class="text-center">
                                         <small>
