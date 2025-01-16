@@ -6,8 +6,7 @@
             <div class="col-md-4 mb-3">
                 <h4>Follow Us On</h4>
                 <div class="d-flex">
-                    <a href="#" class="me-3 text-white"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#" class="me-3 text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/JCSMusicaLInstrumentsandMusicStudio" class="me-3 text-white"><i class="fa-brands fa-facebook"></i></a>facebook
                 </div>
             </div>
             <!-- Address Section -->
