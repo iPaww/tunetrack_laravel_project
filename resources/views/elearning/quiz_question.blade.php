@@ -16,6 +16,7 @@
             <div class="topics-div collapse show" id="quiz">
                 @foreach ( $quizes as $quiz_nav )
                     @if( request()->route('quiz_id') == $quiz_nav->id )
+                        <div></div>
                         <div class="sub-topic-list active text-capitalize">Quiz #{{ $quiz_nav->question_order }}</div>
                     @else
                         <a class="text-reset text-decoration-none"
@@ -32,7 +33,26 @@
         </div>
         <div class="col-8">
             <h3 class="fs-3 fw-bold text-center">Question # {{ $quiz->question_order }}</h3>
-            <p class="text-break mb-4">{{ $quiz->question }}</p>
+            <p class="text-center mb-4">{{ $quiz->question }}</p>
+
+            <!-- Show Quiz Image if available -->
+            @if ($quiz->quiz_picture)
+                <div class="text-center mb-4">
+                    <img src="{{ asset('storage/' . $quiz->quiz_picture) }}" alt="Quiz Image" class="img-fluid" width="300">
+                </div>
+
+            @endif
+
+            <!-- Show Quiz Audio if available -->
+            @if ($quiz->quiz_audio)
+                <div class="mb-4 text-center">
+                    <audio controls>
+                        <source src="{{ asset('storage/' . $quiz->quiz_audio) }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-12 col-md-6 mb-0 mb-md-4">
                     <div class="form-check">
