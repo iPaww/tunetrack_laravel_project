@@ -19,6 +19,8 @@ class Quiz extends BaseModel
         'b_answer',
         'c_answer',
         'd_answer',
+        'quiz_picture',
+        'quiz_audio',
         'correct_answer',
         'question_order',
         'course_id',
