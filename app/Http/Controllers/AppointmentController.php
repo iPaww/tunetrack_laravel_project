@@ -29,22 +29,28 @@ class AppointmentController extends BasePageController
     }
 
     public function book()
-    {
-        // Fetch orders for the authenticated user with order items and products
-        $orders = Appointment::where('user_id', session("id")) // Filter by authenticated user
-            // ->where('status', 3) // Include orders with status 3
-            ->get();
+{
+    // Fetch orders for the authenticated user with their order items and appointments
+    $orders = Orders::with(['orderItems.product', 'orderItems.appointment'])
+        ->where('user_id', session("id"))
+        ->get();
 
-        // Filter out order items with an accepted appointment
-        // foreach ($orders as $order) {
-        //     $order->orderItems = $order->orderItems->filter(function ($item) {
-        //         $appointment = $item->appointment; // Assuming you defined the relationship in OrderItems
-        //         return !$appointment || $appointment->status !== 'accepted';
-        //     });
-        // }
+    // Initialize an array to hold the accepted product IDs
+    $acceptedProductIds = [];
 
-        return $this->view_basic_page($this->base_file_path . 'book', compact('orders'));
+    // Loop through the orders to find the accepted items
+    foreach ($orders as $order) {
+        foreach ($order->orderItems as $orderItem) {
+            // If there is an accepted appointment for this order item, add its product_id to the acceptedProductIds array
+            if ($orderItem->appointment && $orderItem->appointment->status === 'accepted') {
+                $acceptedProductIds[] = $orderItem->product_id;
+            }
+        }
     }
+
+    // Pass the accepted product IDs to the view
+    return $this->view_basic_page($this->base_file_path .'appointment.book', compact('orders', 'acceptedProductIds'));
+}
 
     public function store(Request $request)
     {
@@ -55,9 +61,7 @@ class AppointmentController extends BasePageController
             'date' => 'required|date',
         ]);
         $product_id = $request->post('product_id');
-
         $order_id = $request->post('order_id');
-
         $date = $request->post('date');
         
         if ($validator->fails()) {
@@ -69,6 +73,17 @@ class AppointmentController extends BasePageController
         $orderItem = OrderItems::where('product_id', $product_id)
         ->where('order_id',$order_id)
         ->first();
+
+
+        // Check if there's already an accepted appointment for this order item
+        $existingAppointment = Appointment::where('order_id', $order_id)
+        ->where('product_id', $product_id)
+        ->where('status', 'accepted')
+        ->first();
+
+        if ($existingAppointment) {
+            return back()->with('error', 'This item is already booked and accepted.');
+        }
 
         if (empty($orderItem)) {
             return back()->with('error', 'Invalid product selection.');
@@ -147,7 +162,8 @@ class AppointmentController extends BasePageController
         // Delete the appointment
         $appointment->delete();
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment successfully deleted!');
+        // return redirect()->route('appointment.index')->with('success', 'Appointment successfully deleted!');
+        return back()->with('success', 'Appointment successfully remove!');
     }
 
 

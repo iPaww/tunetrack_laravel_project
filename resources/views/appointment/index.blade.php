@@ -1,3 +1,4 @@
+
 <div class="container mt-5">
     <!-- Display success message -->
     @if(session('success'))
@@ -6,12 +7,10 @@
             <a href="{{ url('profile/appointment') }}">View Booked Appointments</a>
         </div>
     @endif
-    @if ($errors->any())
-        <ul class="list-group my-2">
-            @foreach ($errors->all() as $error)
-                <li class="list-group-item list-group-item-danger">{{ $error }}</li>
-            @endforeach
-        </ul>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
     <!-- Booking form directly on the page -->
     <div class="booking-form-container">
@@ -28,7 +27,7 @@
                         <optgroup label="Order ID: {{ $order->id }}">
                             @foreach ($order->orderItems as $orderItem)
                                 @if ($orderItem->product)
-                                    <option value="{{ $order->id }}:::{{ $orderItem->product->id  }}" >
+                                    <option value="{{ $order->id }}:::{{ $orderItem->product->id }}" >
                                         {{ $orderItem->product->name }}
                                     </option>
                                 @endif
@@ -36,6 +35,9 @@
                         </optgroup>
                     @endforeach
                 </select>
+                @error('product_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="date" class="form-label">Select Date:</label>
@@ -89,16 +91,71 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#product_id").change(function(e){
-        
-        const target = $(e.target)
-        const order_id_inp = $("input[name='order_id']")
-        const product_id_inp = $("input[name='product_id']")
+    // Ensure acceptedProductIds is defined or fallback to an empty array if not
+    const acceptedProductIds = @json($acceptedProductIds ?? []);
+    
+    // Loop through all options and hide the ones that are already booked
+    $("#product_id option").each(function() {
+        const optionProductId = $(this).val().split(":::")[1]; // Extract the product ID from the option value
+        if (acceptedProductIds.includes(parseInt(optionProductId))) {
+            $(this).hide();  // Hide the option for the already booked product
+        }
+    });
 
-        const target_value = target.val()
-        const [order_id,product_id] =target_value.split(":::")
-        order_id_inp.val(order_id)
-        product_id_inp.val(product_id)
-    })
-})
+    // Handle change event for product selection
+    $("#product_id").change(function(e){
+        const target = $(e.target);
+        const order_id_inp = $("input[name='order_id']");
+        const product_id_inp = $("input[name='product_id']");
+        const target_value = target.val();
+        const [order_id, product_id] = target_value.split(":::"); // Split the value to get order_id and product_id
+
+        // Check if the selected product has already been booked
+        if (acceptedProductIds.includes(parseInt(product_id))) {
+            // Show error under the select box
+            $(".product-error").text("This product has already been booked. Please choose a different product.");
+            target.val("");  // Reset the selection if the product is already booked
+            return;  // Exit to prevent further action
+        }
+
+        // Clear error message
+        $(".product-error").text("");
+
+        // Set the order ID and product ID inputs if no issues
+        order_id_inp.val(order_id);  // Set the order ID input
+        product_id_inp.val(product_id);  // Set the product ID input
+    });
+
+    // Client-side form validation before submitting
+    $("form").submit(function(e) {
+        const dateInput = $("#date").val();
+        const productIdInput = $("input[name='product_id']").val();
+        
+        // Validate if the product is selected
+        if (!productIdInput) {
+            $(".product-error").text("Please select a product.");
+            e.preventDefault();  // Prevent form submission
+            return;
+        } else {
+            $(".product-error").text("");  // Clear the error message if product is selected
+        }
+
+        // Validate if the date is selected
+        if (!dateInput) {
+            $(".date-error").text("Please select a date.");
+            e.preventDefault();  // Prevent form submission
+            return;
+        } else {
+            $(".date-error").text("");  // Clear the error message if date is selected
+        }
+
+        // Optionally, you can also check if the selected date is a valid date (though HTML5 input handles this too)
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(dateInput)) {
+            $(".date-error").text("Please select a valid date.");
+            e.preventDefault();  // Prevent form submission
+            return;
+        }
+    });
+});
 </script>
