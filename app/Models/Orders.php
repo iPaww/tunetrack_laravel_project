@@ -39,6 +39,7 @@ class Orders extends BaseModel
         'status',
         'total',
         'user_id',
+        'is_read', // Added 'is_read'
     ];
     public function user()
     {
