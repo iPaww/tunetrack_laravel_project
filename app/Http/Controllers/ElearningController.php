@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Courses;
-use App\Models\MainCategory;
+use App\Models\Orders;
 use App\Models\Topics;
+use App\Models\Courses;
 
+use App\Models\MainCategory;
 use App\Http\Controllers\BasePageController;
 
 class ElearningController extends BasePageController
@@ -38,6 +39,15 @@ class ElearningController extends BasePageController
         if( !empty(session('id')) ) {
             $cart_count = Cart::where('user_id', session('id'))->count();
         }
+        $cart_count = 0;
+        $notifications = [];
+        $unreadCount = 0;
+
+        if (!empty(session('id'))) {
+            $cart_count = Cart::where('user_id', session('id'))->count();
+            $notifications = Orders::where('user_id', session('id'))->orderBy('id', 'desc',)->orderBy('is_read')->take(25)->get();
+            $unreadCount = $notifications->where('is_read', false)->count(); // Count unread orders
+        }
         
         return view( $template, [ 
             'page_title' => $this->page_title,
@@ -46,6 +56,8 @@ class ElearningController extends BasePageController
             'categories' => $categories,
             'courses' => $courses,
             'topics' => $topics,
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
             ...$params
         ], ...$args );
     }

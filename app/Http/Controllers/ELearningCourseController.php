@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Validator;
-
 use App\Models\Cart;
-use App\Models\CourseHistory;
+use App\Models\Quiz;
+use App\Models\Orders;
+
+use App\Models\Topics;
 use App\Models\Courses;
 use App\Models\MainCategory;
-use App\Models\Quiz;
+use Illuminate\Http\Request;
+use App\Models\CourseHistory;
 use App\Models\QuizUserHistory;
-use App\Models\Topics;
+use Illuminate\Http\RedirectResponse;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ElearningController;
 
 class ELearningCourseController extends ElearningController
@@ -57,7 +58,15 @@ class ELearningCourseController extends ElearningController
         if( !empty(session('id')) ) {
             $cart_count = Cart::where('user_id', session('id'))->count();
         }
+        $cart_count = 0;
+        $notifications = [];
+        $unreadCount = 0;
 
+        if (!empty(session('id'))) {
+            $cart_count = Cart::where('user_id', session('id'))->count();
+            $notifications = Orders::where('user_id', session('id'))->orderBy('id', 'desc',)->orderBy('is_read')->take(25)->get();
+            $unreadCount = $notifications->where('is_read', false)->count(); // Count unread orders
+        }
         return view( $template, [
             'page_title' => $this->page_title,
             'page' => $page,
@@ -66,6 +75,8 @@ class ELearningCourseController extends ElearningController
             'courses' => $courses,
             'topics' => $topics,
             'quizes' => $quizes,
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
             ...$params
         ], ...$args );
     }
