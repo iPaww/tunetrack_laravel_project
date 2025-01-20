@@ -89,7 +89,8 @@ class ShopController extends BasePageController
             ->orderBy('products.name')
             ->orderBy('products.product_type_id')
             ->get();
-
+        Orders::where('id', $order_id)
+            ->update(['is_read' => true]);   
 
         return $this->view_basic_page( $this->base_file_path . 'order_view', [
             'order' => $order,
