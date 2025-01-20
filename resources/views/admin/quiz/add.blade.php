@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <h1>Add a New Quiz</h1>
 
-    <form action="{{ route('quiz.store') }}" method="POST" class="mt-4">
+    <form action="{{ route('quiz.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
 
         <div class="form-group">
@@ -51,6 +51,18 @@
             <label for="question_order">Quiz Order</label>
             <input type="text" class="form-control" id="question_order" name="question_order"
                 placeholder="Enter quiz order" required>
+        </div>
+
+        <!-- Input for Quiz Picture -->
+        <div class="form-group mt-3">
+            <label for="quiz_picture">Quiz Picture (optional)</label>
+            <input type="file" class="form-control-file" id="quiz_picture" name="quiz_picture" accept="image/*">
+        </div>
+
+        <!-- Input for Quiz Audio -->
+        <div class="form-group mt-3">
+            <label for="quiz_audio">Quiz Audio (optional)</label>
+            <input type="file" class="form-control-file" id="quiz_audio" name="quiz_audio" accept="audio/*">
         </div>
 
         <div class="d-flex justify-content-between mt-4">

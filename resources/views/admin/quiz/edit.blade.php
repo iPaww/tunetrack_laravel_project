@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <form action="{{ route('quiz.update', $quiz->id) }}" method="POST">
+    <form action="{{ route('quiz.update', $quiz->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -65,11 +65,36 @@
                 <option value="d" {{ $quiz->correct_answer == 4 ? 'selected' : '' }}>D</option>
             </select>
         </div>
+
         <div class="form-group">
             <label for="question_order">Question Order</label>
             <input type="number" class="form-control" name="question_order" id="question_order"
                 value="{{ $quiz->question_order }}" required>
         </div>
+
+        <!-- Input for Quiz Picture -->
+        <div class="form-group">
+            <label for="quiz_picture">Quiz Picture (optional)</label>
+            <input type="file" class="form-control-file" id="quiz_picture" name="quiz_picture" accept="image/*">
+            @if ($quiz->picture)
+                <small class="form-text text-muted">Current Picture:</small>
+                <img src="{{ asset('storage/' . $quiz->picture) }}" alt="Quiz Picture" class="img-thumbnail mt-2" width="150">
+            @endif
+        </div>
+
+        <!-- Input for Quiz Audio -->
+        <div class="form-group">
+            <label for="quiz_audio">Quiz Audio (optional)</label>
+            <input type="file" class="form-control-file" id="quiz_audio" name="quiz_audio" accept="audio/*">
+            @if ($quiz->audio)
+                <small class="form-text text-muted">Current Audio:</small>
+                <audio controls class="mt-2">
+                    <source src="{{ asset('storage/' . $quiz->audio) }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            @endif
+        </div>
+
         <div class="d-flex flex-column flex-sm-row justify-content-between mt-3">
             <button type="submit" class="btn btn-primary mb-3 mb-sm-0">Update Quiz</button>
             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
