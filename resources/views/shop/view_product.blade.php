@@ -9,11 +9,11 @@
 
             {{-- code for image --}}
             @if (file_exists(public_path($product->image)))
-                <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="min-width: 100%"
+                <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="max-width: 100px;"
                     alt="{{ $product->name }}" />
             @else
                 <img src="{{ asset('/assets/images/products/default_product.png') }}" class="img-fluid border rounded"
-                    style="min-width: 100%" alt="{{ $product->name }}" />
+                    style="max-width: 500px" alt="{{ $product->name }}" />
             @endif
 
 

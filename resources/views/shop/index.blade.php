@@ -98,6 +98,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}
                                     </h5>
+                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->brand->name) }}
+                                    </h5>
                                     <p class="card-text text-center color-orange">₱
                                         {{ number_format($product->price, 2) }}</p>
                                 </div>
