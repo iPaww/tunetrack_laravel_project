@@ -69,6 +69,8 @@ Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about-us', 'index');
 });
 
+Route::post('/notifications/mark-read', [BasePageController::class, 'markNotificationsRead'])->name('notifications.markRead');
+
 Route::controller(ElearningController::class)
     ->prefix('elearning')
     ->middleware([CourseProgressTracker::class])
