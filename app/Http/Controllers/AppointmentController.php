@@ -60,30 +60,41 @@ class AppointmentController extends BasePageController
             'order_id' => 'required|exists:orders_item,order_id',
             'date' => 'required|date',
         ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+
         $product_id = $request->post('product_id');
         $order_id = $request->post('order_id');
         $date = $request->post('date');
-        
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator);
-        }
+        $user_id = session('id');
 
-        // Fetch the order item based on the selected product_id
-        $orderItem = OrderItems::where('product_id', $product_id)
-        ->where('order_id',$order_id)
+        // Check if an appointment with the same user_id and product_id already exists
+        $existingAppointments = Appointment::where('user_id', $user_id)
+        ->where('product_id', $product_id)
+        ->whereIn('status', ['pending', 'accepted'])
         ->first();
-
-
+ 
         // Check if there's already an accepted appointment for this order item
         $existingAppointment = Appointment::where('order_id', $order_id)
         ->where('product_id', $product_id)
         ->where('status', 'accepted')
         ->first();
 
+        if ($existingAppointments) {
+            return back()->with('error', 'You have already booked a tutorial for this instrument. Please wait!');
+        }
+
         if ($existingAppointment) {
             return back()->with('error', 'This item is already booked and accepted.');
         }
+
+        // Fetch the order item based on the selected product_id
+        $orderItem = OrderItems::where('product_id', $product_id)
+        ->where('order_id',$order_id)
+        ->first();
 
         if (empty($orderItem)) {
             return back()->with('error', 'Invalid product selection.');
