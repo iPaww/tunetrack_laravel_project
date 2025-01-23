@@ -127,7 +127,7 @@
                     <div class="card select-payment">
                         <div class="card-body position-relative">
                             <div class="card-title">Cash</div>
-                            <small class="text-muted">Pay when you recieve</small>
+                            <small class="text-muted">Pay when you receive</small>
                             <input type="radio" name="payment_method_slc"
                                 class="form-check-input position-absolute end-0 top-50 translate-middle" checked>
                         </div>
