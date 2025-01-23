@@ -36,12 +36,14 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <h3>Menu</h3>
+        <h3>shop</h3>
 
         
         <div class="menu-item">
             <a href="/admin" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         </div>
+
+        
    
         @if (session('admin_user.role')==2)
             <div class="menu-item">
@@ -56,6 +58,13 @@
             <a href="/admin/products"><i class="fas fa-cogs"></i> Products</a>
         </div>
         <div class="menu-item">
+            <a href="/admin/item-track"><i class="fas fa-boxes"></i> Item Track</a>
+        </div>
+
+
+        <h3 class="mt-5">E-Learning</h3>
+
+        <div class="menu-item">
             <a href="/admin/topics"><i class="fas fa-book"></i> Topics </a>
         </div>
         <div class="menu-item">
@@ -67,22 +76,20 @@
 
         @if (session('admin_user.role') == 1)
             <!-- This should only be available to super admin role -->
-            <h3> Admin Menu</h3>
+            <h3 class="mt-5"> Admin Menu</h3>
             <div class="menu-item">
-                <a href="/admin/main-category"><i class="fas fa-th-large"></i> Main Category</a>
+                <a href="/admin/main-category"><i class="fas fa-th-large"></i> Category</a>
             </div>
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <a href="/admin/sub-category"><i class="fas fa-layer-group"></i> Sub Category</a>
-            </div>
+            </div> --}}
             <div class="menu-item">
                 <a href="/admin/users"><i class="fas fa-users-cog"></i> User Management</a>
             </div>
         @endif
 
-        <h3>Settings</h3>
-        <div class="menu-item">
-            <a href="/admin/item-track"><i class="fas fa-boxes"></i> Item Track</a>
-        </div>
+        <h3 class="mt-5">Settings</h3>
+        
         <div class="menu-item">
             <a href="/admin/profile"><i class="fas fa-user-cog"></i> Account Settings</a>
         </div>

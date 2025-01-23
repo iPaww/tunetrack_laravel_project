@@ -140,7 +140,7 @@
     <!-- Dashboard Overview Cards - First Row -->
     <div class="row mb-4">
         <!-- Total Admin -->
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card shadow-lg border-light rounded-3 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary"><b>Total Employee</b></h5>
@@ -150,7 +150,7 @@
         </div>
 
         <!-- Total Instruments -->
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card shadow-lg border-light rounded-3 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-center text-success"><b>Total Instruments</b></h5>
@@ -159,7 +159,7 @@
             </div>
         </div>
 
-        <!-- Total Cart Items -->
+        {{-- <!-- Total Cart Items -->
         <div class="col-md-3">
             <div class="card shadow-lg border-light rounded-3 h-100">
                 <div class="card-body">
@@ -167,10 +167,10 @@
                     <p class="display-6 text-center text-muted mb-0">{{ $cart_data['total_cart_items'] ?? 0 }}</p>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Total Sales Today -->
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card shadow-lg border-light rounded-3 h-100">
                 <div class="card-body">
                     <h5 class="card-title text-center text-info"><b>Today's Sales</b></h5>

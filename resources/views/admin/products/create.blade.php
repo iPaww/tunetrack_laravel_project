@@ -32,7 +32,7 @@
         <small class="form-text text-muted">Optional: Upload an image of the product.</small>
     </div>
 
-    <!-- Category -->
+    {{-- <!-- Category -->
     <div class="form-group mb-3">
         <label for="category_id">Category <span class="text-danger">*</span></label>
         <select class="form-control" id="category_id" name="category_id" required>
@@ -53,7 +53,7 @@
             @endforeach
         </select>
         <small class="form-text text-muted">Choose a sub-category if applicable.</small>
-    </div>
+    </div> --}}
 
     <!-- Product Type -->
     <div class="form-group mb-3">

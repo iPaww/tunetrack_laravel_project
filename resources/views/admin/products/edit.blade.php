@@ -38,7 +38,7 @@
                 @enderror
             </div>
 
-            <!-- Product Category -->
+            {{-- <!-- Product Category -->
             <div class="form-group">
                 <label for="category_id">Category</label>
                 <select class="form-control @error('category_id') is-invalid @enderror" id="category_id"
@@ -70,7 +70,7 @@
                 @error('sub_category_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div> --}}
 
             <!-- Product Type -->
             <div class="form-group">
