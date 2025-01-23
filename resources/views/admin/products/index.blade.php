@@ -66,6 +66,9 @@
                         @if ($product->image)
                             <img src="{{ asset($product->image) }}" alt="Product Image" class="img-fluid"
                                 style="max-width: 100px;">
+                        @else
+                            <img src="{{ asset('/assets/images/products/default_product.png') }}" class="img-fluid"
+                                style="max-width: 100px"/>
                         @endif
                     </td>
                     <td>

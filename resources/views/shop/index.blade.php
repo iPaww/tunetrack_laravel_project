@@ -83,7 +83,7 @@
         @if (count($items) > 0)
             <div class="row justify-content-center">
                 @foreach ($items as $product)
-                    <div class="col-md-4 col-sm-12 mb-1">
+                    <div class="col-md-4 col-sm-12 mb-1 mt-3">
                         <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view"
                             class="text-decoration-none text-dark">
                             <div class="card bg-light">

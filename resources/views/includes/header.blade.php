@@ -63,7 +63,7 @@
         }
 
         .navbar .nav-link:hover {
-            color: #FFD700;
+            color: black;
         }
 
         .navbar-toggler {
@@ -212,7 +212,7 @@
                             <i class="fa-solid fa-bell"></i> Notifications
                              @if (isset($unreadCount) && $unreadCount > 0)
                                 <span class="badge bg-warning text-dark">{{ $unreadCount }}</span>
-                            @endif 
+                            @endif
                         </a>
                         <ul class="dropdown-menu">
                              @if (isset($notifications) || $notifications->count() > 0)
@@ -242,12 +242,12 @@
                                 <li>
                                     <span class="dropdown-item text-center text-muted">No new notifications</span>
                                 </li>
-                            @endif 
+                            @endif
                         </ul>
                         </li>
                     </ul>
                 </div>
-                
+
                 <a class="navbar-brand" href="/{{ session('id') ? 'profile' : 'login' }}">
                     <img src="{{ !empty(session('profile_picture')) && file_exists(public_path(session('profile_picture')))
                         ? asset(session('profile_picture'))
