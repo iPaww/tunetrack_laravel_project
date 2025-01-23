@@ -58,6 +58,7 @@
                                 <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Processing</option>
                                 <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Ready to Pickup
                                 </option>
+                                <option value="4" {{ $order->status == 4 ? 'selected' : '' }}>Cancel</option>
                             </select>
                             <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                         </form>

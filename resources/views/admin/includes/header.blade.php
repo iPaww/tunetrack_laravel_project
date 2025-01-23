@@ -21,7 +21,7 @@
         <span class="hamburger-menu" id="toggle-sidebar">
             <i class="fas fa-bars"></i>
         </span>
-        <div class="title">ADMIN DASHBOARD</div>
+        <div class="title">Tune Track</div>
         <div class="profile">
             <a href="/admin/profile">
                 <img src="{{ !empty(session('admin_user.profile_picture')) &&
