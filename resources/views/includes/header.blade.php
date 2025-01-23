@@ -60,6 +60,7 @@
 
         .navbar .navbar-brand, .navbar .nav-link {
             color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         .navbar .nav-link:hover {
