@@ -10,30 +10,29 @@
                             <p class="text-truncate">{{ $course_history->course->description }}</p>
                             <div class="h-25">
                                 <div class="progress" role="progressbar" aria-label="Warning example"
-                                    aria-valuenow="{{ ceil($course_history->topics_viewed / ($course_history->course->topics->count() || 1)) }}"
+                                    aria-valuenow="{{ ceil($course_history->topics_viewed / max($course_history->course->topics->count(), 1)) }}"
                                     aria-valuemin="0" aria-valuemax="100">
                                     <div @class([
                                         'progress-bar' => true,
                                         'bg-success' =>
                                             ceil(
                                                 ($course_history->topics_viewed /
-                                                    ($course_history->course->topics->count() ?? 1)) *
+                                                    max($course_history->course->topics->count(), 1)) *
                                                     100) >= 100,
                                         'bg-warning' =>
                                             ceil(
                                                 ($course_history->topics_viewed /
-                                                    ($course_history->course->topics->count() ?? 1)) *
+                                                    max($course_history->course->topics->count(), 1)) *
                                                     100) < 100,
                                     ])
-                                        style="width: {{ ceil(($course_history->topics_viewed / ($course_history->course->topics->count() ?? 1)) * 100) }}%">
+                                        style="width: {{ ceil(($course_history->topics_viewed / max($course_history->course->topics->count(), 1)) * 100) }}%">
                                     </div>
                                 </div>
-                                {{-- this comments is for debugging}}
+                                {{-- Debugging --}}
                                 {{-- {{ $course_history->course->topics->count() }}
                                 {{ $course_history->topics_viewed }}
-                                {{ $course_history->course->topics->count() || 1 }} --}}
-                                {{-- <?= $course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1) ?> --}}
-                                @if ($course_history->topics_viewed >= ($course_history->course->topics->count() ?? 1))
+                                {{ max($course_history->course->topics->count(), 1) }} --}}
+                                @if ($course_history->topics_viewed >= max($course_history->course->topics->count(), 1))
                                     <div class="text-center">
                                         <small>
                                             You have finished this course
