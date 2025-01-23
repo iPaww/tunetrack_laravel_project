@@ -52,8 +52,8 @@ class ProductsController extends BasePageController
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
-            'category_id' => 'required|exists:category,id',
-            'sub_category_id' => 'nullable|exists:sub_category,id',
+            // 'category_id' => 'required|exists:category,id',
+            // 'sub_category_id' => 'nullable|exists:sub_category,id',
             'product_type_id' => 'nullable|exists:product_type,id',
             'brand_id' => 'nullable|exists:brands,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -63,8 +63,8 @@ class ProductsController extends BasePageController
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
-        $product->category_id = $request->category_id;
-        $product->sub_category_id = $request->sub_category_id;
+        // $product->category_id = $request->category_id;
+        // $product->sub_category_id = $request->sub_category_id;
         $product->product_type_id = $request->product_type_id;
         $product->brand_id = $request->brand_id;
 
@@ -93,8 +93,8 @@ class ProductsController extends BasePageController
         'name' => 'required|string|max:255',
         'price' => 'required|numeric',
         'description' => 'nullable|string',
-        'category_id' => 'required|exists:category,id',
-        'sub_category_id' => 'nullable|exists:sub_category,id',
+        // 'category_id' => 'required|exists:category,id',
+        // 'sub_category_id' => 'nullable|exists:sub_category,id',
         'product_type_id' => 'nullable|exists:product_type,id',
         'brand_id' => 'nullable|exists:brands,id',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -105,8 +105,8 @@ class ProductsController extends BasePageController
     $product->name = $request->name;
     $product->price = $request->price;
     $product->description = $request->description;
-    $product->category_id = $request->category_id;
-    $product->sub_category_id = $request->sub_category_id;
+    // $product->category_id = $request->category_id;
+    // $product->sub_category_id = $request->sub_category_id;
     $product->product_type_id = $request->product_type_id;
     $product->brand_id = $request->brand_id;
 

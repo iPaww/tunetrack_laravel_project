@@ -73,7 +73,7 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-warning btn-sm"
+                            <a class="btn btn-warning btn-sm me-2 rounded"
                                 href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
                                 class="d-inline">
