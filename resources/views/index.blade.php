@@ -1,6 +1,6 @@
 <style>
     body {
-        background-image: 
+        background-image:
         linear-gradient(rgba(0, 0, 0, 0.685), rgba(0, 0, 0, 0.11)),
         url('{{ asset('assets/images/landing/landing1.jpg') }}');
         background-size: cover;
@@ -8,21 +8,21 @@
 
     .title-wrapper {
         display: inline-block;
-        background-color: rgba(255, 255, 255, 0.8); /* Lighter background for contrast */
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 30px;
-        border-radius: 15px; /* More rounded corners */
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Adds shadow for depth */
-        backdrop-filter: blur(10px); /* Optional: Adds a blur effect to the background */
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
         text-align: center;
-        animation: fadeIn 1s ease-in-out; /* Smooth fade-in animation */
+        animation: fadeIn 1s ease-in-out;
     }
 
     /* Title home styles */
     .title-home {
         font-size: 3rem;
         font-weight: bold;
-        color: #2c3e50; /* Dark blue-gray color */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
+        color: #FC6A03;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         margin-bottom: 10px;
         animation: slideInFromLeft 1s ease-out;
     }
@@ -31,8 +31,8 @@
     .title-home-2 {
         font-size: 2rem;
         font-weight: 600;
-        color: #e74c3c; /* Red color for the second title */
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Slight shadow */
+        color: #FC6A03;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
         animation: slideInFromRight 1s ease-out;
     }
 

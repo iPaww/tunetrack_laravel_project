@@ -9,7 +9,7 @@
 
             {{-- code for image --}}
             @if (file_exists(public_path($product->image)))
-                <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="max-width: 100px;"
+                <img src="{{ asset($product->image) }}" class="img-fluid border rounded" style="max-width: 500px;"
                     alt="{{ $product->name }}" />
             @else
                 <img src="{{ asset('/assets/images/products/default_product.png') }}" class="img-fluid border rounded"
@@ -22,7 +22,7 @@
         <!-- Product Details -->
         <div class="col-md-6">
             <h3 class="fw-bold">{{ $product->name }}</h3>
-            <h4 class="fw-bold">$ {{ number_format($product->price) }}</h4>
+            <h4 class="fw-bold">₱ {{ number_format($product->price) }}</h4>
             <div class="w-50">
                 <label class="form-label">Brand: {{ $product->brand_name }}</label>
             </div>

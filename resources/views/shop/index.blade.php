@@ -53,6 +53,72 @@
         flex-grow: 1;
         /* Adjust search container to grow if needed */
     }
+
+    /* Enhanced Search Form Styling */
+    .input-group .form-control {
+        border-radius: 25px 0 0 25px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease-in-out;
+    }
+
+    .input-group .form-control:focus {
+        border-color: #FC6A03;
+        box-shadow: 0 0 5px rgba(252, 106, 3, 0.7);
+    }
+
+    .btn-primary {
+        background-color: #FC6A03;
+        border-color: #FC6A03;
+        border-radius: 0 25px 25px 0;
+        padding: 12px 30px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #bd4f02;
+        border-color: #bd4f02;
+    }
+
+    /* Navbar Button Styling */
+    .btn-outline-dark {
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: bold;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-outline-dark:hover {
+        background-color: #FC6A03;
+        color: white;
+    }
+
+    /* Ensure consistency in button sizes */
+    .btn {
+        min-width: 120px;
+    }
+
+    /* Card Enhancements */
+    .card-body {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .color-orange {
+        color: #FC6A03;
+    }
 </style>
 
 <div id="container" class="container d-flex flex-column align-items-center py-5">
@@ -61,7 +127,6 @@
             <span id="title-container">
                 <a href="/" style="width: 5rem;">
                 </a>
-                <h1 class="ms-3">JCS SHOP</h1>
             </span>
         </div>
         <div id="search-container" class="input-group mb-3">
@@ -73,7 +138,7 @@
         </div>
     </div>
 
-    <!-- navbar -->
+    <!-- Navbar -->
     <nav id="menu" class="mt-3 mb-5 text-center">
         <a href="/shop/orders" class="btn btn-outline-dark border border-0 fw-bold mx-3">Orders</a>
         <a href="/shop/cart" class="btn btn-outline-dark border border-0 fw-bold mx-3">Cart</a>
@@ -91,7 +156,7 @@
                                     <img src="{{ asset($product->image) }}" class="card-img-top"
                                         alt="{{ htmlspecialchars($product->name) }}" />
                                 @else
-                                    <img src="{{ asset('/assets/images/products/default_product.png') }}"
+                                    <img src="{{ asset('/assets/images/products/default_product.png') }} "
                                         class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
                                 @endif
 
@@ -115,5 +180,5 @@
             <p>No products found.</p>
         @endif
     </main>
-    <!--end of shop container-->
+    <!-- End of Shop Container -->
 </div>

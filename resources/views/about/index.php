@@ -1,8 +1,8 @@
 <div class="container py-4">
     <div class="mb-3">
         <h1 class="text-center fs-1">About Us</h1>
-        <div class="placeholder-glow">
-            <span class="placeholder col-12 rounded" style="min-height: 20rem;"></span>
+        <div>
+            <img src="assets/aboutus/aboutus.png" alt="An image describing our company values" class="img-fluid rounded" style="min-height: 20rem;">
         </div>
     </div>
     <div>

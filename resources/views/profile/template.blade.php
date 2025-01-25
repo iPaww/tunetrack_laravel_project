@@ -5,22 +5,40 @@
     <aside class="side-bar">
         <nav class="menu-ctgry">
             <a class="text-reset text-decoration-none" href="/profile/learning">
-                <div class="instruments-ctgry"><i class="fas fa-book"></i><span> My Courses </span></div>
+                <div class="instruments-ctgry @if (request()->is('profile/learning')) active @endif">
+                    <i class="fas fa-book"></i>
+                    <span> My Courses </span>
+                </div>
             </a>
             <a class="text-reset text-decoration-none" href="/profile/exam">
-                <div class="instruments-ctgry"><i class="fas fa-pen-alt"></i><span> Assesments </span></div>
+                <div class="instruments-ctgry @if (request()->is('profile/exam')) active @endif">
+                    <i class="fas fa-pen-alt"></i>
+                    <span> Assesments </span>
+                </div>
             </a>
-            <a class="text-reset text-decoration-none" href= "/profile/appointment">
-                <div class="instruments-ctgry"><i class="fas fa-calendar"></i><span> My Booking </span></div>
+            <a class="text-reset text-decoration-none" href="/profile/appointment">
+                <div class="instruments-ctgry @if (request()->is('profile/appointment')) active @endif">
+                    <i class="fas fa-calendar"></i>
+                    <span> My Booking </span>
+                </div>
             </a>
             <a class="text-reset text-decoration-none" href="/shop/orders">
-                <div class="instruments-ctgry"><i class="fas fa-truck"></i><span> Track My Order </span></div>
+                <div class="instruments-ctgry @if (request()->is('shop/orders')) active @endif">
+                    <i class="fas fa-truck"></i>
+                    <span> Track My Order </span>
+                </div>
             </a>
             <a class="text-reset text-decoration-none" href="/profile">
-                <div class="instruments-ctgry"><i class="fas fa-user"></i><span> Profile </span></div>
+                <div class="instruments-ctgry @if (request()->is('profile')) active @endif">
+                    <i class="fas fa-user"></i>
+                    <span> Profile </span>
+                </div>
             </a>
             <a class="text-reset text-decoration-none" href="/logout">
-                <div class="instruments-ctgry"><i class="fas fa-sign-out-alt"></i><span> Logout </span></div>
+                <div class="instruments-ctgry">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span> Logout </span>
+                </div>
             </a>
         </nav>
     </aside>

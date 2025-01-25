@@ -123,6 +123,11 @@ class ProfileController extends BasePageController
 
         $profile->save();
 
+        // Update session with new data
+        session([
+            'fullname' => $profile->fullname,
+        ]);
+
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 

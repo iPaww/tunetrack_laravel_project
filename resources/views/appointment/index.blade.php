@@ -1,20 +1,22 @@
-
 <div class="container mt-5">
     <!-- Display success message -->
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-            <a href="{{ url('profile/appointment') }}">View Booked Appointments</a>
+        <div class="alert alert-success d-flex align-items-center" role="alert" style="background-color: #d4edda; border-left: 5px solid #28a745; border-radius: 8px;">
+            <i class="me-2" style="color: #155724;" data-feather="check-circle"></i>
+            <span class="text-success">{{ session('success') }}</span>
+            <a href="{{ url('profile/appointment') }}" class="ms-3 text-success text-decoration-none">View Booked Appointments</a>
         </div>
     @endif
     @if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
+        <div class="alert alert-danger d-flex align-items-center" role="alert" style="background-color: #f8d7da; border-left: 5px solid #dc3545; border-radius: 8px;">
+            <i class="me-2" style="color: #721c24;" data-feather="alert-triangle"></i>
+            <span class="text-danger">{{ session('error') }}</span>
+        </div>
     @endif
+
     <!-- Booking form directly on the page -->
     <div class="booking-form-container">
-        <h3 class="mb-3">Book a New Tutorial</h3>
+        <h3 class="mb-3 text-center">Book a New Tutorial</h3>
         <form action="{{ route('appointment.store') }}" method="POST">
             @csrf
             <input type="hidden" name="order_id">
@@ -27,7 +29,7 @@
                         <optgroup label="Order ID: {{ $order->id }}">
                             @foreach ($order->orderItems as $orderItem)
                                 @if ($orderItem->product)
-                                    <option value="{{ $order->id }}:::{{ $orderItem->product->id }}" >
+                                    <option value="{{ $order->id }}:::{{ $orderItem->product->id }}">
                                         {{ $orderItem->product->name }}
                                     </option>
                                 @endif
@@ -42,120 +44,134 @@
             <div class="mb-3">
                 <label for="date" class="form-label">Select Date:</label>
                 <input type="date" id="date" name="date" class="form-control" required>
+                @error('date')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <div class="product-error text-danger mt-2"></div>
+            <div class="date-error text-danger mt-2"></div>
         </form>
     </div>
-
 </div>
 
 <style>
-    .card {
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        transition: 0.3s;
-    }
-
-    .position-absolute {
-        position: absolute;
-    }
-
-    .top-0 {
-        top: 0;
-    }
-
-    .end-0 {
-        right: 0;
-    }
-
-    .p-2 {
-        padding: 5px;
+    .alert {
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 1rem;
     }
 
     .booking-form-container {
         background-color: #f9f9f9;
         border: 2px solid #ddd;
         border-radius: 10px;
-        padding: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-top: 20px;
     }
 
+    .booking-form-container h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .form-select, .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: border 0.3s ease;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+    }
+
     .btn-primary:hover {
-        background-color: #45a049;
+        background-color: #0056b3;
+    }
+
+    .product-error, .date-error {
+        font-size: 0.875rem;
     }
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
-    // Ensure acceptedProductIds is defined or fallback to an empty array if not
     const acceptedProductIds = @json($acceptedProductIds ?? []);
-    
+
     // Loop through all options and hide the ones that are already booked
     $("#product_id option").each(function() {
-        const optionProductId = $(this).val().split(":::")[1]; // Extract the product ID from the option value
+        const optionProductId = $(this).val().split(":::")[1];
         if (acceptedProductIds.includes(parseInt(optionProductId))) {
             $(this).hide();  // Hide the option for the already booked product
         }
     });
 
-    // Handle change event for product selection
     $("#product_id").change(function(e){
         const target = $(e.target);
         const order_id_inp = $("input[name='order_id']");
         const product_id_inp = $("input[name='product_id']");
         const target_value = target.val();
-        const [order_id, product_id] = target_value.split(":::"); // Split the value to get order_id and product_id
+        const [order_id, product_id] = target_value.split(":::");
 
         // Check if the selected product has already been booked
         if (acceptedProductIds.includes(parseInt(product_id))) {
-            // Show error under the select box
             $(".product-error").text("This product has already been booked. Please choose a different product.");
-            target.val("");  // Reset the selection if the product is already booked
-            return;  // Exit to prevent further action
+            target.val("");
+            return;
         }
 
-        // Clear error message
         $(".product-error").text("");
-
-        // Set the order ID and product ID inputs if no issues
-        order_id_inp.val(order_id);  // Set the order ID input
-        product_id_inp.val(product_id);  // Set the product ID input
+        order_id_inp.val(order_id);
+        product_id_inp.val(product_id);
     });
 
-    // Client-side form validation before submitting
     $("form").submit(function(e) {
         const dateInput = $("#date").val();
         const productIdInput = $("input[name='product_id']").val();
-        
-        // Validate if the product is selected
+
         if (!productIdInput) {
             $(".product-error").text("Please select a product.");
-            e.preventDefault();  // Prevent form submission
+            e.preventDefault();
             return;
         } else {
-            $(".product-error").text("");  // Clear the error message if product is selected
+            $(".product-error").text("");
         }
 
-        // Validate if the date is selected
         if (!dateInput) {
             $(".date-error").text("Please select a date.");
-            e.preventDefault();  // Prevent form submission
+            e.preventDefault();
             return;
         } else {
-            $(".date-error").text("");  // Clear the error message if date is selected
+            $(".date-error").text("");
         }
 
-        // Optionally, you can also check if the selected date is a valid date (though HTML5 input handles this too)
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         if (!dateRegex.test(dateInput)) {
             $(".date-error").text("Please select a valid date.");
-            e.preventDefault();  // Prevent form submission
+            e.preventDefault();
             return;
         }
     });
 });
 </script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
+</script>
+
