@@ -182,7 +182,7 @@
             border-radius: 25px;
             border: none;
             color: white;
-            background-color: tomato;
+            background-color: black;
         }
 
         .button:hover {
@@ -220,7 +220,7 @@
         </div>
 
     <!-- Login Form -->
-    <div id="loginForm" class="form col-lg-6 col-12 p-4" style="background-color: #ffa07a;">
+    <div id="loginForm" class="form col-lg-6 col-12 p-4" style="background-color: #FC6A03;">
         <h2 class="text-center text-white mb-4">Log In</h2>
         <form action="/login" method="post">
             @csrf <!-- {{ csrf_field() }} -->
@@ -240,10 +240,10 @@
             @endif
             <div class="text-center mt-5 d-flex justify-content-around">
                 <div>
-                    <a href="/register" class="text-decoration-none toggle-link">Sign up</a>
+                    <a href="/register" class="text-decoration-none toggle-link text-dark">Sign up</a>
                 </div>
                 <div>
-                    <a href="/forgot-password" class="text-decoration-none toggle-link">Forgot password</a>
+                    <a href="/forgot-password" class="text-decoration-none toggle-link text-dark">Forgot password</a>
                 </div>
             </div>
         </form>

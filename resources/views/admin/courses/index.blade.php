@@ -25,14 +25,33 @@
         <!-- Search Form and Add Course Button -->
         <div class="d-flex gap-2">
             <!-- Search Form -->
-            <form action="{{ route('courses.index') }}" method="GET" class="d-flex">
-                <input type="text" name="search" class="form-control form-control-sm"
-                    placeholder="Search courses..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-secondary btn-sm ms-2">Search</button>
+            <form action="{{ route('courses.index') }}" method="GET" class="d-flex align-items-center">
+                <div class="input-group shadow-sm" style="max-width: 400px;">
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control border-secondary"
+                        placeholder="Search courses..."
+                        value="{{ request('search') }}"
+                        style="height: 44px;"
+                    >
+                    <button
+                        type="submit"
+                        class="btn btn-secondary d-flex align-items-center px-4"
+                        style="background: linear-gradient(90deg, #6c757d, #495057); border: none; font-size: 16px;"
+                    >
+                        <i class="fas fa-search me-2"></i> Search
+                    </button>
+                </div>
             </form>
 
             <!-- Add Course Button -->
-            <a href="{{ route('courses.create') }}" class="btn btn-primary btn-sm">Add Course</a>
+            <a href="{{ route('courses.create') }}"
+                class="btn btn-primary shadow-sm d-flex align-items-center"
+                style="background: linear-gradient(90deg, #007bff, #0056b3); border: none; font-size: 16px; height: 44px; padding: 0 20px;"
+            >
+                <i class="fas fa-plus me-2"></i> Add Course
+            </a>
         </div>
     </div>
 

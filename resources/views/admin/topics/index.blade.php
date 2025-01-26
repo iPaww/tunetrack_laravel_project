@@ -5,13 +5,33 @@
         <h1 class="h2 mb-0 me-auto"><b>Topics</b></h1>
 
         <!-- Search Form -->
-        <form action="{{ route('topics.index') }}" method="GET" class="d-flex ms-3">
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search topics..."
-                value="{{ request('search') }}">
-            <button type="submit" class="btn btn-secondary btn-sm ms-2">Search</button>
+        <form action="{{ route('topics.index') }}" method="GET" class="d-flex align-items-center ms-3">
+            <div class="input-group shadow-sm" style="max-width: 400px;">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control border-secondary"
+                    placeholder="Search topics..."
+                    value="{{ request('search') }}"
+                    aria-label="Search topics"
+                    style="height: 44px;"
+                >
+                <button
+                    type="submit"
+                    class="btn btn-secondary d-flex align-items-center px-4"
+                    style="background: linear-gradient(90deg, #6c757d, #495057); border: none; font-size: 16px;"
+                >
+                    <i class="fas fa-search me-2"></i> Search
+                </button>
+            </div>
         </form>
 
-        <a href="{{ route('topics.create') }}" class="btn btn-primary btn-sm ms-3">Add Topic</a>
+        <a href="{{ route('topics.create') }}"
+            class="btn btn-primary ms-3 shadow-sm d-flex align-items-center"
+            style="background: linear-gradient(90deg, #007bff, #0056b3); border: none; font-size: 16px; height: 44px; padding: 0 20px;"
+        >
+            <i class="fas fa-plus me-2"></i> Add Topic
+        </a>
     </div>
 
     <!-- Table Section -->
