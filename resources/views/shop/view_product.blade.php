@@ -33,8 +33,8 @@
                         <div class="me-1 mb-1">
                             <input type="radio" name="colors" class="btn-check" id="btn-check-{{ $color->color_id }}"
                                 value="{{ $color->color_id }}" data-max={{ $color->quantity }} autocomplete="off" />
-                            <label class="btn btn-sm btn-secondary" for="btn-check-{{ $color->color_id }}">
-                                <span class="badge text-bg-dark">{{ $color->quantity }}</span>
+                            <label class="btn btn-sm btn-outline-secondary" for="btn-check-{{ $color->color_id }}">
+                                <span class="badge text-bg-dark" style="margin-left: -2px;">{{ $color->quantity }}</span>
                                 {{ $color->name }}
                             </label>
                         </div>
