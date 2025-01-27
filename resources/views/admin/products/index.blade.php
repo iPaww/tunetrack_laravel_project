@@ -2,19 +2,20 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <h2 class="title"><b>Products</b></h2>
         <div class="d-flex flex-wrap gap-2">
-            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex me-2 align-items-center">
+            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex gap-2 align-items-center">
                 <div class="input-group shadow-sm">
                     <input
                         type="text"
                         name="query"
-                        class="form-control border-primary"
+                        class="form-control border-secondary rounded-start"
                         placeholder="Search products..."
                         value="{{ request('query') }}"
                         aria-label="Search products"
+                        style="border-color: #6c757d;"
                     >
                     <button
                         type="submit"
-                        class="btn btn-primary px-4 d-flex align-items-center"
+                        class="btn btn-primary d-flex align-items-center"
                         style="background: linear-gradient(90deg, #6c757d, #495057); border: none;"
                     >
                         <i class="fas fa-search me-1"></i> Search

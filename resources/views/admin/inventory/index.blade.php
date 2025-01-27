@@ -3,21 +3,32 @@
         <h2><b>Inventory</b></h2>
     </div>
     <div class="d-flex">
-        <form action="{{ route('admin.inventory.index') }}" method="GET" class="d-flex me-2">
-            <div class="input-group me-2">
+        <!-- Search Form -->
+        <form action="{{ route('admin.inventory.index') }}" method="GET" class="d-flex align-items-center me-2">
+            <div class="input-group shadow-sm" style="max-width: 400px;">
                 <input
                     type="text"
                     name="query"
-                    class="form-control border-primary shadow-sm"
+                    class="form-control border-secondary"
                     placeholder="Search products..."
                     value="{{ request('query') }}"
+                    aria-label="Search products"
+                    style="height: 44px;"
                 >
+                <button
+                    type="submit"
+                    class="btn btn-secondary d-flex align-items-center px-4"
+                    style="background: linear-gradient(90deg, #6c757d, #495057); border: none; font-size: 16px;"
+                >
+                    <i class="fas fa-search me-2"></i> Search
+                </button>
             </div>
-            <div class="me-2">
+            <div class="ms-2">
                 <select
                     name="product_type"
                     class="form-select shadow-sm"
                     onchange="this.form.submit()"
+                    style="height: 44px; max-width: 200px;"
                 >
                     <option value="">All Product Types</option>
                     @foreach ($productTypes as $typeId => $typeName)
@@ -30,20 +41,15 @@
                     @endforeach
                 </select>
             </div>
-            <button
-                type="submit"
-                class="btn btn-primary shadow-sm d-flex align-items-center"
-                style="background: linear-gradient(to right, #1e90ff, #007bff); border: none;"
-            >
-                <i class="fas fa-search me-1"></i> Search
-            </button>
         </form>
+
+        <!-- Add Button -->
         <a
             class="btn btn-primary shadow-sm d-flex align-items-center"
             href="/admin/inventory/add"
-            style="background: linear-gradient(to right, #007bff, #0056b3); border: none;"
+            style="background: linear-gradient(90deg, #007bff, #0056b3); border: none; font-size: 16px; height: 44px; padding: 0 20px;"
         >
-            <i class="fas fa-plus me-1"></i> Add
+            <i class="fas fa-plus me-2"></i> Add
         </a>
     </div>
 </div>
@@ -77,12 +83,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($products as $product)
+            @forelse ($products as $product)
                 <tr>
                     <td class="text-start">
                         <a href="/admin/inventory/edit/{{ $product->id }}/product-type/{{ $product->product_type_id }}/color/{{ $product->color_id }}"
                             class="text-decoration-none">
-                            <img class="img-thumbnail" src="{{ asset($product->image) }}" alt="inventory Image"
+                            <img class="img-thumbnail" src="{{ asset($product->image) }}" alt="Inventory Image"
                                 width="100">
                             <span class="ms-2">{{ $product->name }}</span>
                         </a>
@@ -118,7 +124,12 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <!-- If no inventory items are found -->
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No items found in the inventory.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
