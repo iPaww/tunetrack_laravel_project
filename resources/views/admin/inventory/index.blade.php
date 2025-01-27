@@ -4,7 +4,7 @@
     </div>
     <div class="d-flex">
         <form action="{{ route('admin.inventory.index') }}" method="GET" class="d-flex me-2">
-            <div class="input-group">
+            <div class="input-group me-2">
                 <input
                     type="text"
                     name="query"
@@ -12,14 +12,31 @@
                     placeholder="Search products..."
                     value="{{ request('query') }}"
                 >
-                <button
-                    type="submit"
-                    class="btn btn-primary shadow-sm d-flex align-items-center"
-                    style="background: linear-gradient(to right, #1e90ff, #007bff); border: none;"
-                >
-                    <i class="fas fa-search me-1"></i> Search
-                </button>
             </div>
+            <div class="me-2">
+                <select
+                    name="product_type"
+                    class="form-select shadow-sm"
+                    onchange="this.form.submit()"
+                >
+                    <option value="">All Product Types</option>
+                    @foreach ($productTypes as $typeId => $typeName)
+                        <option
+                            value="{{ $typeId }}"
+                            {{ request('product_type') == $typeId ? 'selected' : '' }}
+                        >
+                            {{ $typeName }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <button
+                type="submit"
+                class="btn btn-primary shadow-sm d-flex align-items-center"
+                style="background: linear-gradient(to right, #1e90ff, #007bff); border: none;"
+            >
+                <i class="fas fa-search me-1"></i> Search
+            </button>
         </form>
         <a
             class="btn btn-primary shadow-sm d-flex align-items-center"
@@ -106,7 +123,7 @@
     </table>
 </div>
 
-{{ $products->links() }}
+{{ $products->appends(request()->except('page'))->links() }}
 
 <script>
     const toggleSidebar = document.getElementById('toggle-sidebar');

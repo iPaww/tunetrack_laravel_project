@@ -22,67 +22,64 @@ class InventoryController extends BasePageController
     public string $base_file_path = 'inventory.';
 
     public function index(Request $request)
-    {
-        $query = $request->input('query');
+{
+    $query = $request->input('query');
+    $productType = $request->input('product_type'); // Get product_type filter
 
-        $products = Products::select(
-                'products.*',
-                'inv_sup.quantity',
-                Products::raw('inv_sup.id as inventory_id'),
-                Products::raw('colors.id as color_id'),
-                Products::raw('colors.name as color_name'),
-                Products::raw('GROUP_CONCAT(colors.name) as color_names'),
-                Products::raw('COUNT(inv_prod.product_id) as products_quantity'),
-            )
-            ->leftJoin('inventory_supplies as inv_sup', 'inv_sup.product_id', '=', 'products.id' )
-            ->leftJoin('inventory_products as inv_prod', 'inv_prod.product_id', '=', 'products.id' )
-            ->leftJoin('colors', function (JoinClause $join) {
-                $join->on('colors.id', '=', 'inv_sup.color_id')
-                    ->orOn('colors.id', '=', 'inv_prod.color_id');
-            })
-            ->where(function (EBuilder $queryBuilder) use ($query) {
-                if ($query) {
-                    $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%'])
-                        ->orWhereRaw('LOWER(colors.name) LIKE ?', ['%' . strtolower($query) . '%']);
-                }
-            })
-            ->where(function (EBuilder $query) {
-                return $query->where(function (QBuilder $query) {
-                    return $query->select(InventoryProducts::raw('COUNT(id) as count'))
+    $products = Products::select(
+        'products.*',
+        'inv_sup.quantity',
+        Products::raw('inv_sup.id as inventory_id'),
+        Products::raw('colors.id as color_id'),
+        Products::raw('colors.name as color_name'),
+        Products::raw('GROUP_CONCAT(colors.name) as color_names'),
+        Products::raw('COUNT(inv_prod.product_id) as products_quantity'),
+    )
+        ->leftJoin('inventory_supplies as inv_sup', 'inv_sup.product_id', '=', 'products.id')
+        ->leftJoin('inventory_products as inv_prod', 'inv_prod.product_id', '=', 'products.id')
+        ->leftJoin('colors', function (JoinClause $join) {
+            $join->on('colors.id', '=', 'inv_sup.color_id')
+                ->orOn('colors.id', '=', 'inv_prod.color_id');
+        })
+        ->where(function (EBuilder $queryBuilder) use ($query) {
+            if ($query) {
+                $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%'])
+                    ->orWhereRaw('LOWER(colors.name) LIKE ?', ['%' . strtolower($query) . '%']);
+            }
+        })
+        ->when($productType, function (EBuilder $query) use ($productType) {
+            $query->where('products.product_type_id', $productType);
+        })
+        ->where(function (EBuilder $query) {
+            return $query->where(function (QBuilder $query) {
+                return $query->select(InventoryProducts::raw('COUNT(id) as count'))
                     ->from('inventory_products')
                     ->where('taken', false)
                     ->whereColumn('product_id', 'inv_prod.product_id');
-                }, '>', 0)
+            }, '>', 0)
+            ->orWhereColumn('products.id', '=', 'inv_sup.product_id');
+        })
+        ->where(function (EBuilder $query) {
+            return $query->where('inv_prod.taken', false)
                 ->orWhereColumn('products.id', '=', 'inv_sup.product_id');
-            })
-            ->where(function (EBuilder $query) {
-                return $query->where('inv_prod.taken', false)
-                    ->orWhereColumn('products.id', '=', 'inv_sup.product_id');
-            })
-            ->groupBy('products.id', 'inv_sup.id')
-            ->orderBy('products.product_type_id')
-            ->orderBy('products.name')
-            ->paginate(10);
+        })
+        ->groupBy('products.id', 'inv_sup.id')
+        ->orderByRaw('COALESCE(inv_sup.quantity, COUNT(inv_prod.product_id)) ASC') // Order by quantity
+        ->orderBy('products.name', 'asc') // Secondary sorting by name
+        ->paginate(10);
 
-        return $this->view_basic_page($this->base_file_path . 'index', compact('products'));
-    }
+    $productTypes = [
+        1 => 'instrument',
+        2 => 'supply',
+    ];
+
+    return $this->view_basic_page($this->base_file_path . 'index', compact('products', 'productTypes', 'productType'));
+}
 
     public function add()
     {
         $products = Products::select('products.*')
-            // ->leftJoin('inventory_supplies', 'inventory_supplies.product_id', '=', 'products.id' )
-            // ->leftJoin('inventory_products', 'inventory_products.product_id', '=', 'products.id' )
-            // ->leftJoin('colors', function (JoinClause $join) {
-            //     $join->on('colors.id', '=', 'inventory_supplies.color_id')
-            //         ->orOn('colors.id', '=', 'inventory_products.color_id');
-            // })
-            // ->whereNot(function (EBuilder $query) {
-            //         $query->whereExists(function (QBuilder $query) {
-            //             $query->select(Products::raw(1))
-            //                 ->from('inventory_supplies')
-            //                 ->whereColumn('inventory_supplies.product_id', 'products.id');
-            //         });
-            //     })
+
             ->whereNot(function (EBuilder $query) {
                     $query->whereExists(function (QBuilder $query) {
                         $query->select(Products::raw(1))
@@ -91,13 +88,8 @@ class InventoryController extends BasePageController
                             ->whereColumn('inventory_products.product_id', 'products.id');
                     });
                 })
-            // ->where(function (EBuilder $query) {
-            //     return $query->where('inv_prod.taken', false)
-            //         ->orWhereColumn('products.id', '=', 'inv_sup.product_id');
-            // })
             ->orderBy('product_type_id')
             ->orderBy('name')
-            // ->groupBy('products.id')
             ->get();
         $colors = Colors::orderBy('name')
             ->get();
