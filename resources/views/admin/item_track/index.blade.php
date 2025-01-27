@@ -5,6 +5,8 @@
 
         <!-- Filter Dropdown (Align Right) -->
         <form action="{{ route('itemTrack.index') }}" method="GET" class="mb-0">
+            <input type="text" name="order_id" class="form-control" placeholder="Search by Order ID"
+                value="{{ request()->order_id }}" style="max-width: 200px;">
             <select name="status" class="form-select" onchange="this.form.submit()">
                 <option value="">All Status</option>
                 <option value="1" {{ request()->status == '1' ? 'selected' : '' }}>Pending</option>

@@ -16,12 +16,16 @@ class ItemTrackController extends BasePageController
     {
         // Get the selected status from the request
         $status = $request->input('status');
+        $orderId = $request->input('order_id'); // Fetch Order ID filter
 
         // Fetch orders with user data, and apply the status filter if provided
         $orders = Orders::with('user')
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status); // Filter by status
+            })->when($orderId, function ($query) use ($orderId) {
+                return $query->where('id', $orderId);
             })
+            
             ->paginate(10)
             ->withQueryString();
 
