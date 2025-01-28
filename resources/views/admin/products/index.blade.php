@@ -49,8 +49,8 @@
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Description</th>
-                    <th>Category</th>
-                    <th>Subcategory</th>
+                    {{-- <th>Category</th>
+                    <th>Subcategory</th> --}}
                     <th>Product Type</th>
                     <th>Brand</th>
                     <th>Image</th>
@@ -63,7 +63,7 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ number_format($product->price, 2) }}</td>
                         <td>{{ Str::limit($product->description, 50) }}</td>
-                        <td>
+                        {{-- <td>
                             @foreach ($categories as $category)
                                 @if ($category->id == $product->category_id)
                                     {{ $category->name }}
@@ -76,7 +76,7 @@
                                     {{ $subCategory->name }}
                                 @endif
                             @endforeach
-                        </td>
+                        </td> --}}
                         <td>
                             @foreach ($productTypes as $productType)
                                 @if ($productType->id == $product->product_type_id)

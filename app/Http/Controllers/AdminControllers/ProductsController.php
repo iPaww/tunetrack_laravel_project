@@ -56,7 +56,7 @@ class ProductsController extends BasePageController
             // 'sub_category_id' => 'nullable|exists:sub_category,id',
             'product_type_id' => 'nullable|exists:product_type,id',
             'brand_id' => 'nullable|exists:brands,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:10240',
         ]);
 
         $product = new Products();
@@ -97,7 +97,7 @@ class ProductsController extends BasePageController
         // 'sub_category_id' => 'nullable|exists:sub_category,id',
         'product_type_id' => 'nullable|exists:product_type,id',
         'brand_id' => 'nullable|exists:brands,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:10240',
     ]);
 
     $product = Products::findOrFail($id);
