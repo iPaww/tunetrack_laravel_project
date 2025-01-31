@@ -51,7 +51,7 @@
                     You have to finish the test for you to see the result.
                 </p>
             @endif
-            
+
             @if ($errors->any())
             <div>
                 <ul class="list-group my-2">

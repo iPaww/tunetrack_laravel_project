@@ -1,10 +1,10 @@
 <div>
     <h1 class="fs-1">{{ $course->name }}</h1>
-    <p class="text-break">{{ $course->description }}</p>
+    <p class="text-break"><b>{{ $course->description }}</b></p>
 </div>
 
 <div class="objectives-container">
-    <div class="objectives">Objectives</div>
+    <div class="fs-3">Objectives</div>
     <p class="text-break">{{ $course->objective }}</p>
 </div>
 

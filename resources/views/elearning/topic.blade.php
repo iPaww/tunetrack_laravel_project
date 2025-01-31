@@ -1,6 +1,11 @@
+<style>
+    .text-justify {
+    text-align: justify;
+}
+</style>
 <h1 class="fs-1">{{ $course->name }}</h1>
 <p class="fs-4 text-break">{{ $course->description }}</p>
-<h3 class="fs-3">Topics</h3>
+<h3 class="fs-1">Topics</h3>
 
 <div class="card topic-card">
     <div class="card-body row">
@@ -40,7 +45,7 @@
             <h3 class="fs-3 fw-bold">{{ $topic->title }}</h3>
 
             <!-- Topic Description -->
-            <p class="text-break">{!! $topic->description !!}</p>
+            <p class="text-break text-justify">{!! $topic->description !!}</p>
 
             <!-- Topic Audio -->
             @if ($topic->audio)
