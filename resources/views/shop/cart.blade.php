@@ -157,10 +157,9 @@
 
                 <div class="col-12">
                     <!-- Button trigger modal -->
-                <div class="d-flex justify-content-center mt-3 mb-2">
-                    <a type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal" style="text-decoration: none;">
-                    <input type="checkbox" name="" id=""> Terms and Conditions
-                    </a>
+                    <div class="col-12 text-center mt-3">
+                        <input type="checkbox" id="termsCheckbox"> 
+                        <label for="termsCheckbox">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Terms and Conditions</a></label>
                     </div>
         
                     <!-- Modal -->
@@ -212,7 +211,7 @@
                             <form action="/shop/cart/check_out" method="POST">
                                 @csrf <!-- {{ csrf_field() }} -->
                                 <input type="hidden" name="payment_method" value="1" />
-                                <button class="btn btn-xl btn-primary btn-checkout w-75">PLACE ORDER NOW</button>
+                                <button id="checkoutButton" class="btn btn-xl btn-primary btn-checkout w-75" disabled>PLACE ORDER NOW</button>
                             </form>
                         </div>
                     </div>
@@ -223,6 +222,10 @@
 </div>
 
 <script type="text/javascript">
+    document.getElementById('termsCheckbox').addEventListener('change', function() {
+            document.getElementById('checkoutButton').disabled = !this.checked;
+        });
+
     $(document).ready(function() {
         let max_quantity = 999
         $('.quantity-inp').on('input', function() {
