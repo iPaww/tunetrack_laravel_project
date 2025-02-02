@@ -35,6 +35,16 @@
     <div class="mb-3">
         <a href="/shop" class="btn btn-outline-dark border border-0 fw-bold">&laquo; Back to shop</a>
     </div>
+    <div class="row d-flex justify-content-evenly">
+        <div class="col-5">
+            <h1 class="fw-bold">Shipping Policy</h1>
+            <p>The estimated process time of item is 3-7 days, Please wait for the shop confirmation for the item</p>
+        </div>
+        <div class="col-5">
+            <h1 class="fw-1">Return and non-Refund policy</h1>
+            <p class="text-danger">The item is not refundable but can switch the color within the 1 week duration</p>
+        </div>
+    </div>
     <h1 class="display-4 mb-4">Your Shopping Cart</h1>
     <div>
         @if ($errors->any())
@@ -140,6 +150,50 @@
                             <small class="text-muted">Pay now and get the item in shop</small>
                             <input type="radio" name="payment_method_slc"
                                 class="form-check-input position-absolute end-0 top-50 translate-middle" disabled>
+                        </div>
+                    </div>
+                </div>
+                <!-- This is term and condition -->
+
+                <div class="col-12">
+                    <!-- Button trigger modal -->
+                <div class="d-flex justify-content-center mt-3 mb-2">
+                    <a type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal" style="text-decoration: none;">
+                    <input type="checkbox" name="" id=""> Terms and Conditions
+                    </a>
+                    </div>
+        
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Conditions:</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            1. Consent: The users agree to partake in providing their feedback and insights regarding the functionality and effectiveness of the web-based e-learning platform for JCS Music Store by participating in this study.
+                            <br><br>2. Confidentiality: Any personal information collected during the course of the study shall be kept confidential and used exclusively for research purposes. No participant shall be identified in the reports or publication that derive from the study.
+        
+                            <br><br>3. Data Use: All collected information for the study will be used for research purposes only and will not be transferred to any third party without permission from the respondents.
+        
+                            <br><br>4. System Feedback: The participants are asked to give honest and constructive feedback regarding the e-learning platform and ordering system. This will help in improving the platform further as well as the experience of the users.
+        
+                            <br><br>5. Compliance: Participants are expected to follow guidelines and instructions given by researchers for the study. Misuse of the platform and any term condition violation may lead to disqualification from the study.
+        
+                            <br><br>6. Ownership: The entire developed system comprising all its parts and functionalities is owned by JCS Music Store. The participants agree that they are only offering feedback and insights that would help develop the platform to become a better one.
+        
+                            <br><br>7. Liability: Neither the researchers nor the JCS Music Store will be held responsible or liable for any problem or damages caused due to participation in the study. Participants take their risk by participating voluntarily.
+        
+                            <br><br>8. Contact Information: Participants may contact the researchers in case any kind of query or issues emerge regarding this study. The researches would make best efforts to answer the queries as early as possible and further assistance shall be provided when needed.
+        
+                            <br><br>By accepting to participate in this study, participants affirm that they have read, understood, and agreed to the conditions listed above.
+                            </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
