@@ -40,6 +40,13 @@
             <input type="file" name="audio" id="audio" class="form-control" accept="audio/*">
         </div>
 
+            <!-- Video Upload Field -->
+        <div class="mb-3">
+            <label for="video" class="form-label">Upload Video</label>
+            <input type="file" name="video" id="video" class="form-control" accept="video/*">
+        </div>
+
+
         <div class="d-flex justify-content-between mt-4">
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary px-3 d-inline-flex align-items-center">

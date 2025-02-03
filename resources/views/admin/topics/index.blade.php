@@ -44,6 +44,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Image</th>
                     <th scope="col">Audio</th>
+                    <th scope="col">Video</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -71,6 +72,16 @@
                                 </audio>
                             @else
                                 <span class="text-muted">No Audio</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($topic->video)
+                                <video width="100" controls>
+                                    <source src="{{ asset('storage/' . $topic->video) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @else
+                                <span class="text-muted">No Video</span>
                             @endif
                         </td>
                         <td>

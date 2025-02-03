@@ -50,6 +50,7 @@ class TopicsController extends BasePageController
             'course_id' => 'required|integer|exists:courses,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
+            'video' => 'nullable|mimes:mp4,mov,avi,wmv|max:51200',
         ]);
 
         $topic = new Topics();
@@ -57,16 +58,19 @@ class TopicsController extends BasePageController
         $topic->description = $request->description;
         $topic->course_id = $request->course_id;
 
-        // Handle image upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('topics/images', 'public');
             $topic->image = $imagePath;
         }
 
-        // Handle audio upload
         if ($request->hasFile('audio')) {
             $audioPath = $request->file('audio')->store('topics/audio', 'public');
             $topic->audio = $audioPath;
+        }
+
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('topics/videos', 'public');
+            $topic->video = $videoPath;
         }
 
         $topic->save();
@@ -86,6 +90,7 @@ class TopicsController extends BasePageController
             'course_id' => 'required|integer|exists:courses,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'audio' => 'nullable|mimes:mp3,wav,ogg|max:10240',
+            'video' => 'nullable|mimes:mp4,mov,avi,wmv|max:51200',
         ]);
 
         $topic->title = $request->title;
@@ -108,6 +113,15 @@ class TopicsController extends BasePageController
             }
             $audioPath = $request->file('audio')->store('topics/audio', 'public');
             $topic->audio = $audioPath;
+        }
+
+        // Handle Video Upload
+        if ($request->hasFile('video')) {
+            if ($topic->video) {
+                Storage::disk('public')->delete($topic->video);
+            }
+            $videoPath = $request->file('video')->store('topics/videos', 'public');
+            $topic->video = $videoPath;
         }
 
         $topic->save();

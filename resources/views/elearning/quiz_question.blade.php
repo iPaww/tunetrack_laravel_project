@@ -1,5 +1,10 @@
+<style>
+    .text-justify {
+    text-align: justify;
+}
+</style>
 <h1 class="fs-1">{{ $course->name }}</h1>
-<p class="fs-4 text-break">{{ $course->description }}</p>
+<p class="fs-4 text-break text-justify fw-semibold">{{ $course->description }}</p>
 <h3 class="fs-3">Topics</h3>
 <div class="card topic-card">
     <div class="card-body row">

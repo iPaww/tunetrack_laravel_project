@@ -18,6 +18,7 @@ class Topics extends BaseModel
         'description',
         'image',
         'audio',
+        'video',
         'course_id',
         'sub_category_id',
     ];
