@@ -92,6 +92,7 @@ class ProductsController extends BasePageController
     $request->validate([
         'name' => 'required|string|max:255',
         'price' => 'required|numeric',
+        'discount' => 'nullable|numeric|min:0|max:100', // Ensure discount is a percentage
         'description' => 'nullable|string',
         // 'category_id' => 'required|exists:category,id',
         // 'sub_category_id' => 'nullable|exists:sub_category,id',
@@ -104,6 +105,7 @@ class ProductsController extends BasePageController
 
     $product->name = $request->name;
     $product->price = $request->price;
+    $product->discount = $request->discount ?? 0;
     $product->description = $request->description;
     // $product->category_id = $request->category_id;
     // $product->sub_category_id = $request->sub_category_id;
@@ -139,4 +141,11 @@ class ProductsController extends BasePageController
         return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully!');
     }
+
+    public function show($id)
+{
+    $product = Products::with(['productType', 'brand'])->findOrFail($id);
+    
+    return view('admin.products.show', compact('product'));
+}
 }

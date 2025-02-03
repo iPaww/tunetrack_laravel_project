@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-
 use App\Models\Cart;
 use App\Models\Colors;
-use App\Models\InstrumentCategory;
+use App\Models\Orders;
+use App\Models\Products;
+use App\Models\Supplies;
+use App\Models\OrderItems;
+
+use Illuminate\Http\Request;
+use App\Models\ProductReview;
+use Illuminate\Validation\Rule;
 use App\Models\InventoryProducts;
 use App\Models\InventorySupplies;
-use App\Models\Orders;
-use App\Models\OrderItems;
-use App\Models\Products;
-use App\Models\ProductReview;
-use App\Models\Supplies;
+use App\Models\InstrumentCategory;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\BasePageController;
 
 class ShopController extends BasePageController
@@ -62,41 +63,61 @@ class ShopController extends BasePageController
 
     public function order_view( $order_id )
     {
+        $products = Products::all();
+        $totalDiscount = 0;
+        $subtotal = 0;
+        
         $order = Orders::where('id', $order_id)
             ->first();
 
-        $order_item = OrderItems::select(
+            $order_item = OrderItems::select(
                 'orders_item.*',
-                OrderItems::raw('COUNT(inventory_products.id) as product_quantity'),
-                OrderItems::raw('GROUP_CONCAT(inventory_products.serial_number) as serial_numbers'),
-                OrderItems::raw('GROUP_CONCAT(colors.name) as color_names'),
+                'products.id as product_id',
+                'products.name as product_name',
+                'products.image as product_image',
+                'products.price as original_price',
+                'products.discount as discount',
+                DB::raw('COUNT(inventory_products.id) as product_quantity'),
+                DB::raw('GROUP_CONCAT(inventory_products.serial_number) as serial_numbers'),
+                DB::raw('GROUP_CONCAT(colors.name) as color_names')
             )
-            ->where('order_id', $order_id)
+            ->where('orders_item.order_id', $order_id)
             ->join('products', 'products.id', '=', 'orders_item.product_id')
-            ->leftJoin(OrderItems::raw('inventory_products'), function (JoinClause $join) {
-                    $join->on('orders_item.inventory_id', '=', 'inventory_products.id');
-                    $join->on('products.product_type_id', '=', OrderItems::raw(1));
+            ->leftJoin(DB::raw('inventory_products'), function (JoinClause $join) {
+                $join->on('orders_item.inventory_id', '=', 'inventory_products.id');
+                $join->on('products.product_type_id', '=', DB::raw(1));
             })
-            ->leftJoin(OrderItems::raw('inventory_supplies'), function (JoinClause $join) {
+            ->leftJoin(DB::raw('inventory_supplies'), function (JoinClause $join) {
                 $join->on('orders_item.inventory_id', '=', 'inventory_supplies.id');
-                $join->on('products.product_type_id', '=', OrderItems::raw(2));
+                $join->on('products.product_type_id', '=', DB::raw(2));
             })
             ->leftJoin('colors', function (JoinClause $join) {
                 $join->on('colors.id', '=', 'inventory_supplies.color_id')
                     ->orOn('colors.id', '=', 'inventory_products.color_id');
             })
-            ->groupBy('inventory_products.product_id', 'inventory_products.color_id')
+            ->groupBy('orders_item.id')
             ->orderBy('products.name')
             ->orderBy('products.product_type_id')
             ->get();
+        
+        
         Orders::where('id', $order_id)
             ->update(['is_read' => true]);   
 
+            foreach ($order_item as $item) {
+                $discountAmount = ($item->original_price * ($item->discount / 100)) * $item->product_quantity;
+                $totalDiscount += $discountAmount;
+            }
+            foreach ($order_item as $item) {
+                $itemTotal = ($item->original_price - ($item->original_price * ($item->discount / 100))) * $item->product_quantity;
+                $subtotal += $itemTotal;
+            }
+            
         return $this->view_basic_page( $this->base_file_path . 'order_view', [
             'order' => $order,
             'items' => $order_item,
             'statuses' => $this->order_statuses,
-        ]);
+        ],compact('products'));
     }
 
     public function product_review( $order_id )
@@ -395,116 +416,129 @@ class ShopController extends BasePageController
         ]);
     }
 
-    public function cart_checkout(Request $request ): RedirectResponse
+    public function cart_checkout(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'payment_method' => 'required',
         ], [
-            'payment_method.required' => 'You must select payment method'
+            'payment_method.required' => 'You must select a payment method.'
         ]);
-        $form_payment_method = $request->post('payment_method');
 
         if ($validator->fails()) {
-            return back()
-                ->withErrors($validator);
+            return back()->withErrors($validator);
+        }
+
+        $form_payment_method = $request->post('payment_method');
+        $user_id = session('id');
+
+        if (empty($user_id)) {
+            return back()->withErrors('Could not find a logged-in user.');
         }
 
         $order_item_batch = collect([]);
         $product_inventory_batch = collect([]);
         $order_validation_error = collect([]);
-        $user_id = session('id');
 
-        if( empty( $user_id ) ) {
-            $order_validation_error->push('Could not find user logged in!');
-        }
-
-        Cart::select(
+        $cart_items = Cart::select(
                 'products.*',
                 'cart.*',
                 Cart::raw('colors.name as color_name'),
                 Cart::raw('cart.id as cart_id'),
-                Cart::raw('products.id as product_id'),
+                Cart::raw('products.id as product_id')
             )
             ->where('user_id', $user_id)
             ->join('products', 'products.id', '=', 'cart.product_id')
             ->join('colors', 'colors.id', '=', 'cart.color_id')
-            ->chunk(50, function (Collection $cart_items) use (&$order_validation_error, &$product_inventory_batch, &$order_item_batch) {
-                foreach( $cart_items as $card_item ) {
-                    if ( $card_item->product_type_id == 1 ) {
-                        $SerialInventory = InventoryProducts::select('id')
-                            ->where('product_id', $card_item->product_id)
-                            ->where('color_id', $card_item->color_id)
-                            ->where('taken', false)
-                            ->take($card_item->quantity)
-                            ->get();
-                        $number_of_stocks = count($SerialInventory);
-                        if( $card_item->quantity > $number_of_stocks ) {
-                            $order_validation_error->push("Sorry, item \"$card_item->name\" with variant of \"$card_item->color_name\" only has $number_of_stocks stock(s) left.");
-                            return false;
-                        }
-                        foreach ( $SerialInventory as $serial ) {
-                            $order_item_batch->push([
-                                'product_id' => $card_item->product_id,
-                                'inventory_id' => $serial->id,
-                                'quantity' => 1,
-                                'price' => $card_item->price,
-                            ]);
-                            $product_inventory_batch->push([ $serial->id, ['taken' => true] ]);
-                        }
-                    } else if ( $card_item->product_type_id == 2 ) {
-                        $supplyInventory = InventorySupplies::select('id', 'quantity')
-                            ->where('product_id', $card_item->product_id)
-                            ->where('color_id', $card_item->color_id)
-                            ->first();
-                        if( $card_item->quantity > $supplyInventory->quantity ) {
-                            $order_validation_error->push("Sorry, item \"$card_item->name\" with variant of \"$card_item->color_name\" only has $supplyInventory->quantity stock(s) left.");
-                            return false;
-                        }
-                        $order_item_batch->push([
-                            'product_id' => $card_item->product_id,
-                            'inventory_id' => $supplyInventory->id,
-                            'quantity' => $card_item->quantity,
-                            'price' => $card_item->price,
-                        ]);
-                    }
+            ->get();
+
+        foreach ($cart_items as $cart_item) {
+            // **Apply discount before saving to order items**
+            $discountAmount = ($cart_item->discount / 100) * $cart_item->price;
+            $finalPrice = $cart_item->price - $discountAmount;
+
+            if ($cart_item->product_type_id == 1) {
+                // Handle instrument inventory
+                $SerialInventory = InventoryProducts::select('id')
+                    ->where('product_id', $cart_item->product_id)
+                    ->where('color_id', $cart_item->color_id)
+                    ->where('taken', false)
+                    ->take($cart_item->quantity)
+                    ->get();
+
+                $number_of_stocks = count($SerialInventory);
+
+                if ($cart_item->quantity > $number_of_stocks) {
+                    $order_validation_error->push("Sorry, item \"$cart_item->name\" with variant \"$cart_item->color_name\" only has $number_of_stocks stock(s) left.");
+                    return back()->withErrors($order_validation_error);
                 }
-            });
 
-        if( count( $order_validation_error ) > 0 ) {
-            return back()
-                ->withErrors($order_validation_error->all());
+                foreach ($SerialInventory as $serial) {
+                    $order_item_batch->push([
+                        'product_id' => $cart_item->product_id,
+                        'inventory_id' => $serial->id,
+                        'quantity' => 1,
+                        'price' => $finalPrice, // **Save discounted price**
+                    ]);
+                    $product_inventory_batch->push([$serial->id, ['taken' => true]]);
+                }
+            } else if ($cart_item->product_type_id == 2) {
+                // Handle supply inventory
+                $supplyInventory = InventorySupplies::select('id', 'quantity')
+                    ->where('product_id', $cart_item->product_id)
+                    ->where('color_id', $cart_item->color_id)
+                    ->first();
+
+                if ($supplyInventory && $cart_item->quantity > $supplyInventory->quantity) {
+                    $order_validation_error->push("Sorry, item \"$cart_item->name\" with variant \"$cart_item->color_name\" only has $supplyInventory->quantity stock(s) left.");
+                    return back()->withErrors($order_validation_error);
+                }
+
+                $order_item_batch->push([
+                    'product_id' => $cart_item->product_id,
+                    'inventory_id' => $supplyInventory->id,
+                    'quantity' => $cart_item->quantity,
+                    'price' => $finalPrice, // **Save discounted price**
+                ]);
+            }
         }
 
-        // Check if quantity is valid
-        if( count( $order_item_batch ) < 1 ) {
-            return back()
-                ->withErrors('You do not have an item in your cart.');
+        if ($order_validation_error->isNotEmpty()) {
+            return back()->withErrors($order_validation_error->all());
         }
 
-        $total_price = Cart::where('user_id', $user_id)
-            ->join('products', 'cart.product_id', '=', 'products.id')
-            ->sum(Cart::raw('quantity * price'));
+        if ($order_item_batch->isEmpty()) {
+            return back()->withErrors('You do not have any items in your cart.');
+        }
+
+        $total_price = 0;
+
+        foreach ($cart_items as $cart_item) {
+            $discountAmount = ($cart_item->discount / 100) * $cart_item->price;
+            $finalPrice = $cart_item->price - $discountAmount;
+            $total_price += $finalPrice * $cart_item->quantity;
+        }
 
         $order_insert = Orders::create([
-            'payment_method' => 'Cash',
+            'payment_method' => $form_payment_method,
             'status' => 1,
             'total' => $total_price,
             'user_id' => $user_id,
         ]);
 
-        foreach ( $order_item_batch as $order_item ) {
+        foreach ($order_item_batch as $order_item) {
             OrderItems::create([
                 ...$order_item,
                 'order_id' => $order_insert->id,
             ]);
         }
-        foreach ( $product_inventory_batch as [$inventory_id, $inventory_item] ) {
-            InventoryProducts::where('id', $inventory_id)
-                ->update($inventory_item);
+
+        foreach ($product_inventory_batch as [$inventory_id, $inventory_item]) {
+            InventoryProducts::where('id', $inventory_id)->update($inventory_item);
         }
+
         Cart::where('user_id', $user_id)->delete();
 
-        return redirect("/shop/order/$order_insert->id/view");
+        return redirect("/shop/order/{$order_insert->id}/view");
     }
     public function searchItem(Request $request)
     {
@@ -525,4 +559,19 @@ class ShopController extends BasePageController
             'query' => $query,
         ]);
     }
+    public function showOrder($orderId)
+{
+    $order = Orders::find($orderId);
+    $items = $order->items; // assuming you fetch related items
+    $discount = 0; // Initialize discount variable
+
+    // If there's logic to apply a discount, set it here
+    if ($order->hasDiscount()) {
+        $discount = $order->discount_amount; // or whatever logic you have
+    }
+
+
+    return view('order.view', compact('order', 'items', 'discount'));
+}
+
 }
