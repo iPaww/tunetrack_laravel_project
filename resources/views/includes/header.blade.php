@@ -250,12 +250,14 @@
                 </div>
 
                 <a class="navbar-brand" href="/{{ session('id') ? 'profile' : 'login' }}">
-                    <img src="{{ !empty(session('profile_picture')) && file_exists(public_path(session('profile_picture')))
-                        ? asset(session('profile_picture'))
+                    <img src="{{ session('profile_picture')
+                        ? asset('storage/' . session('profile_picture'))
                         : asset('assets/images/default/admindp.jpg') }}"
-                        alt="Profile Image" class="profile-image" style="width: 40px; height: 40px; border-radius: 50%;">
+                        alt="Profile Image" class="profile-image"
+                        style="width: 40px; height: 40px; border-radius: 50%;">
                     <span class="ms-2 d-none d-lg-inline">{{ session('id') ? session('fullname') : 'Guest' }}</span>
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

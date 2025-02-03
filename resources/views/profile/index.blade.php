@@ -1,99 +1,126 @@
-<div class="container">
-    <!-- User Profile Section -->
-    <div class="card mb-4 shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white text-center">
-            <h4>User Profile</h4>
-        </div>
-        <div class="card-body row align-items-center">
-            <!-- Left: Profile Picture -->
-            <div class="col-lg-4 text-center mb-3 mb-lg-0">
-                <img id="profileImage"
-                    src="{{ $profile['image'] && file_exists(public_path($profile['image']))
-                        ? asset($profile['image'])
-                        : asset('assets/images/default/admindp.jpg') }}"
-                    alt="Profile Picture" class="rounded-circle img-fluid" style="max-width: 300px; max-height: 300px;">
+<div class="container mt-4">
+        <!-- User Profile Header -->
+        <div class="card shadow-lg border-0 rounded-3 p-4 d-flex flex-row align-items-center" style="background-color: #FC6A03; color: white;">
+            <div class="position-relative me-4" style="width: 150px; height: 150px;">
+                <img id="profileImage" src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('assets/images/default/admindp.jpg') }}"
+                    alt="Profile Picture" class="rounded-circle border shadow-lg"
+                    style="border: 4px solid white; width: 100%; height: 100%; object-fit: cover;">
+
+                <input type="file" id="profilePictureInput" name="image" accept="image/*" style="display: none;" onchange="uploadProfilePicture(event)">
+
+                <div class="position-absolute bottom-0 end-0 bg-dark text-white p-2 rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px; cursor: pointer;"
+                    onclick="document.getElementById('profilePictureInput').click();">
+                    <i class="fas fa-camera"></i>
+                </div>
             </div>
-            <!-- Right: User Information -->
-            <div class="col-lg-8">
-                <p><strong>Full Name:</strong> <span class="profile-fullname">{{ $profile->fullname }}</span></p>
-                <p><strong>Email:</strong> <span class="profile-email">{{ $profile->email }}</span></p>
-                <p><strong>Phone Number:</strong> <span class="profile-phone_number">{{ $profile->phone_number }}</span>
-                </p>
-                <p><strong>Address:</strong> <span class="profile-address">{{ $profile->address }}</span></p>
+            <div>
+                <h3 class="mb-1 fw-bold fs-2">{{ $profile->fullname }}</h3>
+                <p class="mb-0">{{ $profile->email }}</p>
+            </div>
+            <button class="btn btn-light ms-auto" onclick="openEditModal()">Edit Profile</button>
+        </div>
+    <!-- Basic Info Section -->
+    <div class="card shadow-lg border-0 rounded-3 mt-3 p-4" style="background: #fff6f2;">
+        <div class="card-header bg-transparent border-0 pb-0">
+            <h5 class="fw-bold text-center" style="color: #FC6A03;">Basic Information</h5>
+        </div>
+            <div class="d-flex align-items-center mb-3 p-2 border rounded">
+                <i class="fas fa-envelope me-3 text-success"></i>
+                <p class="mb-0"><strong>Email:</strong> <span>{{ $profile->email }}</span></p>
+            </div>
+            <div class="d-flex align-items-center mb-3 p-2 border rounded">
+                <i class="fas fa-phone-alt me-3 text-primary"></i>
+                <p class="mb-0"><strong>Phone:</strong> <span>{{ $profile->phone_number }}</span></p>
+            </div>
+            <div class="d-flex align-items-center p-2 border rounded">
+                <i class="fas fa-map-marker-alt me-3 text-danger"></i>
+                <p class="mb-0"><strong>Address:</strong> <span>{{ $profile->address }}</span></p>
             </div>
         </div>
     </div>
 
-    <!-- Update User Profile Form -->
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-info text-white text-center">
-            <h5>Update Profile</h5>
-        </div>
-        <div class="card-body">
-            <form id="userForm" enctype="multipart/form-data" action="{{ route('update') }}" method="POST">
-                @csrf
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="fullname" class="form-label fw-bold">Full Name</label>
-                        <input class="form-control" id="fullname" type="text" name="fullname"
-                            placeholder="Full Name" value="{{ $profile->fullname }}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="phone_number" class="form-label fw-bold">Phone Number</label>
-                        <input class="form-control" id="phone_number" type="text" name="phone_number"
-                            placeholder="Phone Number" value="{{ $profile->phone_number }}" required>
-                    </div>
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label fw-bold">Address</label>
-                    <input class="form-control" id="address" type="text" name="address" placeholder="Address"
-                        value="{{ $profile->address }}" required>
+                <div class="modal-body">
+                    <form id="updateProfileForm" action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="formFullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="formFullName" name="fullname" value="{{ $profile->fullname }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formPhoneNumber" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="formPhoneNumber" name="phone_number" value="{{ $profile->phone_number }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="formAddress" name="address" value="{{ $profile->address }}">
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label fw-bold">Email</label>
-                    <input class="form-control" type="email" name="email" placeholder="Email"
-                        value="{{ $profile->email }}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="profile_picture" class="form-label fw-bold">Profile Picture</label>
-                    <input id="profile_picture" class="form-control" type="file" name="image" accept="image/*">
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Notice -->
-<div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="noticeModalLabel">Notice</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="noticeModalBody">
-                <!-- Success message dynamically added here -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const successMessage = "{{ session('success') }}";
+    function openEditModal() {
+        new bootstrap.Modal(document.getElementById('editProfileModal')).show();
+    }
 
-        if (successMessage) {
-            const noticeModalBody = document.getElementById('noticeModalBody');
-            const noticeModal = new bootstrap.Modal(document.getElementById('noticeModal'));
-
-            noticeModalBody.textContent = successMessage;
-            noticeModal.show();
+    function updateProfilePicture(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+                document.querySelector('.navbar-brand img').src = e.target.result; // Update header image
+            }
+            reader.readAsDataURL(file);
         }
-    });
+    }
+</script>
+
+<!-- AJAX Script for Auto-Save Profile Picture -->
+<script>
+    function uploadProfilePicture(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result; // Show preview
+                document.querySelector('.navbar-brand img').src = e.target.result; // Update header image
+            };
+            reader.readAsDataURL(file);
+
+            // Upload the image via AJAX
+            let formData = new FormData();
+            formData.append('image', file);
+            formData.append('_token', '{{ csrf_token() }}'); // CSRF token for security
+
+            fetch('{{ route("profile.update.picture") }}', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Profile picture updated successfully!");
+                } else {
+                    alert("Error updating profile picture!");
+                }
+            })
+            .catch(error => console.error("Upload failed:", error));
+        }
+    }
 </script>

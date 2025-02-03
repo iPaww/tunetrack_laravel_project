@@ -118,7 +118,7 @@ class ProfileController extends BasePageController
 
             $imagePath = $request->file('image')->store('userprofile/' . $profile->id, 'public');
             $profile->image = 'storage/' . $imagePath;
-            session([ 'profile_picture' => 'storage/' . $imagePath ]);
+            session(['profile_picture' => asset('storage/' . $imagePath)]);
         }
 
         $profile->save();
@@ -129,6 +129,31 @@ class ProfileController extends BasePageController
         ]);
 
         return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
+
+    public function updatePicture(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $profile = User::find(session('id'));
+
+        if (!$profile) {
+            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+        }
+
+        // Delete old profile picture if exists
+        if ($profile->image && Storage::disk('public')->exists($profile->image)) {
+            Storage::disk('public')->delete($profile->image);
+        }
+
+        // Store new image
+        $imagePath = $request->file('image')->store('userprofile/'.$profile->id, 'public');
+        $profile->image = $imagePath;
+        $profile->save();
+
+        return response()->json(['success' => true, 'message' => 'Profile picture updated successfully!', 'image' => asset('storage/' . $imagePath)]);
     }
 
     public function rebook($id)

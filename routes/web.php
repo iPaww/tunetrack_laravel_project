@@ -106,6 +106,8 @@ Route::controller(ProfileController::class)
         Route::get('/orders', 'orders');
         Route::get('/appointment', 'showBook')->name('index');
         Route::post('/update', [ProfileController::class, 'update'])->name('update');
+        Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture'])->name('profile.update.picture');
+
     });
 
 

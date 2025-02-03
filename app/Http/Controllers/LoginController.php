@@ -73,7 +73,7 @@ class LoginController extends BasePageController
                 'fullname' => $user['fullname'],
                 'email' => $user['email'],
                 'role' => $user['role'], // Store user role in session
-                'profile_picture' => $user['image']
+                'profile_picture' => $user['profile_picture']
             ]); // Set session variable
             return redirect('/admin');
         }
