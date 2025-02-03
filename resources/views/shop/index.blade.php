@@ -119,6 +119,15 @@
     .color-orange {
         color: #FC6A03;
     }
+    .discount-badge {
+    background-color: #e63946; /* Red color */
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 10px;
+    transform: translate(10px, -10px);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
 </style>
 
 <div id="container" class="container d-flex flex-column align-items-center py-5">
@@ -148,29 +157,43 @@
         @if (count($items) > 0)
             <div class="row justify-content-center">
                 @foreach ($items as $product)
-                    <div class="col-md-4 col-sm-12 mb-1 mt-3">
-                        <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view"
-                            class="text-decoration-none text-dark">
-                            <div class="card bg-light">
-                                @if (file_exists(public_path($product->image)))
-                                    <img src="{{ asset($product->image) }}" class="card-img-top"
-                                        alt="{{ htmlspecialchars($product->name) }}" />
-                                @else
-                                    <img src="{{ asset('/assets/images/products/default_product.png') }} "
-                                        class="card-img-top" alt="{{ htmlspecialchars($product->name) }}" />
+                <div class="col-md-4 col-sm-12 mb-1 mt-3">
+                    <a href="/shop/product/{{ htmlspecialchars($product->id) }}/view" class="text-decoration-none text-dark">
+                        <div class="card bg-light position-relative">
+                            <!-- Discount Badge -->
+                            @if ($product->discount > 0)
+                                <span class="discount-badge position-absolute top-0 end-0 px-3 py-1">
+                                    {{ number_format($product->discount, 0) }}% OFF
+                                </span>
+                            @endif
+                
+                            @if (file_exists(public_path($product->image)))
+                                <img src="{{ asset($product->image) }}" class="card-img-top"
+                                    alt="{{ htmlspecialchars($product->name) }}" />
+                            @else
+                                <img src="{{ asset('/assets/images/products/default_product.png') }}" class="card-img-top"
+                                    alt="{{ htmlspecialchars($product->name) }}" />
+                            @endif
+                
+                            <div class="card-body">
+                                <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}</h5>
+                                <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->brand->name) }}</h5>
+                
+                                <!-- Show original price with strikethrough if discount exists -->
+                                @if ($product->discount > 0)
+                                    <p class="text-center text-muted text-decoration-line-through">
+                                        ₱{{ number_format($product->price, 2) }}
+                                    </p>
                                 @endif
-
-                                <div class="card-body">
-                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->name) }}
-                                    </h5>
-                                    <h5 class="card-title text-center fw-bold">{{ htmlspecialchars($product->brand->name) }}
-                                    </h5>
-                                    <p class="card-text text-center color-orange">₱
-                                        {{ number_format($product->price, 2) }}</p>
-                                </div>
+                
+                                <!-- Final Price -->
+                                <p class="card-text text-center color-orange fw-bold">
+                                    ₱{{ number_format($product->price - ($product->price * ($product->discount / 100)), 2) }}
+                                </p>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
+                </div>
                 @endforeach
                 <div class="col-12">
                     {{ $items->links() }}

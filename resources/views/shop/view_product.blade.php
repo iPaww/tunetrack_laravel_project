@@ -22,7 +22,7 @@
         <!-- Product Details -->
         <div class="col-md-6">
             <h3 class="fw-bold">{{ $product->name }}</h3>
-            <h4 class="fw-bold">₱ {{ number_format($product->price) }}</h4>
+            <h4 class="fw-bold">₱{{ number_format($product->price - ($product->price * ($product->discount / 100)), 2) }}</h4>
             <div class="w-50">
                 <label class="form-label">Brand: {{ $product->brand_name }}</label>
             </div>
