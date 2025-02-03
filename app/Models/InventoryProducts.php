@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
 use App\Models\BaseModel;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class InventoryProducts extends BaseModel
 {
@@ -15,6 +16,8 @@ class InventoryProducts extends BaseModel
      */
     protected $table = 'inventory_products';
 
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     /**
      * The primary key associated with the table.
      *

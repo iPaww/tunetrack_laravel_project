@@ -17,6 +17,7 @@ class Products extends Model
     protected $fillable = [
         'name',
         'price',
+        'discount',
         'description',
         'image',
         'category_id',
@@ -70,4 +71,15 @@ class Products extends Model
     {
         return $this->hasMany(OrderItems::class, 'product_id');
     }
+    public function getFinalPriceAttribute()
+    {
+        return $this->price - ($this->price * ($this->discount / 100));
+    }
+
+    public function hasDiscount()
+{
+    return $this->discount > 0; // or your logic to check for a discount
+}
+
+
 }
