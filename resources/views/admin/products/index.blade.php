@@ -48,12 +48,7 @@
                 <tr>
                     <th>Product Name</th>
                     <th>Price</th>
-                    <th>Description</th>
-                    {{-- <th>Category</th>
-                    <th>Subcategory</th> --}}
-                    <th>Product Type</th>
-                    <th>Brand</th>
-                    <th>Image</th>
+                    <th>Discount (%)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -61,51 +56,26 @@
                 @forelse ($products as $product)
                     <tr>
                         <td>{{ $product->name }}</td>
-                        <td>{{ number_format($product->price, 2) }}</td>
-                        <td>{{ Str::limit($product->description, 50) }}</td>
-                        {{-- <td>
-                            @foreach ($categories as $category)
-                                @if ($category->id == $product->category_id)
-                                    {{ $category->name }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach ($subCategories as $subCategory)
-                                @if ($subCategory->id == $product->sub_category_id)
-                                    {{ $subCategory->name }}
-                                @endif
-                            @endforeach
-                        </td> --}}
-                        <td>
-                            @foreach ($productTypes as $productType)
-                                @if ($productType->id == $product->product_type_id)
-                                    {{ $productType->name }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach ($brands as $brand)
-                                @if ($brand->id == $product->brand_id)
-                                    {{ $brand->name }}
-                                @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            @if ($product->image)
-                                <img src="{{ asset($product->image) }}" alt="Product Image" class="img-fluid"
-                                    style="max-width: 100px;">
-                            @else
-                                <img src="{{ asset('/assets/images/products/default_product.png') }}" class="img-fluid"
-                                    style="max-width: 100px"/>
-                            @endif
-                        </td>
+                        <td>₱{{ number_format($product->price, 2) }}</td>
+                        <td>{{ number_format($product->discount, 2) }}%</td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-warning btn-sm me-2 rounded"
-                                    href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
-                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST"
-                                    class="d-inline">
+                                <button type="button" class="btn btn-info btn-sm me-2 rounded" data-bs-toggle="modal" data-bs-target="#viewProductModal" 
+                                    data-name="{{ $product->name }}" 
+                                    data-price="{{ number_format($product->price, 2) }}"
+                                    data-discount="{{ number_format($product->discount, 2) }}"
+                                    data-description="{{ $product->description }}"
+                                    data-finalprice="₱{{ number_format($product->price - ($product->price * ($product->discount / 100)), 2) }}"
+                                    data-type="{{ optional($product->productType)->name }}"
+                                    data-brand="{{ optional($product->brand)->name }}"
+                                    data-image="{{ asset('storage/'.$product->image) }}">
+                                    View
+                                </button>
+
+                        
+                                <a class="btn btn-warning btn-sm me-2 rounded" href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
+                                
+                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -114,9 +84,8 @@
                         </td>
                     </tr>
                 @empty
-                    <!-- If no products are found, display this row -->
                     <tr>
-                        <td colspan="9" class="text-center">No product found.</td>
+                        <td colspan="4" class="text-center">No product found.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -143,6 +112,60 @@
         </div>
     </div>
 </div>
+
+<!-- View Product Modal -->
+<div class="modal fade" id="viewProductModal" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewProductModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Product Image -->
+                <div class="text-center mb-3">
+                    <img id="modalProductImage" src="" alt="Product Image" class="img-fluid rounded" style="max-width: 300px; max-height: 300px;">
+                </div>
+
+                <!-- Product Details Table -->
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Product Name</th>
+                        <td id="modalProductName"></td>
+                    </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td id="modalProductPrice"></td>
+                    </tr>
+                    <tr>
+                        <th>Discount</th>
+                        <td id="modalProductDiscount"></td>
+                    </tr>
+                    <tr>
+                        <th>Final Price</th>
+                        <td id="modalProductFinalPrice"></td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td id="modalProductDescription"></td>
+                    </tr>
+                    <tr>
+                        <th>Product Type</th>
+                        <td id="modalProductType"></td>
+                    </tr>
+                    <tr>
+                        <th>Brand</th>
+                        <td id="modalProductBrand"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -171,4 +194,41 @@
             content.classList.toggle('expanded');
         });
     }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var viewProductModal = document.getElementById("viewProductModal");
+
+        viewProductModal.addEventListener("show.bs.modal", function (event) {
+            var button = event.relatedTarget;
+
+            // Retrieve product details from button attributes
+            var productName = button.getAttribute("data-name");
+            var productPrice = button.getAttribute("data-price");
+            var productDiscount = button.getAttribute("data-discount");
+            var productFinalPrice = button.getAttribute("data-finalprice");
+            var productDescription = button.getAttribute("data-description");
+            var productType = button.getAttribute("data-type");
+            var productBrand = button.getAttribute("data-brand");
+            var productImage = button.getAttribute("data-image");
+
+            // Insert data into modal fields
+            document.getElementById("modalProductName").textContent = productName;
+            document.getElementById("modalProductPrice").textContent = "₱" + productPrice;
+            document.getElementById("modalProductDiscount").textContent = productDiscount + "%";
+            document.getElementById("modalProductFinalPrice").textContent = productFinalPrice;
+            document.getElementById("modalProductDescription").textContent = productDescription;
+            document.getElementById("modalProductType").textContent = productType ? productType : "N/A";
+            document.getElementById("modalProductBrand").textContent = productBrand ? productBrand : "N/A";
+
+            // Set image source
+            var imageElement = document.getElementById("modalProductImage");
+            if (productImage) {
+                imageElement.src = productImage;
+                imageElement.style.display = "block";
+            } else {
+                imageElement.style.display = "none";
+            }
+        });
+    });
 </script>

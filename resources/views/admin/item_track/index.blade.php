@@ -39,7 +39,6 @@
                     <th>Order Date</th>
                     <th>Products</th>
                     <th>Payment Method</th>
-                    <th>Status</th>
                     <th>Total Price</th>
                     <th>Action</th>
                 </tr>
@@ -67,7 +66,6 @@
                                 @endif
                             </td>
                             <td>{{ $order->payment_method }}</td>
-                            <td>{{ $statusMap[$order->status] ?? 'Unknown' }}</td>
                             <td>{{ $order->total }}</td>
                             <td>
                                 <form action="{{ route('itemTrack.updateStatus') }}" method="POST">
