@@ -1,208 +1,4 @@
-<style>
-    .price-text {
-        color: #FF5A00;
-        font-weight: bold;
-    }
-
-    .select-payment {
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .select-payment:hover {
-        background-color: #e0e0e0;
-        transform: translateY(-2px);
-    }
-
-    .select-payment:active {
-        background-color: #ccc;
-        transform: translateY(0);
-    }
-
-    .btn-checkout {
-        background-color: #FF5A00;
-        border-color: #FF5A00;
-        width: 100%;
-        padding: 15px;
-        font-size: 1.1rem;
-        text-transform: uppercase;
-    }
-
-    .btn-checkout:hover {
-        background-color: #e34a00;
-        border-color: #e34a00;
-    }
-
-    .btn-checkout:active {
-        background-color: #b73800 !important;
-        border-color: #b73800 !important;
-    }
-
-    .policy-section {
-        padding: 25px;
-        background-color: #f3f3f3;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .policy-title {
-        font-size: 1.6rem;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #333;
-    }
-
-    .policy-content {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #555;
-    }
-
-    .policy-content .text-danger {
-        font-weight: bold;
-        color: #d9534f;
-    }
-
-    .alert-custom {
-        padding: 18px;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
-
-    .alert-warning-custom {
-        background-color: #f39c12;
-        color: white;
-    }
-
-    .alert-success-custom {
-        background-color: #2ecc71;
-        color: white;
-    }
-
-    .alert-danger-custom {
-        background-color: #e74c3c;
-        color: white;
-    }
-
-    .quantity-inp {
-        max-width: 70px;
-        text-align: center;
-    }
-
-    .btn-update {
-        display: none;
-        background-color: #28a745;
-        border-color: #28a745;
-        color: white;
-        padding: 5px 10px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .btn-update:disabled {
-        background-color: #ccc;
-        border-color: #ccc;
-        cursor: not-allowed;
-    }
-
-    .btn-update:hover {
-        background-color: #218838;
-    }
-
-    .btn-update:active {
-        background-color: #1e7e34;
-    }
-
-    .card-title {
-        font-size: 1.3rem;
-        font-weight: bold;
-    }
-
-    .product-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-    }
-
-    .product-description {
-        font-size: 1rem;
-        color: #777;
-    }
-
-    .product-price {
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #FF5A00;
-    }
-    /* Enhanced Policy Section */
-.policy-section {
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 25px;
-    border: 1px solid #f1f1f1;
-}
-
-.policy-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.policy-content {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.6;
-}
-
-.policy-section .icon-container {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 10px;
-}
-
-.policy-section .icon-container i {
-    font-size: 1.3rem;
-    margin-right: 5px;
-    color: #FF5A00;
-}
-
-.text-danger {
-    font-weight: bold;
-    color: #e74c3c;
-}
-
-/* Styling for the policy card */
-.card-policy {
-    border: 1px solid #eee;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    padding: 15px;
-    transition: all 0.3s ease;
-}
-
-.card-policy:hover {
-    border-color: #FF5A00;
-    transform: translateY(-5px);
-}
-
-.card-policy .policy-card-title {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.card-policy .policy-card-description {
-    font-size: 1rem;
-    color: #777;
-}
-
-</style>
+<link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
 
 <div class="container align-items-center min-vh-100 py-5">
     <div class="mb-3">
@@ -380,6 +176,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12">
                     <h1 class="fw-bold">Order Summary</h1>
                     <div class="row">
@@ -393,7 +190,9 @@
                         <div class="col-6">
                             <h4 class="fw-bold">Total</h4>
                         </div>
-                        <div class="col-6 text-end fw-bold">₱{{ number_format(isset($subtotal) && $subtotal > 0 , 2) }}</div>
+                        <div class="col-6 text-end fw-bold">₱{{ number_format($subtotal ?? 0, 2) }}</div>
+
+
                         <div class="col-12 text-center mt-4">
                             <form action="/shop/cart/check_out" method="POST">
                                 @csrf
