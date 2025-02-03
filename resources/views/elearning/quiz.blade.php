@@ -1,3 +1,9 @@
+<style>
+    .text-justify {
+    text-align: justify;
+}
+</style>
+
 <h1 class="fs-1">{{ $course->name }}</h1>
 <p class="fs-4 text-break">{{ $course->description }}</p>
 <h3 class="fs-3">Topics</h3>
@@ -38,7 +44,7 @@
                         You have already started your exam, please finish it to see the result.
                     </p>
                     <h4>Reminder:</h4>
-                    <p class="text-break">
+                    <p class="text-break text-justify">
                         Cheating, including but not limited to the use of unauthorized tools, software, or external
                         assistance, is strictly prohibited on this platform to maintain fairness and the integrity of
                         the experience.
@@ -57,7 +63,7 @@
                     </div>
                 @else
                     <h4 class="text-bg-warning rounded-top py-1 px-3">Attention</h4>
-                    <p class="text-break">
+                    <p class="text-break text-justify">
                         Cheating, including but not limited to the use of unauthorized tools, software, or external
                         assistance, is strictly prohibited on this platform to maintain fairness and the integrity of
                         the experience.

@@ -100,7 +100,7 @@ class QuizController extends BasePageController
         $correctAnswerMap = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4];
 
         $quiz = Quiz::findOrFail($id);
-        
+
         $imagePath = $quiz->picture; // Fallback to existing picture
         if ($request->hasFile('quiz_picture')) {
             if ($quiz->picture) {
@@ -134,7 +134,7 @@ class QuizController extends BasePageController
         return redirect()->route('quiz.index')->with('success', 'Quiz updated successfully!');
     }
 
-    
+
         public function destroy($id)
     {
         $quiz = Quiz::findOrFail($id); // Find the quiz by ID

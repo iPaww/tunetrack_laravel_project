@@ -9,7 +9,7 @@
                 <div class="topic-list">{{ $rel_topic->title }}</div>
             </a>
             @endforeach
-            <a class="text-reset text-decoration-none" data-bs-toggle="collapse" 
+            <a class="text-reset text-decoration-none" data-bs-toggle="collapse"
                 href="quiz" role="button" aria-expanded="false" aria-controls="quiz">
                 <div class="topic-list active">Quiz</div>
             </a>
@@ -104,7 +104,7 @@
                     </div>
                 </form>
             </div>
-            
+
             @if ($errors->any())
             <div class="col-12">
                 <ul class="list-group my-2">
