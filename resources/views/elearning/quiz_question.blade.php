@@ -1,7 +1,35 @@
 <style>
     .text-justify {
     text-align: justify;
-}
+    }
+    /* Style the radio button to add a border */
+    .inp-check {
+        border: 2px solid #FC6A03;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        background-color: white;
+        transition: border-color 0.3s ease;
+    }
+
+    /* Add a hover effect */
+    .inp-check:hover {
+        border-color: #bd4f02;
+    }
+
+    /* When the radio button is checked, add a different border color */
+    .inp-check:checked {
+        border-color: #853700;
+        background-color: #FC6A03;
+        outline: none;
+    }
+
+    /* Optional: Change the border color when the input is focused */
+    .inp-check:focus {
+        border-color: #FC6A03;
+        box-shadow: 0 0 5px rgba(255, 105, 0, 0.5);
+    }
+
 </style>
 <h1 class="fs-1">{{ $course->name }}</h1>
 <p class="fs-4 text-break text-justify fw-semibold">{{ $course->description }}</p>
@@ -38,7 +66,7 @@
         </div>
         <div class="col-8">
             <h3 class="fs-3 fw-bold text-center">Question # {{ $quiz->question_order }}</h3>
-            <p class="text-center mb-4">{{ $quiz->question }}</p>
+            <p class="text-center mb-4 fw-semibold">{{ $quiz->question }}</p>
 
             <!-- Show Quiz Image if available -->
             @if ($quiz->quiz_picture)
@@ -64,7 +92,7 @@
                         <input class="form-check-input inp-check" type="radio" name="answer_txt" id="a_answer" value="1"
                             @checked( $previousAnswer == 1 )
                         />
-                        <label class="form-check-label" for="a_answer">
+                        <label class="form-check-label fw-semibold" for="a_answer">
                             A. {{ $quiz->a_answer }}
                         </label>
                     </div>
@@ -74,7 +102,7 @@
                         <input class="form-check-input inp-check" type="radio" name="answer_txt" id="b_answer" value="2"
                             @checked( $previousAnswer == 2 )
                         >
-                        <label class="form-check-label" for="b_answer">
+                        <label class="form-check-label  fw-semibold" for="b_answer">
                             B. {{ $quiz->b_answer }}
                         </label>
                     </div>
@@ -84,7 +112,7 @@
                         <input class="form-check-input inp-check" type="radio" name="answer_txt" id="c_answer" value="3"
                             @checked( $previousAnswer == 3 )
                         >
-                        <label class="form-check-label" for="c_answer">
+                        <label class="form-check-label  fw-semibold" for="c_answer">
                             C. {{ $quiz->c_answer }}
                         </label>
                     </div>
@@ -94,7 +122,7 @@
                         <input class="form-check-input inp-check" type="radio" name="answer_txt" id="d_answer" value="4"
                             @checked( $previousAnswer == 4 )
                         >
-                        <label class="form-check-label" for="d_answer">
+                        <label class="form-check-label  fw-semibold" for="d_answer">
                             D. {{ $quiz->d_answer }}
                         </label>
                     </div>
@@ -105,7 +133,7 @@
                     @csrf <!-- {{ csrf_field() }} -->
                     <input type="hidden" name="answer" @if( $previousAnswer > 0 ) value={{ $previousAnswer }} @endif>
                     <div class="text-end">
-                        <button class="btn btn-lg btn-elearning me-5">Submit</button>
+                        <button style="background-color: #FC6A03" class="btn btn-lg">Submit</button>
                     </div>
                 </form>
             </div>

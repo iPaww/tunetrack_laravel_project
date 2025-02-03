@@ -1,29 +1,95 @@
 <style>
-    .card:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+/* General Card Styling */
+.card {
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background: white;
 }
 
+/* Hover Effects: Lift & Glow */
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Course Title Styling */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #FC6A03;
+}
+
+/* Description: Subtle Fade-in on Hover */
+.card p {
+    font-size: 1rem;
+    color: #555;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover p {
+    opacity: 1;
+}
+
+/* Progress Bar Styling */
+.progress {
+    height: 15px;
+    border-radius: 50px;
+    overflow: hidden;
+    background: #e9ecef;
+}
+
+/* Center Progress Text */
+.text-center small {
+    font-weight: bold;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #FC6A03 !important;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect: Slight Glow & Scale */
 .btn-primary:hover {
-    background-color: #0056b3;
-    color: #fff;
+    background-color: #bd4f02 !important;
+    transform: scale(1.05);
+    box-shadow: 0px 5px 12px rgba(252, 106, 3, 0.4);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .col-xl-3 {
+        width: 100%;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card p {
+        font-size: 0.9rem;
+    }
 }
 
 </style>
+
 <div class="container my-4">
-    <h1 class="text-center mb-4"><b>Courses<b></h1>
+    <h1 class="text-center mb-4"><b>Courses</b></h1>
     <div class="row">
         @if (count($courses_history) > 0)
             @foreach ($courses_history as $course_history)
                 <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-lg border-0" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card h-100 shadow-lg border-0">
                         <div class="card-body p-4">
-                            <h5 class="card-title text-primary">{{ $course_history->course->name }}</h5>
+                            <h5 class="card-title">{{ $course_history->course->name }}</h5>
                             <p class="text-muted text-truncate mb-4" title="{{ $course_history->course->description }}">
                                 {{ $course_history->course->description }}
                             </p>
-                            <div class="progress mb-3" style="height: 15px; border-radius: 10px; overflow: hidden;">
+                            <div class="progress mb-3">
                                 <div
                                     @class([
                                         'progress-bar' => true,
@@ -36,8 +102,8 @@
                                     aria-valuenow="{{ ceil(($course_history->topics_viewed / max($course_history->course->topics->count(), 1)) * 100) }}"
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    style="width: {{ ceil(($course_history->topics_viewed / max($course_history->course->topics->count(), 1)) * 100) }}%; height: 100%;"
-                                ></div>
+                                    style="width: {{ ceil(($course_history->topics_viewed / max($course_history->course->topics->count(), 1)) * 100) }}%;">
+                                </div>
                             </div>
                             <div class="text-center">
                                 @if ($course_history->topics_viewed >= max($course_history->course->topics->count(), 1))
@@ -76,3 +142,4 @@
         </div>
     </div>
 </div>
+

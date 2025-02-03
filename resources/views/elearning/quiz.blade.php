@@ -5,7 +5,7 @@
 </style>
 
 <h1 class="fs-1">{{ $course->name }}</h1>
-<p class="fs-4 text-break">{{ $course->description }}</p>
+<p class="fs-5 text-break fw-semibold">{{ $course->description }}</p>
 <h3 class="fs-3">Topics</h3>
 <div class="card topic-card">
     <div class="card-body row">
@@ -44,7 +44,7 @@
                         You have already started your exam, please finish it to see the result.
                     </p>
                     <h4>Reminder:</h4>
-                    <p class="text-break text-justify">
+                    <p class="text-break text-justify fw-semibold">
                         Cheating, including but not limited to the use of unauthorized tools, software, or external
                         assistance, is strictly prohibited on this platform to maintain fairness and the integrity of
                         the experience.
@@ -62,8 +62,8 @@
                             class="btn btn-lg btn-success">Continue</a>
                     </div>
                 @else
-                    <h4 class="text-bg-warning rounded-top py-1 px-3">Attention</h4>
-                    <p class="text-break text-justify">
+                    <h4 style="background-color: #FC6A03" class="rounded-top py-1 px-3">ATTENTION</h4>
+                    <p class="text-break text-justify fw-semibold">
                         Cheating, including but not limited to the use of unauthorized tools, software, or external
                         assistance, is strictly prohibited on this platform to maintain fairness and the integrity of
                         the experience.
@@ -78,7 +78,7 @@
                     </p>
                     <div class="text-center">
                         <a href="/elearning/category/{{ request()->route('id') }}/course/{{ $course->id }}/quiz/{{ $quizes[0]->id }}"
-                            class="btn btn-lg btn-warning">Proceed</a>
+                            style="background-color: #FC6A03; color: black;" class="btn btn-lg">Proceed</a>
                     </div>
                 @endif
             @else

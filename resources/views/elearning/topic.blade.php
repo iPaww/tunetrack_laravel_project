@@ -4,7 +4,7 @@
 }
 </style>
 <h1 class="fs-1">{{ $course->name }}</h1>
-<p class="fs-4 text-break text-justify">{{ $course->description }}</p>
+<p class="fs-5 text-break text-justify fw-semibold">{{ $course->description }}</p>
 <h3 class="fs-1">Topics</h3>
 
 <div class="card topic-card">
@@ -45,7 +45,7 @@
             <h3 class="fs-3 fw-bold">{{ $topic->title }}</h3>
 
             <!-- Topic Description -->
-            <p class="text-break text-justify">{!! $topic->description !!}</p>
+            <p class="text-break text-justify fw-semibold">{!! $topic->description !!}</p>
 
             <!-- Topic Audio -->
             @if ($topic->audio)
@@ -55,6 +55,16 @@
                         Your browser does not support the audio element.
                     </audio>
                 </div>
+            @endif
+
+            <!-- Topic Video -->
+            @if ($topic->video)
+            <div class="mt-4">
+                <video controls class="w-100" style="max-width: 80%;">
+                    <source src="{{ asset('storage/' . $topic->video) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             @endif
         </div>
     </div>

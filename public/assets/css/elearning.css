@@ -1,55 +1,129 @@
+/* Sidebar General Styling */
+.side-bar {
+    width: 280px;
+    background: #1e1e1e;
+    min-height: 100vh;
+    padding: 1rem 0;
+    overflow-y: auto;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Category Styling */
 .category-sidenav {
     color: white;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 1em;
-    padding-bottom: 1em;
     font-weight: bold;
+    padding: 1rem;
+    font-size: 1.1rem;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+    border-left: 4px solid transparent;
 }
 
-.category-sidenav:not(.active):hover {
-    background-color: #555;
-    filter: brightness(80%);
-}
-
+/* Active Category */
 .category-sidenav.active {
+    background-color: #FC6A03;
+    border-left: 4px solid white;
+    border: 2px solid black; /* Black outline */
+    border-radius: 10px;
     cursor: default;
-    background-color: #707070;
 }
 
+/* Hover Effect */
+.category-sidenav:not(.active):hover {
+    background-color: rgba(252, 106, 3, 0.7);
+    transform: translateX(5px);
+    border-left: 4px solid #FC6A03;
+}
+
+/* Courses Section */
 .courses-div {
     background-color: #2e2d2d;
+    padding-left: 1rem;
 }
 
-.course-sidenav,
+/* Course Styling */
+.course-sidenav {
+    color: white;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    border-left: 3px solid transparent;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+/* Active Course */
+.course-sidenav.active {
+    background-color: #FC6A03;
+    border-left: 3px solid white;
+    border: 2px solid black; /* Black outline */
+    border-radius: 10px;
+    cursor: default;
+}
+
+/* Hover Effect */
+.course-sidenav:not(.active):hover {
+    background-color: rgba(252, 106, 3, 0.7);
+    transform: translateX(3px);
+    border-left: 3px solid black;
+}
+
+/* Topics Section */
+.topics-div {
+    background-color: #383838;
+    padding-left: 1rem;
+    border-radius: 10px;
+}
+
+/* Topic Styling */
 .topic-sidenav {
     color: white;
-    padding-left: 3em;
-    padding-right: 0.8em;
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    font-size: 0.8em;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.5rem;
+    border-left: 2px solid transparent;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
 }
 
-.course-sidenav:not(.active):hover,
-.topic-sidenav:not(.active):hover {
-    background-color: #808080;
-    filter: brightness(80%);
-}
-
-.course-sidenav.active,
+/* Active Topic */
 .topic-sidenav.active {
+    background-color: #FC6A03;
+    border-left: 2px solid white;
+    border: 2px solid black; /* Black outline */
+    border-radius: 10px;
     cursor: default;
-    background-color: #424242;
 }
 
-.topic-sidenav {
-    padding-left: 4em;
+/* Hover Effect */
+.topic-sidenav:not(.active):hover {
+    background-color: rgba(252, 106, 3, 0.7);
+    transform: translateX(2px);
+    border-left: 2px solid black;
+}
+
+/* Sidebar Scrollbar Styling */
+.side-bar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.side-bar::-webkit-scrollbar-track {
+    background-color: #1e1e1e;
+}
+
+/* Mobile Sidebar Optimization */
+@media (max-width: 768px) {
+    .side-bar {
+        width: 100%;
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+    }
 }
 
 .topic-card {
-    background-color: #3b3b3b;
-    color: white;
+    background-color: #fef9f3;
+    color: black;
 }
 
 .topic-list {
@@ -57,7 +131,7 @@
 }
 
 .topic-list {
-    color: white;
+    color: black;
     padding-left: 1em;
     padding-right: 1em;
     padding-top: 1em;
@@ -65,38 +139,29 @@
 }
 
 .sub-topic-list {
-    color: white;
+    color: black;
     padding-left: 1.5em;
     padding-right: 0.8em;
     padding-top: 0.8em;
     padding-bottom: 0.8em;
-    font-size: 0.9em;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .topic-list.active,
 .sub-topic-list.active {
     cursor: default;
-    background-color: #707070;
+    background-color: #FC6A03;
+    border-radius: 10px;
+    color: black;
 }
 
 .topic-list:not(.active):hover,
 .sub-topic-list:not(.active):hover {
-    background-color: #555;
+    background-color: #FEE1CC;
     filter: brightness(80%);
-}
-
-.btn-elearning {
-    color: white;
-    background-color: #FC6A03;
-    border-color: #FC6A03;
-}
-
-.btn-elearning:hover {
-    background-color: #bd4f02;
-    border-color: #bd4f02;
-}
-
-.btn-elearning:active {
-    background-color: #853700 !important;
-    border-color: #853700 !important;
+    border-radius: 10px;
+    color: black;
 }
