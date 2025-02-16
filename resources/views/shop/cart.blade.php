@@ -148,27 +148,33 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Terms and Conditions:</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Policies and Agreement:</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                                1. Consent: The users agree to partake in providing their feedback and insights regarding the functionality and effectiveness of the web-based e-learning platform for JCS Music Store by participating in this study.
-                                <br><br>2. Confidentiality: Any personal information collected during the course of the study shall be kept confidential and used exclusively for research purposes. No participant shall be identified in the reports or publication that derive from the study.
-            
-                                <br><br>3. Data Use: All collected information for the study will be used for research purposes only and will not be transferred to any third party without permission from the respondents.
-            
-                                <br><br>4. System Feedback: The participants are asked to give honest and constructive feedback regarding the e-learning platform and ordering system. This will help in improving the platform further as well as the experience of the users.
-            
-                                <br><br>5. Compliance: Participants are expected to follow guidelines and instructions given by researchers for the study. Misuse of the platform and any term condition violation may lead to disqualification from the study.
-            
-                                <br><br>6. Ownership: The entire developed system comprising all its parts and functionalities is owned by JCS Music Store. The participants agree that they are only offering feedback and insights that would help develop the platform to become a better one.
-            
-                                <br><br>7. Liability: Neither the researchers nor the JCS Music Store will be held responsible or liable for any problem or damages caused due to participation in the study. Participants take their risk by participating voluntarily.
-            
-                                <br><br>8. Contact Information: Participants may contact the researchers in case any kind of query or issues emerge regarding this study. The researches would make best efforts to answer the queries as early as possible and further assistance shall be provided when needed.
-            
-                                <br><br>By accepting to participate in this study, participants affirm that they have read, understood, and agreed to the conditions listed above.
-                                </p>
+                            <strong>Shipping Policy</strong><br>
+                            We strive to process and ship orders as quickly as possible. The estimated processing 
+                            time for each order is between 3 to 7 business days from the date of purchase. However, 
+                            this timeframe may vary depending on product availability, order volume, or unforeseen circumstances.
+                            
+                            Once your order has been processed, you will receive a confirmation notification. 
+                            Please do not proceed with payment or expect shipment until you receive official 
+                            confirmation from our shop.
+                            
+                            If there are any delays or issues with your order, we will notify you promptly. 
+                            Shipping fees and estimated delivery times may vary depending on your location 
+                            and the chosen shipping method.
+                            <br>
+                            <hr>
+                            <br>
+                            <strong>Return and Refund Policy</strong><br>
+                            All sales are final, and we do not offer refunds for purchased items. However, we understand that color preferences may change. Therefore, we allow color exchanges within 7 days from the date of purchase under the following conditions:
+
+                            The item must be unused, unwashed, and in its original packaging.
+                            The request for an exchange must be made within 7 days of receiving the item.
+                            The customer is responsible for any return shipping costs.
+                            Exchanges are subject to stock availability.
+                            If you wish to request a color exchange, please contact our customer support team with your order details.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
