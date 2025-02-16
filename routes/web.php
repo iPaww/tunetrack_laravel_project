@@ -228,6 +228,7 @@ Route::prefix('admin')->group(function() {
                 ->group(function () {
                     Route::get('/', 'index')->name('itemTrack.index');
                     Route::post('/update-status', 'updateStatus')->name('itemTrack.updateStatus');
+                    Route::post('/apply-pwd-discount', 'applyPwdDiscount')->name('itemTrack.applyPwdDiscount');
                 });
 
 

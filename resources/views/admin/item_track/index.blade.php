@@ -78,6 +78,10 @@
                                         <option value="4" {{ $order->status == 4 ? 'selected' : '' }}>Cancel</option>
                                     </select>
                                     <button type="submit" class="btn btn-primary mt-2">Update Status</button>
+                                    <button type="button" class="btn btn-primary mt-2 apply-pwd-discount" data-order-id="{{ $order->id }}">
+                                        Apply PWD Discount
+                                    </button>
+                                    
                                 </form>
                             </td>
                         </tr>
@@ -127,5 +131,36 @@
     toggleSidebar.addEventListener('click', () => {
         sidebar.classList.toggle('visible');
         content.classList.toggle('expanded');
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".apply-pwd-discount").forEach(button => {
+            button.addEventListener("click", function () {
+                let orderId = this.getAttribute("data-order-id");
+
+                fetch("{{ route('itemTrack.applyPwdDiscount') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    },
+                    body: JSON.stringify({ order_id: orderId }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("PWD Discount Applied Successfully!");
+                        location.reload();
+                    } else {
+                        alert("Failed to apply discount: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            });
+        });
     });
 </script>

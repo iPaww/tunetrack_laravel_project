@@ -14,77 +14,81 @@ class ItemTrackController extends BasePageController
 
     public function index(Request $request)
     {
-        // Get the selected status from the request
         $status = $request->input('status');
-        $orderId = $request->input('order_id'); // Fetch Order ID filter
+        $orderId = $request->input('order_id');
 
-        // Fetch orders with user data, and apply the status filter if provided
         $orders = Orders::with('user')
-            ->when($status, function ($query) use ($status) {
-                return $query->where('status', $status); // Filter by status
-            })->when($orderId, function ($query) use ($orderId) {
-                return $query->where('id', $orderId);
-            })
-            
-            ->paginate(10)
-            ->withQueryString();
+            ->when($status, fn($query) => $query->where('status', $status))
+            ->when($orderId, fn($query) => $query->where('id', $orderId))
+            ->paginate(10);
 
-        // Map status integer to string value
         $statusMap = [
             1 => 'Pending',
             2 => 'Processing',
             3 => 'Ready to Pickup',
-            4 => 'Cancel'
+            4 => 'Cancelled'
         ];
 
-        // Pass the orders and status map to the view
         return $this->view_basic_page($this->base_file_path . 'index', compact('orders', 'statusMap'));
     }
 
     public function updateStatus(Request $request)
-{
-    $validatedData = $request->validate([
-        'order_id' => 'required|exists:orders,id',
-        'status' => 'required|in:1,2,3,4', // Ensure the status is valid
-    ]);
+    {
+        $validatedData = $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'status' => 'required|in:1,2,3,4',
+        ]);
 
-    if ($validatedData['status'] == 4) { // Cancel status
-        // Fetch all order items for the given order_id, with related product data
-        $orderItems = OrderItems::with('product') // Ensure the `product` relationship works correctly
-            ->where('order_id', $validatedData['order_id'])
-            ->get();
+        $order = Orders::findOrFail($validatedData['order_id']);
 
-        foreach ($orderItems as $item) {
-            $product = $item->product; // Access related product data
+        if ($validatedData['status'] == 4) { // If status is Cancelled
+            $orderItems = OrderItems::with('product')
+                ->where('order_id', $order->id)
+                ->get();
 
-            if ($product) {
-                if ($product->product_type_id == 1) {
-                    // Update inventory_products: set `taken` to 0, update `serial_number` and `color_id`
-                    DB::table('inventory_products')
-                        ->where('id', $item->inventory_id)
-                        ->update([
-                            'taken' => 0,
-                            // 'serial_number' => $product_id->serial_number ?? null, // Ensure serial_number is correctly updated
-                            // 'color_id' => $product_id->color_id ?? null, // Ensure color_id is correctly updated
-                        ]);
-            } elseif ($product && $product->product_type_id == 2) {
-                // Update inventory_supplies: increase `quantity`
-                DB::table('inventory_supplies')
-                    ->where('id', $item->inventory_id)
-                    ->increment('quantity', $item->quantity);
-            }
+            foreach ($orderItems as $item) {
+                $product = $item->product;
+
+                if ($product) {
+                    if ($product->product_type_id == 1) {
+                        // Update inventory_products
+                        DB::table('inventory_products')
+                            ->where('id', $item->inventory_id)
+                            ->update(['taken' => 0]);
+                    } elseif ($product->product_type_id == 2) {
+                        // Increase inventory_supplies quantity
+                        DB::table('inventory_supplies')
+                            ->where('id', $item->inventory_id)
+                            ->increment('quantity', $item->quantity);
+                    }
+                }
             }
         }
+
+        $order->status = $validatedData['status'];
+        $order->is_read = 0;
+        $order->save();
+
+        return redirect()->route('itemTrack.index')->with('success', 'Order status updated successfully!');
     }
 
-    // Update the order status
-    $order = Orders::findOrFail($validatedData['order_id']);
-    $order->status = $validatedData['status'];
-    $order->is_read = 0;  
-    $order->save();
+    public function applyPwdDiscount(Request $request)
+    {
+        $validated = $request->validate([
+            'order_id' => 'required|exists:orders,id',
+        ]);
 
-    return redirect()->route('itemTrack.index')->with('success', 'Order status updated successfully!');
-}
+        $order = Orders::findOrFail($validated['order_id']);
 
+        if ($order->has_pwd_discount) {
+            return response()->json(['success' => false, 'message' => 'PWD discount has already been applied!']);
+        }
 
+        $discountedPrice = round($order->total * 0.90, 2); // 10% discount
+        $order->total = $discountedPrice;
+        $order->has_pwd_discount = true;
+        $order->save();
+
+        return response()->json(['success' => true, 'message' => 'PWD discount applied successfully!']);
+    }
 }
