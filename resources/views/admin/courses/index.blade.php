@@ -99,7 +99,8 @@
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center">
-        {{ $courses->links() }}
+        {{ $courses->appends(request()->except('page'))->links() }}
+        {{-- {{ $courses->links() }} --}}
     </div>
 </div>
 

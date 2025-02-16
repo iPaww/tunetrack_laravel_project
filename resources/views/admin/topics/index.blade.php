@@ -39,53 +39,30 @@
         <table class="table table-bordered table-sm m-0">
             <thead class="bg-light">
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Course</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Audio</th>
-                    <th scope="col">Video</th>
-                    <th scope="col">Actions</th>
+                    <th style="width: 30%;">Title</th>
+                    <th style="width: 30%;">Course</th>
+                    <th style="width: 30%;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($topics as $topic)
                     <tr>
-                        <td class="text-truncate" style="max-width: 10em;">{{ $topic->title }}</td>
-                        <td class="text-truncate" style="max-width: 8em;">
+                        <td >{{ $topic->title }}</td>
+                        <td >
                             {{ $topic->courses ? $topic->courses->name : 'No Course' }}
-                        </td>
-                        <td class="text-truncate" style="max-width: 12em;">{{ $topic->description }}</td>
-                        <td>
-                            @if ($topic->image)
-                                <img src="{{ asset('storage/' . $topic->image) }}" alt="Topic Image"
-                                    style="width: 50px; height: auto;">
-                            @else
-                                <span class="text-muted">No Image</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($topic->audio)
-                                <audio controls>
-                                    <source src="{{ asset('storage/' . $topic->audio) }}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                                </audio>
-                            @else
-                                <span class="text-muted">No Audio</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if ($topic->video)
-                                <video width="100" controls>
-                                    <source src="{{ asset('storage/' . $topic->video) }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            @else
-                                <span class="text-muted">No Video</span>
-                            @endif
                         </td>
                         <td>
                             <div class="d-flex justify-content-start gap-3">
+                                <button class="btn btn-info btn-sm w-auto view-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#viewTopicModal"
+                                    data-title="{{ $topic->title }}"
+                                    data-description="{{ $topic->description }}"
+                                    data-image="{{ $topic->image ? asset('storage/' . $topic->image) : '' }}"
+                                    data-audio="{{ $topic->audio ? asset('storage/' . $topic->audio) : '' }}"
+                                    data-video="{{ $topic->video ? asset('storage/' . $topic->video) : '' }}">
+                                View
+                            </button>
                                 <a href="{{ route('topics.edit', $topic->id) }}"
                                     class="btn btn-warning btn-sm w-auto">Edit</a>
 
@@ -108,7 +85,27 @@
         </table>
         {{ $topics->appends(['search' => request('search')])->links() }}
     </div>
-
+    <!-- View Topic Modal -->
+    <div class="modal fade" id="viewTopicModal" tabindex="-1" aria-labelledby="viewTopicModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewTopicModalLabel">Topic Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 id="topicTitle"></h4>
+                    <p id="topicDescription"></p>
+                    <div id="topicImage"></div>
+                    <div id="topicAudio"></div>
+                    <div id="topicVideo"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Notification for CRUD Actions -->
     <div class="modal fade" id="crudModal" tabindex="-1" aria-labelledby="crudModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -157,4 +154,48 @@
             content.classList.toggle('expanded');
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.view-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const title = this.getAttribute('data-title');
+                const description = this.getAttribute('data-description');
+                const image = this.getAttribute('data-image');
+                const audio = this.getAttribute('data-audio');
+                const video = this.getAttribute('data-video');
+
+                document.getElementById('topicTitle').textContent = title;
+                document.getElementById('topicDescription').textContent = description;
+
+                // Handle Image
+                if (image) {
+                    document.getElementById('topicImage').innerHTML = `<img src="${image}" class="img-fluid" style="max-width: 100%;">`;
+                } else {
+                    document.getElementById('topicImage').innerHTML = '<p class="text-muted">No Image</p>';
+                }
+
+                // Handle Audio
+                if (audio) {
+                    document.getElementById('topicAudio').innerHTML = `
+                        <audio controls class="mt-2">
+                            <source src="${audio}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>`;
+                } else {
+                    document.getElementById('topicAudio').innerHTML = '<p class="text-muted">No Audio</p>';
+                }
+
+                // Handle Video
+                if (video) {
+                    document.getElementById('topicVideo').innerHTML = `
+                        <video controls class="mt-2" style="max-width: 100%;">
+                            <source src="${video}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>`;
+                } else {
+                    document.getElementById('topicVideo').innerHTML = '<p class="text-muted">No Video</p>';
+                }
+            });
+        });
+    });
 </script>
