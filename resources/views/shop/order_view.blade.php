@@ -30,7 +30,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Variant</th>
-                        <th class="text-end">Price</th>
+                        <th class="text-center">Price</th>
                         <th class="text-center">Quantity</th>
                         <th class="text-center">Serial Numbers</th>
                         <th class="text-end">Total</th>
@@ -39,7 +39,7 @@
                 <tbody>
                     @foreach ($items as $item)
                         <tr>
-                            <td class="product-info">
+                            <td class="text-center product-column">
                                 <a href="/shop/product/{{ $item->product->id }}/view"
                                     class="text-decoration-none d-flex align-items-center">
                                     @if (file_exists(public_path($item->image)))
@@ -55,11 +55,16 @@
                             </td>
 
                             <td>{{ $item->InventoryProduct->color->name }}</td>
-                            <td class="text-end price-column">
-                                <s class="text-muted">₱{{ number_format($item->original_price, 2) }}</s>
+                            <td class="text-center price-column">
+                                @if ($item->discount > 0)
+                                    <s class="text-muted">₱{{ number_format($item->original_price, 2) }}</s>
+                                @endif
                                 <strong>₱{{ number_format($item->original_price * (1 - $item->discount / 100), 2) }}</strong>
-                                <span class="text-success">(-{{ $item->discount }}%)</span>
-                            </td>   
+                                
+                                @if ($item->discount > 0)
+                                    <span class="text-success">(-{{ $item->discount }}%)</span>
+                                @endif
+                            </td>
                             <td class="text-center quantity-column">
                                 @if ($item->product->product_type_id == 1)
                                     {{ number_format($item->product_quantity) }}

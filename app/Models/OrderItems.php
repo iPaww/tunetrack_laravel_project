@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItems extends BaseModel
 {
@@ -48,9 +49,9 @@ class OrderItems extends BaseModel
         'price',
     ];
 
-    public function product(): HasOne
+    public function product(): BelongsTo
     {
-        return $this->hasOne(\App\Models\Products::class, 'id', 'product_id');  // This is correct
+        return $this->belongsTo(\App\Models\Products::class, 'product_id', 'id');
     }
 
     public function product_review(): HasOne
@@ -58,19 +59,21 @@ class OrderItems extends BaseModel
         return $this->hasOne(\App\Models\ProductReview::class, 'order_item_id', 'id');
     }
 
-    public function InventoryProduct(): HasOne
+    public function inventoryProduct(): BelongsTo
     {
-        return $this->hasOne(\App\Models\InventoryProducts::class, 'id', 'inventory_id');
+        return $this->belongsTo(\App\Models\InventoryProducts::class, 'inventory_id', 'id');}
+    public function inventoryProductss()
+    {
+        return $this->hasMany(InventoryProducts::class, 'order_item_id', 'id');
     }
-
     public function InventoryProducts(): HasMany
     {
         return $this->hasMany(\App\Models\InventoryProducts::class, 'id', 'inventory_id');
     }
 
-    public function InventorySupply(): HasOne
+    public function inventorySupply(): BelongsTo
     {
-        return $this->hasOne(\App\Models\InventorySupplies::class, 'id', 'inventory_id');
+        return $this->belongsTo(\App\Models\InventorySupplies::class, 'inventory_id', 'id');
     }
 
     public function InventorySupplies(): HasMany
@@ -79,13 +82,18 @@ class OrderItems extends BaseModel
     }
 
     public function order()
-{
-    return $this->belongsTo(Orders::class, 'order_id', 'id'); // Assuming 'order_id' is the foreign key in 'orders_item' table
-}
-public function appointment()
-{
-    return $this->hasOne(Appointment::class, 'order_id', 'order_id');
-}
+    {
+        return $this->belongsTo(Orders::class, 'order_id', 'id'); // Assuming 'order_id' is the foreign key in 'orders_item' table
+    }
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class, 'order_id', 'order_id');
+    }
+    public function color(): BelongsTo
+    {
+        return $this->belongsTo(Colors::class, 'color_id', 'id');
+    }
+    
 
 
 

@@ -28,8 +28,8 @@ class ItemTrackController extends BasePageController
             3 => 'Ready to Pickup',
             4 => 'Cancelled'
         ];
-
-        return $this->view_basic_page($this->base_file_path . 'index', compact('orders', 'statusMap'));
+        $orderss = Orders::with(['user', 'orderItems.InventoryProduct.color'])->paginate(10);
+        return $this->view_basic_page($this->base_file_path . 'index', compact('orders','orderss', 'statusMap'));
     }
 
     public function updateStatus(Request $request)

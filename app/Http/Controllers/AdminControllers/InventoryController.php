@@ -157,7 +157,7 @@ class InventoryController extends BasePageController
             ]);
         }
 
-        return redirect('/admin/inventory');
+        return redirect()->back()->with('success', 'Product added successfully!');
     }
 
     public function edit_products($product_id, $color_id)
@@ -168,7 +168,7 @@ class InventoryController extends BasePageController
             ->get();
         $colors = Colors::orderBy('name')
             ->get();
-        return $this->view_basic_page( $this->base_file_path . 'edit_product', compact( 'inventory', 'inventories', 'colors' ));
+        return $this->view_basic_page( $this->base_file_path . 'edit_product', compact( 'inventory', 'inventories', 'colors' ))->with('success', 'Inventory updated successfully!');
     }
 
     public function edit_supplies($product_id, $color_id)
@@ -178,7 +178,7 @@ class InventoryController extends BasePageController
             ->first();
         $colors = Colors::orderBy('name')
             ->get();
-        return $this->view_basic_page( $this->base_file_path . 'edit_supply', compact( 'inventory', 'colors' ));
+        return $this->view_basic_page( $this->base_file_path . 'edit_supply', compact( 'inventory', 'colors' ))->with('success', 'Inventory updated successfully!');
     }
 
     public function edit_form_products($product_id, $color_id, Request $request): RedirectResponse
@@ -237,8 +237,9 @@ class InventoryController extends BasePageController
         InventoryProducts::whereIn('id', $delete_inventories)
             ->delete();}
 
-
-        return redirect('/admin/inventory');
+            
+            $product = products::where('id', $product_id)->first();   
+        return redirect('/admin/inventory')->with('success', "Product {$product->name} updated successfully!");
     }
 
     public function edit_form_supplies($product_id, $color_id, Request $request): RedirectResponse
@@ -250,16 +251,16 @@ class InventoryController extends BasePageController
             'color.required' => 'Product color is required!',
             'quantity.required' => 'Quantity is required!',
         ]);
-
+    
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
+    
         $color_id_txt = $request->post('color');
         $quantity_txt = $request->post('quantity');
-
+    
         if(
             $color_id_txt != $color_id &&
             InventorySupplies::where('product_id', $product_id)
@@ -270,15 +271,18 @@ class InventoryController extends BasePageController
                 ->withErrors('Supply already has inventory with this color')
                 ->withInput();
         }
-
+    
+        // Fetch product details
+        $product = products::where('id', $product_id)->first();
+    
         InventorySupplies::where('product_id', $product_id)
             ->where('color_id', $color_id)
             ->update([
                 'color_id' => $color_id_txt,
                 'quantity' => $quantity_txt,
             ]);
-
-        return redirect('/admin/inventory');
+    
+        return redirect('/admin/inventory')->with('success', "Product {$product->name} updated successfully!");
     }
 
     public function delete($product_id, $product_type_id, $color_id): RedirectResponse
