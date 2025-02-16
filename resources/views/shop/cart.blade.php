@@ -140,7 +140,7 @@
 
                 <div class="col-12 text-center mt-3">
                     <input type="checkbox" id="termsCheckbox"> 
-                    <label for="termsCheckbox">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Policies and Agreement:</a></label>
+                    <label for="termsCheckbox">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Policy and Agreement:</a></label>
                 </div>
 
                 <!-- Modal -->
