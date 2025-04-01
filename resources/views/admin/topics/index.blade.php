@@ -39,9 +39,9 @@
         <table class="table table-bordered table-sm m-0">
             <thead class="bg-light">
                 <tr>
-                    <th style="width: 30%;">Title</th>
-                    <th style="width: 30%;">Course</th>
-                    <th style="width: 30%;">Actions</th>
+                    <th style="width: 50%;">Title</th>
+                    <th style="width: 35%;">Course</th>
+                    <th style="width: 15%;">Actions</th>
                 </tr>
             </thead>
             <tbody>

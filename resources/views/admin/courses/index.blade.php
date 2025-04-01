@@ -60,11 +60,11 @@
         <table class="table table-bordered table-sm m-0">
             <thead class="bg-light">
                 <tr>
-                    <th scope="col">Course Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Objective</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Actions</th>
+                    <th style="width: 20%;" >Course Name</th>
+                    <th style="width: 20%;">Description</th>
+                    <th style="width: 20%;">Objective</th>
+                    <th style="width: 20%;">Category</th>
+                    <th style="width: 10%;">Actions</th>
                 </tr>
             </thead>
             <tbody>
